@@ -38,7 +38,7 @@ ApplicationWindow {
     initialPage: TabbedPage {
         id: page
 
-        title: "Demo"
+        title: "WingIt"
 
         actionBar.maxActionCount: navDrawer.enabled ? 3 : 4
 

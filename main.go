@@ -25,10 +25,10 @@ func initQQuickView(path string) *qml.QQmlApplicationEngine {
 		println("changed:", p)
 
 		view.ClearComponentCache()
-		view.Load(core.NewQUrl3("qrc:" + path, 0))
+		view.Load(core.NewQUrl3("qrc:/qml/main.qml", 0))
 	}
 
-	//watcher.ConnectFileChanged(reload)
+	watcher.ConnectFileChanged(reload)
 	watcher.ConnectDirectoryChanged(reload)
 
 	return view
