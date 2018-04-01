@@ -1,267 +1,337 @@
-import QtQuick 2.4
-import Material 0.2
-import Material.ListItems 0.1 as ListItem
+/****************************************************************************
+**
+** Copyright (C) 2015 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** You may use this file under the terms of the BSD license as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
 
-ApplicationWindow {
-    id: demo
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Universal 2.0
+import Qt.labs.settings 1.0
+import QtQuick.Window 2.2
 
-    title: "WingIt"
-
-    // Necessary when loading the window from C++
+Item {
+    id: window
+    width: 360
+    height: 520
     visible: true
+    //title: "Qt Quick Controls 2"
 
-    theme {
-        primaryColor: "blue"
-        accentColor: "red"
-        tabHighlightColor: "white"
+    Settings {
+        id: settings
+        property string style: "Default"
     }
 
-    property var styles: [
-            "Custom Icons", "Color Palette", "Typography"
-    ]
+    //initialPage: ToolBar {
+        Material.foreground: "white"
 
-    property var basicComponents: [
-            "Button", "CheckBox", "Progress Bar", "Radio Button",
-            "Slider", "Switch", "TextField"
-    ]
-
-    property var compoundComponents: [
-            "Bottom Sheet", "Dialog", "Forms", "List Items", "Page Stack", "Time Picker", "Date Picker"
-    ]
-
-    property var sections: [ basicComponents, styles, compoundComponents ]
-
-    property var sectionTitles: [ "Basic Components", "Style", "Compound Components" ]
-
-    property string selectedComponent: sections[0][0]
-
-    initialPage: TabbedPage {
-        id: page
-
-        title: "WingIt"
-
-        actionBar.maxActionCount: navDrawer.enabled ? 3 : 4
-
-        actions: [
-            Action {
-                iconName: "alert/warning"
-                name: "Dummy error"
-                onTriggered: demo.showError("Something went wrong", "Do you want to retry?", "Close", true)
-            },
-
-            Action {
-                iconName: "image/color_lens"
-                name: "Colors"
-                onTriggered: colorPicker.show()
-            },
-
-            Action {
-                iconName: "action/settings"
-                name: "Settings"
-                hoverAnimation: true
-            },
-
-            Action {
-                iconName: "alert/warning"
-                name: "THIS SHOULD BE HIDDEN!"
-                visible: false
-            },
-
-            Action {
-                iconName: "action/language"
-                name: "Language"
-                enabled: false
-            },
-
-            Action {
-                iconName: "action/account_circle"
-                name: "Accounts"
-            }
-        ]
-
-        backAction: navDrawer.action
-
-        NavigationDrawer {
-            id: navDrawer
-
-            enabled: page.width < dp(500)
-
-            onEnabledChanged: smallLoader.active = enabled
-
-            Flickable {
-                anchors.fill: parent
-
-                contentHeight: Math.max(content.implicitHeight, height)
-
-                Column {
-                    id: content
-                    anchors.fill: parent
-
-                    Repeater {
-                        model: sections
-
-                        delegate: Column {
-                            width: parent.width
-
-                            ListItem.Subheader {
-                                text: sectionTitles[index]
-                            }
-
-                            Repeater {
-                                model: modelData
-                                delegate: ListItem.Standard {
-                                    text: modelData
-                                    selected: modelData == demo.selectedComponent
-                                    onClicked: {
-                                        demo.selectedComponent = modelData
-                                        navDrawer.close()
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        Repeater {
-            model: !navDrawer.enabled ? sections : 0
-
-            delegate: Tab {
-                title: sectionTitles[index]
-
-                property string selectedComponent: modelData[0]
-                property var section: modelData
-
-                sourceComponent: tabDelegate
-            }
-        }
-
-        Loader {
-            id: smallLoader
+        RowLayout {
+            spacing: 20
             anchors.fill: parent
-            sourceComponent: tabDelegate
 
-            property var section: []
-            visible: active
-            active: false
+            ToolButton {
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source: stackView.depth > 1 ? "images/back.png" : "images/drawer.png"
+                }
+                onClicked: {
+                    if (stackView.depth > 1) {
+                        stackView.pop()
+                        listView.currentIndex = -1
+                    } else {
+                        drawer.open()
+                    }
+                }
+            }
+
+            Label {
+                id: titleLabel
+                text: listView.currentItem ? listView.currentItem.text : "WingIt"
+                font.pixelSize: 20
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+
+            ToolButton {
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source: "qrc:/qml/images/menu.png"
+                }
+                onClicked: optionsMenu.open()
+
+                Menu {
+                    id: optionsMenu
+                    x: parent.width - width
+                    transformOrigin: Menu.TopRight
+
+                    MenuItem {
+                        text: "Settings"
+                        onTriggered: settingsPopup.open()
+                    }
+                    MenuItem {
+                        text: "About"
+                        onTriggered: aboutDialog.open()
+                    }
+                }
+            }
+        }
+    //}
+
+    Drawer {
+        id: drawer
+        width: Math.min(window.width, window.height) / 3 * 2
+        height: window.height
+        dragMargin: stackView.depth > 1 ? 0 : undefined
+
+        ListView {
+            id: listView
+            currentIndex: -1
+            anchors.fill: parent
+
+            delegate: ItemDelegate {
+                width: parent.width
+                text: model.title
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    if (listView.currentIndex != index) {
+                        listView.currentIndex = index
+                        stackView.push(model.source)
+                    }
+                    drawer.close()
+                }
+            }
+
+            model: ListModel {
+                ListElement { title: "BusyIndicator"; source: "qrc:/qml/pages/BusyIndicatorPage.qml" }
+                ListElement { title: "Button"; source: "qrc:/qml/pages/ButtonPage.qml" }
+                ListElement { title: "CheckBox"; source: "qrc:/qml/pages/CheckBoxPage.qml" }
+                ListElement { title: "ComboBox"; source: "qrc:/qml/pages/ComboBoxPage.qml" }
+                ListElement { title: "Dial"; source: "qrc:/qml/pages/DialPage.qml" }
+                ListElement { title: "Delegates"; source: "qrc:/qml/pages/DelegatePage.qml" }
+                ListElement { title: "Drawer"; source: "qrc:/qml/pages/DrawerPage.qml" }
+                ListElement { title: "Frame"; source: "qrc:/qml/pages/FramePage.qml" }
+                ListElement { title: "GroupBox"; source: "qrc:/qml/pages/GroupBoxPage.qml" }
+                ListElement { title: "Menu"; source: "qrc:/qml/pages/MenuPage.qml" }
+                ListElement { title: "PageIndicator"; source: "qrc:/qml/pages/PageIndicatorPage.qml" }
+                ListElement { title: "Popup"; source: "qrc:/qml/pages/PopupPage.qml" }
+                ListElement { title: "ProgressBar"; source: "qrc:/qml/pages/ProgressBarPage.qml" }
+                ListElement { title: "RadioButton"; source: "qrc:/qml/pages/RadioButtonPage.qml" }
+                ListElement { title: "RangeSlider"; source: "qrc:/qml/pages/RangeSliderPage.qml" }
+                ListElement { title: "ScrollBar"; source: "qrc:/qml/pages/ScrollBarPage.qml" }
+                ListElement { title: "ScrollIndicator"; source: "qrc:/qml/pages/ScrollIndicatorPage.qml" }
+                ListElement { title: "Slider"; source: "qrc:/qml/pages/SliderPage.qml" }
+                ListElement { title: "SpinBox"; source: "qrc:/qml/pages/SpinBoxPage.qml" }
+                ListElement { title: "StackView"; source: "qrc:/qml/pages/StackViewPage.qml" }
+                ListElement { title: "SwipeView"; source: "qrc:/qml/pages/SwipeViewPage.qml" }
+                ListElement { title: "Switch"; source: "qrc:/qml/pages/SwitchPage.qml" }
+                ListElement { title: "TabBar"; source: "qrc:/qml/pages/TabBarPage.qml" }
+                ListElement { title: "TextArea"; source: "qrc:/qml/pages/TextAreaPage.qml" }
+                ListElement { title: "TextField"; source: "qrc:/qml/pages/TextFieldPage.qml" }
+                ListElement { title: "ToolTip"; source: "qrc:/qml/pages/ToolTipPage.qml" }
+                ListElement { title: "Tumbler"; source: "qrc:/qml/pages/TumblerPage.qml" }
+            }
+
+            ScrollIndicator.vertical: ScrollIndicator { }
         }
     }
 
-    Dialog {
-        id: colorPicker
-        title: "Pick color"
+    StackView {
+        id: stackView
+        anchors.fill: parent
 
-        positiveButtonText: "Done"
+        initialItem: Pane {
+            id: pane
 
-        MenuField {
-            id: selection
-            model: ["Primary color", "Accent color", "Background color"]
-            width: dp(160)
-        }
-
-        Grid {
-            columns: 7
-            spacing: dp(8)
-
-            Repeater {
-                model: [
-                    "red", "pink", "purple", "deepPurple", "indigo",
-                    "blue", "lightBlue", "cyan", "teal", "green",
-                    "lightGreen", "lime", "yellow", "amber", "orange",
-                    "deepOrange", "grey", "blueGrey", "brown", "black",
-                    "white"
-                ]
-
-                Rectangle {
-                    width: dp(30)
-                    height: dp(30)
-                    radius: dp(2)
-                    color: Palette.colors[modelData]["500"]
-                    border.width: modelData === "white" ? dp(2) : 0
-                    border.color: Theme.alpha("#000", 0.26)
-
-                    Ink {
-                        anchors.fill: parent
-
-                        onPressed: {
-                            switch(selection.selectedIndex) {
-                                case 0:
-                                    theme.primaryColor = parent.color
-                                    break;
-                                case 1:
-                                    theme.accentColor = parent.color
-                                    break;
-                                case 2:
-                                    theme.backgroundColor = parent.color
-                                    break;
-                            }
-                        }
-                    }
-                }
+            Image {
+                id: logo
+                width: pane.availableWidth / 2
+                height: pane.availableHeight / 2
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -50
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/qml/images/qt-logo.png"
             }
-        }
 
-        onRejected: {
-            // TODO set default colors again but we currently don't know what that is
+            Label {
+                text: "Qt Quick Controls 2 provides a set of controls that can be used to build complete interfaces in Qt Quick."
+                anchors.margins: 20
+                anchors.top: logo.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: arrow.top
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+                wrapMode: Label.Wrap
+            }
+
+            Image {
+                id: arrow
+                source: "qrc:/qml/images/arrow.png"
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+            }
         }
     }
 
-    Component {
-        id: tabDelegate
+    Popup {
+        id: settingsPopup
+        x: (window.width - width) / 2
+        y: window.height / 6
+        width: Math.min(window.width, window.height) / 3 * 2
+        height: settingsColumn.implicitHeight + topPadding + bottomPadding
+        modal: true
+        focus: true
 
-        Item {
+        contentItem: ColumnLayout {
+            id: settingsColumn
+            spacing: 20
 
-            Sidebar {
-                id: sidebar
+            Label {
+                text: "Settings"
+                font.bold: true
+            }
 
-                expanded: !navDrawer.enabled
+            RowLayout {
+                spacing: 10
 
-                Column {
-                    width: parent.width
+                Label {
+                    text: "Style:"
+                }
 
-                    Repeater {
-                        model: section
-                        delegate: ListItem.Standard {
-                            text: modelData
-                            selected: modelData == selectedComponent
-                            onClicked: selectedComponent = modelData
-                        }
+                ComboBox {
+                    id: styleBox
+                    property int styleIndex: -1
+                    model: ["Default", "Material", "Universal"]
+                    Component.onCompleted: {
+                        styleIndex = find(settings.style, Qt.MatchFixedString)
+                        if (styleIndex !== -1)
+                            currentIndex = styleIndex
                     }
+                    Layout.fillWidth: true
                 }
             }
-            Flickable {
-                id: flickable
-                anchors {
-                    left: sidebar.right
-                    right: parent.right
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-                clip: true
-                contentHeight: Math.max(example.implicitHeight + 40, height)
-                Loader {
-                    id: example
-                    anchors.fill: parent
-                    asynchronous: true
-                    visible: status == Loader.Ready
-                    // selectedComponent will always be valid, as it defaults to the first component
-                    source: {
-                        if (navDrawer.enabled) {
-                            return Qt.resolvedUrl("%1Demo.qml").arg(demo.selectedComponent.replace(" ", ""))
-                        } else {
-                            return Qt.resolvedUrl("%1Demo.qml").arg(selectedComponent.replace(" ", ""))
-                        }
+
+            Label {
+                text: "Restart required"
+                color: "#e41e25"
+                opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+
+            RowLayout {
+                spacing: 10
+
+                Button {
+                    id: okButton
+                    text: "Ok"
+                    onClicked: {
+                        settings.style = styleBox.displayText
+                        settingsPopup.close()
                     }
+
+                    Material.foreground: Material.primary
+                    Material.background: "transparent"
+                    Material.elevation: 0
+
+                    Layout.preferredWidth: 0
+                    Layout.fillWidth: true
                 }
 
-                ProgressCircle {
-                    anchors.centerIn: parent
-                    visible: example.status == Loader.Loading
+                Button {
+                    id: cancelButton
+                    text: "Cancel"
+                    onClicked: {
+                        styleBox.currentIndex = styleBox.styleIndex
+                        settingsPopup.close()
+                    }
+
+                    Material.background: "transparent"
+                    Material.elevation: 0
+
+                    Layout.preferredWidth: 0
+                    Layout.fillWidth: true
                 }
             }
-            Scrollbar {
-                flickableItem: flickable
+        }
+    }
+
+    Popup {
+        id: aboutDialog
+        modal: true
+        focus: true
+        x: (window.width - width) / 2
+        y: window.height / 6
+        width: Math.min(window.width, window.height) / 3 * 2
+        contentHeight: aboutColumn.height
+
+        Column {
+            id: aboutColumn
+            spacing: 20
+
+            Label {
+                text: "About"
+                font.bold: true
+            }
+
+            Label {
+                width: aboutDialog.availableWidth
+                text: "The Qt Quick Controls 2 module delivers the next generation user interface controls based on Qt Quick."
+                wrapMode: Label.Wrap
+                font.pixelSize: 12
+            }
+
+            Label {
+                width: aboutDialog.availableWidth
+                text: "In comparison to the desktop-oriented Qt Quick Controls 1, Qt Quick Controls 2 "
+                    + "are an order of magnitude simpler, lighter and faster, and are primarily targeted "
+                    + "towards embedded and mobile platforms."
+                wrapMode: Label.Wrap
+                font.pixelSize: 12
             }
         }
     }
