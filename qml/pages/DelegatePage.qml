@@ -144,9 +144,9 @@ Pane {
             Layout.fillHeight: true
             clip: true
             model: ListModel {
-                ListElement { type: "ItemDelegate"; text: "ItemDelegate" }
-                ListElement { type: "ItemDelegate"; text: "ItemDelegate" }
-                ListElement { type: "ItemDelegate"; text: "ItemDelegate" }
+                ListElement { type: "RadioDelegate"; text: "RadioDelegate" }
+                ListElement { type: "RadioDelegate"; text: "RadioDelegate" }
+                ListElement { type: "RadioDelegate"; text: "RadioDelegate" }
                 ListElement { type: "SwipeDelegate"; text: "SwipeDelegate" }
                 ListElement { type: "SwipeDelegate"; text: "SwipeDelegate" }
                 ListElement { type: "SwipeDelegate"; text: "SwipeDelegate" }

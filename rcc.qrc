@@ -36,11 +36,15 @@
 <file>qml/images/qt-logo@2x.png</file>
 <file>qml/images/qt-logo@3x.png</file>
 <file>qml/images/qt-logo@4x.png</file>
+<file>qml/loader.qml</file>
+<file>qml/loader.qmlc</file>
 <file>qml/main.qml</file>
+<file>qml/main.qmlc</file>
 <file>qml/pages/BusyIndicatorPage.qml</file>
 <file>qml/pages/ButtonPage.qml</file>
 <file>qml/pages/CheckBoxPage.qml</file>
 <file>qml/pages/ComboBoxPage.qml</file>
+<file>qml/pages/contactsPage.qml</file>
 <file>qml/pages/DelegatePage.qml</file>
 <file>qml/pages/DialPage.qml</file>
 <file>qml/pages/DrawerPage.qml</file>
@@ -65,5 +69,7 @@
 <file>qml/pages/TextFieldPage.qml</file>
 <file>qml/pages/ToolTipPage.qml</file>
 <file>qml/pages/TumblerPage.qml</file>
+<file>qml/wingit/contactsPage.qml</file>
+<file>qml/wingit/filesPage.qml</file>
 </qresource>
 </RCC>
