@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/lawyer_cat.jpg</file>
+    </qresource>
+</RCC>

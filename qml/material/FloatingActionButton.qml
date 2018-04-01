@@ -1,5 +1,7 @@
 import QtQuick 2.0
-
+import "../assets"
+import "../controls" as Awesome
+import "../fonts"
 Item {
     id: button
     width: 56 * dp
@@ -7,10 +9,14 @@ Item {
 
     property alias color: background.color
     property alias rippleColor: ripple.color
-    property alias iconSource: icon.source
+    property alias iconSource: icon.icon
 
     signal clicked
-
+    FontAwesome {
+        id: awesome
+        // resource: "qrc:///resource/fontawesome-webfont.ttf"
+        resource: "http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/fonts/fontawesome-webfont.ttf"
+    }
     Rectangle {
         id: background
         anchors.fill: parent
@@ -30,15 +36,24 @@ Item {
         color: "#deffffff"
         mouseArea: mouseArea
     }
-
-    Image {
+    Awesome.Text {
         id: icon
-        anchors.centerIn: parent
-        width: 24 * dp
-        height: 24 * dp
-        sourceSize.width: width
-        sourceSize.height: height
+        font.pointSize: 30
+        anchors {
+            alignWhenCentered: false
+            centerIn: parent
+        }
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
     }
+//    Image {
+//        id: icon
+//        anchors.centerIn: parent
+//        width: 24 * dp
+//        height: 24 * dp
+//        sourceSize.width: width
+//        sourceSize.height: height
+//    }
 
     MouseArea {
         id: mouseArea

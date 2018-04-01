@@ -1,187 +1,268 @@
-//source: http://doc.qt.io/qt-5/qtquickcontrols2-material.html
+import QtQuick 2.4
+import Material 0.2
+import Material.ListItems 0.1 as ListItem
 
-import QtQuick 2.0
-import QtQuick.Controls 2.0
-import QtQuick.Controls.Material 2.0
-import QtQuick.Controls.Universal 2.0
-import "variables/colors.js" as Colors
-import "material"
+ApplicationWindow {
+    id: demo
 
+    title: "WingIt"
 
-Rectangle {
-    id: root
-    width: isMobile ? 320 : 360
-    height: isMobile ? 480 : 720
+    // Necessary when loading the window from C++
     visible: true
-    color: "white"
 
-    ActionBar {
-        id: actionBar
-        raised: contents.contentY > height
-        color: "#455ede"
-        text: "Qt Material"
-        z: 2
-
-        IconButton {
-            id: menuButton
-            anchors.left: parent.left
-            anchors.leftMargin: 16 * dp
-            anchors.verticalCenter: parent.verticalCenter
-            iconSource: "qrc:/assets/icon_menu"
-        }
-
-        RefreshButton {
-            id: refreshButton
-            anchors.right: parent.right
-            anchors.rightMargin: 16 * dp
-            anchors.verticalCenter: parent.verticalCenter
-            loading: false
-            onClicked: loading = !loading
-        }
+    theme {
+        primaryColor: "blue"
+        accentColor: "red"
+        tabHighlightColor: "white"
     }
 
-    Flickable {
-        id: contents
-        anchors.fill: parent
-        anchors.topMargin: actionBar.height
-        contentWidth: width
-        contentHeight: flow.height + 52 * dp
+    property var styles: [
+            "Custom Icons", "Color Palette", "Typography"
+    ]
 
-        Column {
-            id: flow
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.margins: 16 * dp
-            spacing: 16 * dp
+    property var basicComponents: [
+            "Button", "CheckBox", "Progress Bar", "Radio Button",
+            "Slider", "Switch", "TextField"
+    ]
 
-            Label {
-                width: parent.width
-                font.pointSize: UIConstants.subheadFontSize
-                text: "Flat buttons"
+    property var compoundComponents: [
+            "Bottom Sheet", "Dialog", "Forms", "List Items", "Page Stack", "Time Picker", "Date Picker"
+    ]
+
+    property var sections: [ basicComponents, styles, compoundComponents ]
+
+    property var sectionTitles: [ "Basic Components", "Style", "Compound Components" ]
+
+    property string selectedComponent: sections[0][0]
+
+    initialPage: TabbedPage {
+        id: page
+
+        title: "Demo"
+
+        actionBar.maxActionCount: navDrawer.enabled ? 3 : 4
+
+        actions: [
+            Action {
+                iconName: "alert/warning"
+                name: "Dummy error"
+                onTriggered: demo.showError("Something went wrong", "Do you want to retry?", "Close", true)
+            },
+
+            Action {
+                iconName: "image/color_lens"
+                name: "Colors"
+                onTriggered: colorPicker.show()
+            },
+
+            Action {
+                iconName: "action/settings"
+                name: "Settings"
+                hoverAnimation: true
+            },
+
+            Action {
+                iconName: "alert/warning"
+                name: "THIS SHOULD BE HIDDEN!"
+                visible: false
+            },
+
+            Action {
+                iconName: "action/language"
+                name: "Language"
+                enabled: false
+            },
+
+            Action {
+                iconName: "action/account_circle"
+                name: "Accounts"
             }
+        ]
 
-            Row {
-                spacing: 8 * dp
+        backAction: navDrawer.action
 
-                FlatButton {
-                    text: "Button"
-                }
+        NavigationDrawer {
+            id: navDrawer
 
-                FlatButton {
-                    text: "Colored"
-                    textColor: "#5677fc"
-                }
+            enabled: page.width < dp(500)
 
-                FlatButton {
-                    text: "Disabled"
-                    enabled: false
-                }
-            }
+            onEnabledChanged: smallLoader.active = enabled
 
-            Label {
-                width: parent.width
-                font.pointSize: UIConstants.subheadFontSize
-                text: "Raised buttons"
-            }
+            Flickable {
+                anchors.fill: parent
 
-            Row {
-                spacing: 8 * dp
+                contentHeight: Math.max(content.implicitHeight, height)
 
-                RaisedButton {
-                    text: "Button"
-                }
-
-                RaisedButton {
-                    text: "Colored"
-                    color: "#5677fc"
-                    textColor: "white"
-                    rippleColor: "#deffffff"
-                }
-
-                RaisedButton {
-                    text: "Disabled"
-                    enabled: false
-                }
-            }
-
-            Label {
-                width: parent.width
-                font.pointSize: UIConstants.subheadFontSize
-                text: "Text field"
-            }
-
-            TextField {
-                width: parent.width
-                hint: "Type some text"
-                Keys.onEscapePressed: focus = false
-            }
-
-            Label {
-                width: parent.width
-                font.pointSize: UIConstants.subheadFontSize
-                text: "Ripples"
-            }
-
-            Item {
-                width: parent.width
-                height: parent.width * 0.67
-
-                Image {
-                    id: image
+                Column {
+                    id: content
                     anchors.fill: parent
-                    anchors.margins: -2 * dp
-                    source: "qrc:/assets/lawyer_cat"
-                    fillMode: Image.PreserveAspectCrop
-                    clip: true
-                    visible: false
-                }
 
-                PaperShadow {
-                    id: shadow
-                    anchors.fill: image
-                    source: image
-                    depth: imageArea.pressed ? 3 : 1
-                }
+                    Repeater {
+                        model: sections
 
-                PaperRipple {
-                    anchors.fill: image
-                    color: "#deffffff"
-                    mouseArea: imageArea
-                }
+                        delegate: Column {
+                            width: parent.width
 
-                MouseArea {
-                    id: imageArea
-                    anchors.fill: image
-                }
-            }
-        }
-    }
+                            ListItem.Subheader {
+                                text: sectionTitles[index]
+                            }
 
-    FloatingActionButton {
-        id: addButton
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            margins: 16 * dp
-        }
-        transform: Translate {
-            y: dialog.visible ? 72 * dp : 0
-
-            Behavior on y {
-                NumberAnimation {
-                    duration: 200
-                    easing.type: Easing.Bezier; easing.bezierCurve: [0.4, 0, 0.2, 1, 1, 1]
+                            Repeater {
+                                model: modelData
+                                delegate: ListItem.Standard {
+                                    text: modelData
+                                    selected: modelData == demo.selectedComponent
+                                    onClicked: {
+                                        demo.selectedComponent = modelData
+                                        navDrawer.close()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        color: "#ff5177"
-        iconSource: "qrc:/assets/icon_add"
-        onClicked: dialog.open()
+        Repeater {
+            model: !navDrawer.enabled ? sections : 0
+
+            delegate: Tab {
+                title: sectionTitles[index]
+
+                property string selectedComponent: modelData[0]
+                property var section: modelData
+
+                sourceComponent: tabDelegate
+            }
+        }
+
+        Loader {
+            id: smallLoader
+            anchors.fill: parent
+            sourceComponent: tabDelegate
+
+            property var section: []
+            visible: active
+            active: false
+        }
     }
 
-    ExampleDialog {
-        id: dialog
+    Dialog {
+        id: colorPicker
+        title: "Pick color"
+
+        positiveButtonText: "Done"
+
+        MenuField {
+            id: selection
+            model: ["Primary color", "Accent color", "Background color"]
+            width: dp(160)
+        }
+
+        Grid {
+            columns: 7
+            spacing: dp(8)
+
+            Repeater {
+                model: [
+                    "red", "pink", "purple", "deepPurple", "indigo",
+                    "blue", "lightBlue", "cyan", "teal", "green",
+                    "lightGreen", "lime", "yellow", "amber", "orange",
+                    "deepOrange", "grey", "blueGrey", "brown", "black",
+                    "white"
+                ]
+
+                Rectangle {
+                    width: dp(30)
+                    height: dp(30)
+                    radius: dp(2)
+                    color: Palette.colors[modelData]["500"]
+                    border.width: modelData === "white" ? dp(2) : 0
+                    border.color: Theme.alpha("#000", 0.26)
+
+                    Ink {
+                        anchors.fill: parent
+
+                        onPressed: {
+                            switch(selection.selectedIndex) {
+                                case 0:
+                                    theme.primaryColor = parent.color
+                                    break;
+                                case 1:
+                                    theme.accentColor = parent.color
+                                    break;
+                                case 2:
+                                    theme.backgroundColor = parent.color
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        onRejected: {
+            // TODO set default colors again but we currently don't know what that is
+        }
+    }
+
+    Component {
+        id: tabDelegate
+
+        Item {
+
+            Sidebar {
+                id: sidebar
+
+                expanded: !navDrawer.enabled
+
+                Column {
+                    width: parent.width
+
+                    Repeater {
+                        model: section
+                        delegate: ListItem.Standard {
+                            text: modelData
+                            selected: modelData == selectedComponent
+                            onClicked: selectedComponent = modelData
+                        }
+                    }
+                }
+            }
+            Flickable {
+                id: flickable
+                anchors {
+                    left: sidebar.right
+                    right: parent.right
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                clip: true
+                contentHeight: Math.max(example.implicitHeight + 40, height)
+                Loader {
+                    id: example
+                    anchors.fill: parent
+                    asynchronous: true
+                    visible: status == Loader.Ready
+                    // selectedComponent will always be valid, as it defaults to the first component
+                    source: {
+                        if (navDrawer.enabled) {
+                            return Qt.resolvedUrl("%1Demo.qml").arg(demo.selectedComponent.replace(" ", ""))
+                        } else {
+                            return Qt.resolvedUrl("%1Demo.qml").arg(selectedComponent.replace(" ", ""))
+                        }
+                    }
+                }
+
+                ProgressCircle {
+                    anchors.centerIn: parent
+                    visible: example.status == Loader.Loading
+                }
+            }
+            Scrollbar {
+                flickableItem: flickable
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ QtObject {
     readonly property string sansFontFamily: "Roboto"
     readonly property string serifFontFamily: "Roboto Slab"
 
+    readonly property real dp: 1
     readonly property real captionFontSize: 12
     readonly property real bodyFontSize: 14
     readonly property real subheadFontSize: 16

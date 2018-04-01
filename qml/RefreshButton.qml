@@ -3,7 +3,7 @@ import "material"
 
 IconButton {
     id: button
-    iconSource: "qrc:/assets/icon_refresh"
+    iconSource: "qrc://qml/assets/icon_refresh"
 
     property bool loading: false
 

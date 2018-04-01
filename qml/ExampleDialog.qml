@@ -56,7 +56,7 @@ Dialog {
                     left: parent.left
                     verticalCenter: parent.verticalCenter
                 }
-                iconSource: "qrc:/assets/icon_camera"
+                iconSource: "qrc://qml/assets/icon_camera"
             }
 
             FlatButton {
