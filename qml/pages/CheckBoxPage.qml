@@ -52,7 +52,7 @@ ScrollablePage {
             width: parent.width
             wrapMode: Label.Wrap
             horizontalAlignment: Qt.AlignHCenter
-            text: "James presents an option button that can be toggled on or off. "
+            text: "A checkbox presents an option button that can be toggled on or off. "
                 + "Check boxes are typically used to select one or more options from a set of options."
         }
 

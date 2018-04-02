@@ -38,7 +38,6 @@
 <file>qml/images/qt-logo@4x.png</file>
 <file>qml/loader.qml</file>
 <file>qml/loader.qmlc</file>
-<file>qml/main.qmlc</file>
 <file>qml/pages/BusyIndicatorPage.qml</file>
 <file>qml/pages/BusyIndicatorPage.qmlc</file>
 <file>qml/pages/ButtonPage.qml</file>
@@ -88,7 +87,5 @@
 <file>qml/pages/ToolTipPage.qml</file>
 <file>qml/pages/ToolTipPage.qmlc</file>
 <file>qml/pages/TumblerPage.qml</file>
-<file>qml/wingit/contactsPage.qml</file>
-<file>qml/wingit/filesPage.qml</file>
 </qresource>
 </RCC>

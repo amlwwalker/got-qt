@@ -22,7 +22,7 @@ func main() {
 	//you could in essence, pass this to the hotloader,
 	//and then actually have the live code anywhere you wanted
 	//then have a flag that decides whether to use built on unbuilt qml files.
-	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "qt-recipe", "hotreload", "qml")
+	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "qt-hotreloader", "qml")
 
 	var qmlBridge = NewQmlBridge(nil)
 
