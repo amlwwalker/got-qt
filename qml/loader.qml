@@ -45,12 +45,11 @@ import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Universal 2.0
 import Qt.labs.settings 1.0
 
-ApplicationWindow {
+Item {
     id: window
     width: 360
     height: 520
     visible: true
-    title: "Qt Quick Controls 2"
 
     Settings {
         id: settings
@@ -62,7 +61,7 @@ ApplicationWindow {
     	anchors.fill: parent
 	    ToolBar {
 	    	id: toolbar
-	        Material.foreground: "black"
+	        Material.foreground: "white"
 	         z: 100
             anchors.left: parent.left
             anchors.right: parent.right
@@ -132,6 +131,14 @@ ApplicationWindow {
 	        anchors.right: parent.right
 	        anchors.bottom: parent.bottom
             anchors.margins: 20
+              Connections {
+                target: QmlBridge
+                onUpdateLoader: {
+                    stackView.clear()
+                    stackView.push(p)
+                }
+              }
+
 	        initialItem: Pane {
 	            id: pane
 
@@ -146,7 +153,7 @@ ApplicationWindow {
 	            }
 
 	            Label {
-	                text: "Qt Alex provides a set of controls that can be used to build complete interfaces in Qt Quick."
+	                text: "Pong a set of controls that can be used to build complete interfaces in Qt Quick."
 	                anchors.margins: 20
 	                anchors.top: logo.bottom
 	                anchors.left: parent.left
@@ -192,40 +199,52 @@ ApplicationWindow {
             }
 
             model: ListModel {
-                ListElement { title: "BusyIndicator"; source: "qrc:/qml/pages/BusyIndicatorPage.qml" }
-                ListElement { title: "Button"; source: "qrc:/qml/pages/ButtonPage.qml" }
-                ListElement { title: "CheckBox"; source: "qrc:/qml/pages/CheckBoxPage.qml" }
-                ListElement { title: "ComboBox"; source: "qrc:/qml/pages/ComboBoxPage.qml" }
-                ListElement { title: "Dial"; source: "qrc:/qml/pages/DialPage.qml" }
-                ListElement { title: "Delegates"; source: "qrc:/qml/pages/DelegatePage.qml" }
-                ListElement { title: "Contacts"; source: "qrc:/qml/pages/contactsPage.qml" }
-                ListElement { title: "Drawer"; source: "qrc:/qml/pages/DrawerPage.qml" }
-                ListElement { title: "Frame"; source: "qrc:/qml/pages/FramePage.qml" }
-                ListElement { title: "GroupBox"; source: "qrc:/qml/pages/GroupBoxPage.qml" }
-                ListElement { title: "Menu"; source: "qrc:/qml/pages/MenuPage.qml" }
-                ListElement { title: "PageIndicator"; source: "qrc:/qml/pages/PageIndicatorPage.qml" }
-                ListElement { title: "Popup"; source: "qrc:/qml/pages/PopupPage.qml" }
-                ListElement { title: "ProgressBar"; source: "qrc:/qml/pages/ProgressBarPage.qml" }
-                ListElement { title: "RadioButton"; source: "qrc:/qml/pages/RadioButtonPage.qml" }
-                ListElement { title: "RangeSlider"; source: "qrc:/qml/pages/RangeSliderPage.qml" }
-                ListElement { title: "ScrollBar"; source: "qrc:/qml/pages/ScrollBarPage.qml" }
-                ListElement { title: "ScrollIndicator"; source: "qrc:/qml/pages/ScrollIndicatorPage.qml" }
-                ListElement { title: "Slider"; source: "qrc:/qml/pages/SliderPage.qml" }
-                ListElement { title: "SpinBox"; source: "qrc:/qml/pages/SpinBoxPage.qml" }
-                ListElement { title: "StackView"; source: "qrc:/qml/pages/StackViewPage.qml" }
-                ListElement { title: "SwipeView"; source: "qrc:/qml/pages/SwipeViewPage.qml" }
-                ListElement { title: "Switch"; source: "qrc:/qml/pages/SwitchPage.qml" }
-                ListElement { title: "TabBar"; source: "qrc:/qml/pages/TabBarPage.qml" }
-                ListElement { title: "TextArea"; source: "qrc:/qml/pages/TextAreaPage.qml" }
-                ListElement { title: "TextField"; source: "qrc:/qml/pages/TextFieldPage.qml" }
-                ListElement { title: "ToolTip"; source: "qrc:/qml/pages/ToolTipPage.qml" }
-                ListElement { title: "Tumbler"; source: "qrc:/qml/pages/TumblerPage.qml" }
+                ListElement { title: "BusyIndicator"; source: "pages/BusyIndicatorPage.qml" }
+                ListElement { title: "Button"; source: "pages/ButtonPage.qml" }
+                ListElement { title: "CheckBox"; source: "pages/CheckBoxPage.qml" }
+                ListElement { title: "ComboBox"; source: "pages/ComboBoxPage.qml" }
+                ListElement { title: "Dial"; source: "pages/DialPage.qml" }
+                ListElement { title: "Delegates"; source: "pages/DelegatePage.qml" }
+                ListElement { title: "Contacts"; source: "pages/contactsPage.qml" }
+                ListElement { title: "Drawer"; source: "pages/DrawerPage.qml" }
+                ListElement { title: "Frame"; source: "pages/FramePage.qml" }
+                ListElement { title: "GroupBox"; source: "pages/GroupBoxPage.qml" }
+                ListElement { title: "Menu"; source: "pages/MenuPage.qml" }
+                ListElement { title: "PageIndicator"; source: "pages/PageIndicatorPage.qml" }
+                ListElement { title: "Popup"; source: "pages/PopupPage.qml" }
+                ListElement { title: "ProgressBar"; source: "pages/ProgressBarPage.qml" }
+                ListElement { title: "RadioButton"; source: "pages/RadioButtonPage.qml" }
+                ListElement { title: "RangeSlider"; source: "pages/RangeSliderPage.qml" }
+                ListElement { title: "ScrollBar"; source: "pages/ScrollBarPage.qml" }
+                ListElement { title: "ScrollIndicator"; source: "pages/ScrollIndicatorPage.qml" }
+                ListElement { title: "Slider"; source: "pages/SliderPage.qml" }
+                ListElement { title: "SpinBox"; source: "pages/SpinBoxPage.qml" }
+                ListElement { title: "StackView"; source: "pages/StackViewPage.qml" }
+                ListElement { title: "SwipeView"; source: "pages/SwipeViewPage.qml" }
+                ListElement { title: "Switch"; source: "pages/SwitchPage.qml" }
+                ListElement { title: "TabBar"; source: "pages/TabBarPage.qml" }
+                ListElement { title: "TextArea"; source: "pages/TextAreaPage.qml" }
+                ListElement { title: "TextField"; source: "pages/TextFieldPage.qml" }
+                ListElement { title: "ToolTip"; source: "pages/ToolTipPage.qml" }
+                ListElement { title: "Tumbler"; source: "pages/TumblerPage.qml" }
             }
 
             ScrollIndicator.vertical: ScrollIndicator { }
         }
     }
-
+    Popup {
+        id: notificationPopup
+        x: (window.width - width) / 2
+        y: window.height / 6
+        width: Math.min(window.width, window.height) / 3 * 2
+        height: settingsColumn.implicitHeight + topPadding + bottomPadding
+        modal: true
+        focus: true
+        contentItem: Text {
+            id: notifcationText
+            text: ""
+        }
+    }
     Popup {
         id: settingsPopup
         x: (window.width - width) / 2

@@ -104,6 +104,230 @@ Q_DECLARE_METATYPE(QmlBridge*)
 void QmlBridge_QmlBridge_QRegisterMetaTypes() {
 }
 
+void QmlBridge_ConnectUpdateLoader(void* ptr)
+{
+	QObject::connect(static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::updateLoader), static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::Signal_UpdateLoader));
+}
+
+void QmlBridge_DisconnectUpdateLoader(void* ptr)
+{
+	QObject::disconnect(static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::updateLoader), static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::Signal_UpdateLoader));
+}
+
+void QmlBridge_UpdateLoader(void* ptr, struct Moc_PackedString p)
+{
+	static_cast<QmlBridge*>(ptr)->updateLoader(QString::fromUtf8(p.data, p.len));
+}
+
+struct Moc_PackedString QmlBridge_SendToGo(void* ptr, struct Moc_PackedString data)
+{
+	QString returnArg;
+	QMetaObject::invokeMethod(static_cast<QmlBridge*>(ptr), "sendToGo", Q_RETURN_ARG(QString, returnArg), Q_ARG(QString, QString::fromUtf8(data.data, data.len)));
+	return ({ QByteArray t8e5b69 = returnArg.toUtf8(); Moc_PackedString { const_cast<char*>(t8e5b69.prepend("WHITESPACE").constData()+10), t8e5b69.size()-10 }; });
+}
+
+int QmlBridge_QmlBridge_QRegisterMetaType()
+{
+	return qRegisterMetaType<QmlBridge*>();
+}
+
+int QmlBridge_QmlBridge_QRegisterMetaType2(char* typeName)
+{
+	return qRegisterMetaType<QmlBridge*>(const_cast<const char*>(typeName));
+}
+
+int QmlBridge_QmlBridge_QmlRegisterType()
+{
+#ifdef QT_QML_LIB
+	return qmlRegisterType<QmlBridge>();
+#else
+	return 0;
+#endif
+}
+
+int QmlBridge_QmlBridge_QmlRegisterType2(char* uri, int versionMajor, int versionMinor, char* qmlName)
+{
+#ifdef QT_QML_LIB
+	return qmlRegisterType<QmlBridge>(const_cast<const char*>(uri), versionMajor, versionMinor, const_cast<const char*>(qmlName));
+#else
+	return 0;
+#endif
+}
+
+void* QmlBridge___dynamicPropertyNames_atList(void* ptr, int i)
+{
+	return new QByteArray(static_cast<QList<QByteArray>*>(ptr)->at(i));
+}
+
+void QmlBridge___dynamicPropertyNames_setList(void* ptr, void* i)
+{
+	static_cast<QList<QByteArray>*>(ptr)->append(*static_cast<QByteArray*>(i));
+}
+
+void* QmlBridge___dynamicPropertyNames_newList(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QByteArray>;
+}
+
+void* QmlBridge___findChildren_atList2(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
+}
+
+void QmlBridge___findChildren_setList2(void* ptr, void* i)
+{
+	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* QmlBridge___findChildren_newList2(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject*>;
+}
+
+void* QmlBridge___findChildren_atList3(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
+}
+
+void QmlBridge___findChildren_setList3(void* ptr, void* i)
+{
+	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* QmlBridge___findChildren_newList3(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject*>;
+}
+
+void* QmlBridge___findChildren_atList(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
+}
+
+void QmlBridge___findChildren_setList(void* ptr, void* i)
+{
+	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* QmlBridge___findChildren_newList(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject*>;
+}
+
+void* QmlBridge___children_atList(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject *>*>(ptr)->at(i));
+}
+
+void QmlBridge___children_setList(void* ptr, void* i)
+{
+	static_cast<QList<QObject *>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* QmlBridge___children_newList(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject *>;
+}
+
+void* QmlBridge_NewQmlBridge(void* parent)
+{
+	if (dynamic_cast<QCameraImageCapture*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QCameraImageCapture*>(parent));
+	} else if (dynamic_cast<QDBusPendingCallWatcher*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QDBusPendingCallWatcher*>(parent));
+	} else if (dynamic_cast<QExtensionFactory*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QExtensionFactory*>(parent));
+	} else if (dynamic_cast<QExtensionManager*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QExtensionManager*>(parent));
+	} else if (dynamic_cast<QGraphicsObject*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QGraphicsObject*>(parent));
+	} else if (dynamic_cast<QGraphicsWidget*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QGraphicsWidget*>(parent));
+	} else if (dynamic_cast<QLayout*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QLayout*>(parent));
+	} else if (dynamic_cast<QMediaPlaylist*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QMediaPlaylist*>(parent));
+	} else if (dynamic_cast<QMediaRecorder*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QMediaRecorder*>(parent));
+	} else if (dynamic_cast<QOffscreenSurface*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QOffscreenSurface*>(parent));
+	} else if (dynamic_cast<QPaintDeviceWindow*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QPaintDeviceWindow*>(parent));
+	} else if (dynamic_cast<QPdfWriter*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QPdfWriter*>(parent));
+	} else if (dynamic_cast<QQuickItem*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QQuickItem*>(parent));
+	} else if (dynamic_cast<QRadioData*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QRadioData*>(parent));
+	} else if (dynamic_cast<QSignalSpy*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QSignalSpy*>(parent));
+	} else if (dynamic_cast<QWidget*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QWidget*>(parent));
+	} else if (dynamic_cast<QWindow*>(static_cast<QObject*>(parent))) {
+		return new QmlBridge(static_cast<QWindow*>(parent));
+	} else {
+		return new QmlBridge(static_cast<QObject*>(parent));
+	}
+}
+
+void QmlBridge_DestroyQmlBridge(void* ptr)
+{
+	static_cast<QmlBridge*>(ptr)->~QmlBridge();
+}
+
+void QmlBridge_DestroyQmlBridgeDefault(void* ptr)
+{
+	Q_UNUSED(ptr);
+
+}
+
+char QmlBridge_EventDefault(void* ptr, void* e)
+{
+	return static_cast<QmlBridge*>(ptr)->QObject::event(static_cast<QEvent*>(e));
+}
+
+char QmlBridge_EventFilterDefault(void* ptr, void* watched, void* event)
+{
+	return static_cast<QmlBridge*>(ptr)->QObject::eventFilter(static_cast<QObject*>(watched), static_cast<QEvent*>(event));
+}
+
+void QmlBridge_ChildEventDefault(void* ptr, void* event)
+{
+	static_cast<QmlBridge*>(ptr)->QObject::childEvent(static_cast<QChildEvent*>(event));
+}
+
+void QmlBridge_ConnectNotifyDefault(void* ptr, void* sign)
+{
+	static_cast<QmlBridge*>(ptr)->QObject::connectNotify(*static_cast<QMetaMethod*>(sign));
+}
+
+void QmlBridge_CustomEventDefault(void* ptr, void* event)
+{
+	static_cast<QmlBridge*>(ptr)->QObject::customEvent(static_cast<QEvent*>(event));
+}
+
+void QmlBridge_DeleteLaterDefault(void* ptr)
+{
+	static_cast<QmlBridge*>(ptr)->QObject::deleteLater();
+}
+
+void QmlBridge_DisconnectNotifyDefault(void* ptr, void* sign)
+{
+	static_cast<QmlBridge*>(ptr)->QObject::disconnectNotify(*static_cast<QMetaMethod*>(sign));
+}
+
+void QmlBridge_TimerEventDefault(void* ptr, void* event)
+{
+	static_cast<QmlBridge*>(ptr)->QObject::timerEvent(static_cast<QTimerEvent*>(event));
+}
+
+
+
 struct Moc_PackedString ApplicationUI_SwapThemePalette(void* ptr)
 {
 	QStringList returnArg;
@@ -344,230 +568,6 @@ void ApplicationUI_DisconnectNotifyDefault(void* ptr, void* sign)
 void ApplicationUI_TimerEventDefault(void* ptr, void* event)
 {
 	static_cast<ApplicationUI*>(ptr)->QObject::timerEvent(static_cast<QTimerEvent*>(event));
-}
-
-
-
-void QmlBridge_ConnectUpdateLoader(void* ptr)
-{
-	QObject::connect(static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::updateLoader), static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::Signal_UpdateLoader));
-}
-
-void QmlBridge_DisconnectUpdateLoader(void* ptr)
-{
-	QObject::disconnect(static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::updateLoader), static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(QString)>(&QmlBridge::Signal_UpdateLoader));
-}
-
-void QmlBridge_UpdateLoader(void* ptr, struct Moc_PackedString p)
-{
-	static_cast<QmlBridge*>(ptr)->updateLoader(QString::fromUtf8(p.data, p.len));
-}
-
-struct Moc_PackedString QmlBridge_SendToGo(void* ptr, struct Moc_PackedString data)
-{
-	QString returnArg;
-	QMetaObject::invokeMethod(static_cast<QmlBridge*>(ptr), "sendToGo", Q_RETURN_ARG(QString, returnArg), Q_ARG(QString, QString::fromUtf8(data.data, data.len)));
-	return ({ QByteArray t8e5b69 = returnArg.toUtf8(); Moc_PackedString { const_cast<char*>(t8e5b69.prepend("WHITESPACE").constData()+10), t8e5b69.size()-10 }; });
-}
-
-int QmlBridge_QmlBridge_QRegisterMetaType()
-{
-	return qRegisterMetaType<QmlBridge*>();
-}
-
-int QmlBridge_QmlBridge_QRegisterMetaType2(char* typeName)
-{
-	return qRegisterMetaType<QmlBridge*>(const_cast<const char*>(typeName));
-}
-
-int QmlBridge_QmlBridge_QmlRegisterType()
-{
-#ifdef QT_QML_LIB
-	return qmlRegisterType<QmlBridge>();
-#else
-	return 0;
-#endif
-}
-
-int QmlBridge_QmlBridge_QmlRegisterType2(char* uri, int versionMajor, int versionMinor, char* qmlName)
-{
-#ifdef QT_QML_LIB
-	return qmlRegisterType<QmlBridge>(const_cast<const char*>(uri), versionMajor, versionMinor, const_cast<const char*>(qmlName));
-#else
-	return 0;
-#endif
-}
-
-void* QmlBridge___dynamicPropertyNames_atList(void* ptr, int i)
-{
-	return new QByteArray(static_cast<QList<QByteArray>*>(ptr)->at(i));
-}
-
-void QmlBridge___dynamicPropertyNames_setList(void* ptr, void* i)
-{
-	static_cast<QList<QByteArray>*>(ptr)->append(*static_cast<QByteArray*>(i));
-}
-
-void* QmlBridge___dynamicPropertyNames_newList(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QByteArray>;
-}
-
-void* QmlBridge___findChildren_atList2(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
-}
-
-void QmlBridge___findChildren_setList2(void* ptr, void* i)
-{
-	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* QmlBridge___findChildren_newList2(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject*>;
-}
-
-void* QmlBridge___findChildren_atList3(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
-}
-
-void QmlBridge___findChildren_setList3(void* ptr, void* i)
-{
-	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* QmlBridge___findChildren_newList3(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject*>;
-}
-
-void* QmlBridge___findChildren_atList(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
-}
-
-void QmlBridge___findChildren_setList(void* ptr, void* i)
-{
-	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* QmlBridge___findChildren_newList(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject*>;
-}
-
-void* QmlBridge___children_atList(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject *>*>(ptr)->at(i));
-}
-
-void QmlBridge___children_setList(void* ptr, void* i)
-{
-	static_cast<QList<QObject *>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* QmlBridge___children_newList(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject *>;
-}
-
-void* QmlBridge_NewQmlBridge(void* parent)
-{
-	if (dynamic_cast<QCameraImageCapture*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QCameraImageCapture*>(parent));
-	} else if (dynamic_cast<QDBusPendingCallWatcher*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QDBusPendingCallWatcher*>(parent));
-	} else if (dynamic_cast<QExtensionFactory*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QExtensionFactory*>(parent));
-	} else if (dynamic_cast<QExtensionManager*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QExtensionManager*>(parent));
-	} else if (dynamic_cast<QGraphicsObject*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QGraphicsObject*>(parent));
-	} else if (dynamic_cast<QGraphicsWidget*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QGraphicsWidget*>(parent));
-	} else if (dynamic_cast<QLayout*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QLayout*>(parent));
-	} else if (dynamic_cast<QMediaPlaylist*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QMediaPlaylist*>(parent));
-	} else if (dynamic_cast<QMediaRecorder*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QMediaRecorder*>(parent));
-	} else if (dynamic_cast<QOffscreenSurface*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QOffscreenSurface*>(parent));
-	} else if (dynamic_cast<QPaintDeviceWindow*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QPaintDeviceWindow*>(parent));
-	} else if (dynamic_cast<QPdfWriter*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QPdfWriter*>(parent));
-	} else if (dynamic_cast<QQuickItem*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QQuickItem*>(parent));
-	} else if (dynamic_cast<QRadioData*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QRadioData*>(parent));
-	} else if (dynamic_cast<QSignalSpy*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QSignalSpy*>(parent));
-	} else if (dynamic_cast<QWidget*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QWidget*>(parent));
-	} else if (dynamic_cast<QWindow*>(static_cast<QObject*>(parent))) {
-		return new QmlBridge(static_cast<QWindow*>(parent));
-	} else {
-		return new QmlBridge(static_cast<QObject*>(parent));
-	}
-}
-
-void QmlBridge_DestroyQmlBridge(void* ptr)
-{
-	static_cast<QmlBridge*>(ptr)->~QmlBridge();
-}
-
-void QmlBridge_DestroyQmlBridgeDefault(void* ptr)
-{
-	Q_UNUSED(ptr);
-
-}
-
-char QmlBridge_EventDefault(void* ptr, void* e)
-{
-	return static_cast<QmlBridge*>(ptr)->QObject::event(static_cast<QEvent*>(e));
-}
-
-char QmlBridge_EventFilterDefault(void* ptr, void* watched, void* event)
-{
-	return static_cast<QmlBridge*>(ptr)->QObject::eventFilter(static_cast<QObject*>(watched), static_cast<QEvent*>(event));
-}
-
-void QmlBridge_ChildEventDefault(void* ptr, void* event)
-{
-	static_cast<QmlBridge*>(ptr)->QObject::childEvent(static_cast<QChildEvent*>(event));
-}
-
-void QmlBridge_ConnectNotifyDefault(void* ptr, void* sign)
-{
-	static_cast<QmlBridge*>(ptr)->QObject::connectNotify(*static_cast<QMetaMethod*>(sign));
-}
-
-void QmlBridge_CustomEventDefault(void* ptr, void* event)
-{
-	static_cast<QmlBridge*>(ptr)->QObject::customEvent(static_cast<QEvent*>(event));
-}
-
-void QmlBridge_DeleteLaterDefault(void* ptr)
-{
-	static_cast<QmlBridge*>(ptr)->QObject::deleteLater();
-}
-
-void QmlBridge_DisconnectNotifyDefault(void* ptr, void* sign)
-{
-	static_cast<QmlBridge*>(ptr)->QObject::disconnectNotify(*static_cast<QMetaMethod*>(sign));
-}
-
-void QmlBridge_TimerEventDefault(void* ptr, void* event)
-{
-	static_cast<QmlBridge*>(ptr)->QObject::timerEvent(static_cast<QTimerEvent*>(event));
 }
 
 
