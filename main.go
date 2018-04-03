@@ -57,6 +57,9 @@ func main() {
 		//this needs to happen before anything happens on another thread
 		//else the thread might beat the context property to setup
 	view.RootContext().SetContextProperty("QmlBridge", qmlBridge)
+	view.RootContext().SetContextProperty("ContactsModel", qmlBridge.business.pModel)
+	view.RootContext().SetContextProperty("SearchModel", qmlBridge.business.sModel)
+	view.RootContext().SetContextProperty("FilesModel", qmlBridge.business.fModel)
 
 	//5. Configure hotloading
 		//configure the loader to handle updating qml live

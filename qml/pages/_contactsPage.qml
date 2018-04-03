@@ -22,11 +22,21 @@ Pane {
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: function() {
-                    fileDialog.open()
-                    footerLabel.text = "Clicked on " + labelText
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    console.log("Click")
+                    if (mouse.button == Qt.LeftButton)
+                    {
+                        console.log("Left")
+                    }
+                    else if (mouse.button == Qt.RightButton)
+                    {
+                        fileDialog.open()
+                        footerLabel.text = "Clicked on " + labelText
+                    }
                 }
             }
+
             DropArea {
                 id: drg
                 anchors.fill: parent
@@ -75,28 +85,24 @@ Pane {
             wrapMode: Label.Wrap
             padding: 20
             topPadding: 0
-            horizontalAlignment: Qt.AlignHCenter
-            text: "These are your contacts. Click on one to see files from them"
+            horizontalAlignment: Qt.AlignHLeft
+            text: "These are your contacts. <br><ul><li>Left click to see files from them</li><li>Right click to choose a file to send them</li><li>You can also drag a file onto a contact to send it to them.</li></ul>"
         }
         ListView {
             id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: ListModel {
-                ListElement { type: "ItemDelegate"; text: "pinky@evil.com" }
-                ListElement { type: "ItemDelegate"; text: "drrobotnic@rulers.com" }
-                ListElement { type: "ItemDelegate"; text: "thegrinch@christmas.com" }
-            }
+            model: ContactsModel
 
             section.property: "type"
 
             delegate: Loader {
                 id: delegateLoader
                 width: listView.width
-                sourceComponent: delegateComponentMap[type]
+                sourceComponent: delegateComponentMap["ItemDelegate"]
 
-                property string labelText: text
+                property string labelText: email
                 property ListView view: listView
                 property int ourIndex: index
 

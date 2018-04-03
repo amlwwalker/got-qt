@@ -36,10 +36,16 @@ Pane {
         Label {
             Layout.fillWidth: true
             wrapMode: Label.Wrap
-            horizontalAlignment: Qt.AlignHCenter
             padding: 20
             topPadding: 0
-            text: "These are files you have downloaded. Click on one to open it. Files are stored at ~/.downloads"
+            horizontalAlignment: Qt.AlignHLeft
+            text: "These are files you have downloaded. <br><ul><li>Click on one to open it</li><li>Files are stored at <a href='~/.downloads'>~/.downloads</a></li></ul>"
+            onLinkActivated: Qt.openUrlExternally(link)
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.NoButton
+                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+            }
         }
         ListView {
             id: listView

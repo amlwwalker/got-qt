@@ -21,6 +21,844 @@ func cGoUnpackString(s C.struct_Moc_PackedString) string {
 	return C.GoStringN(s.data, C.int(s.len))
 }
 
+type Person_ITF interface {
+	std_core.QObject_ITF
+	Person_PTR() *Person
+}
+
+func (ptr *Person) Person_PTR() *Person {
+	return ptr
+}
+
+func (ptr *Person) Pointer() unsafe.Pointer {
+	if ptr != nil {
+		return ptr.QObject_PTR().Pointer()
+	}
+	return nil
+}
+
+func (ptr *Person) SetPointer(p unsafe.Pointer) {
+	if ptr != nil {
+		ptr.QObject_PTR().SetPointer(p)
+	}
+}
+
+func PointerFromPerson(ptr Person_ITF) unsafe.Pointer {
+	if ptr != nil {
+		return ptr.Person_PTR().Pointer()
+	}
+	return nil
+}
+
+func NewPersonFromPointer(ptr unsafe.Pointer) *Person {
+	var n *Person
+	if gPtr, ok := qt.Receive(ptr); !ok {
+		n = new(Person)
+		n.SetPointer(ptr)
+	} else {
+		switch deduced := gPtr.(type) {
+		case *Person:
+			n = deduced
+
+		case *std_core.QObject:
+			n = &Person{QObject: *deduced}
+
+		default:
+			n = new(Person)
+			n.SetPointer(ptr)
+		}
+	}
+	return n
+}
+
+//export callbackPerson_Constructor
+func callbackPerson_Constructor(ptr unsafe.Pointer) {
+	gPtr := NewPersonFromPointer(ptr)
+	qt.Register(ptr, gPtr)
+}
+
+//export callbackPerson_FirstName
+func callbackPerson_FirstName(ptr unsafe.Pointer) C.struct_Moc_PackedString {
+	if signal := qt.GetSignal(ptr, "firstName"); signal != nil {
+		tempVal := signal.(func() string)()
+		return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
+	}
+	tempVal := NewPersonFromPointer(ptr).FirstNameDefault()
+	return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
+}
+
+func (ptr *Person) ConnectFirstName(f func() string) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "firstName"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "firstName", func() string {
+				signal.(func() string)()
+				return f()
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "firstName", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectFirstName() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "firstName")
+	}
+}
+
+func (ptr *Person) FirstName() string {
+	if ptr.Pointer() != nil {
+		return cGoUnpackString(C.Person_FirstName(ptr.Pointer()))
+	}
+	return ""
+}
+
+func (ptr *Person) FirstNameDefault() string {
+	if ptr.Pointer() != nil {
+		return cGoUnpackString(C.Person_FirstNameDefault(ptr.Pointer()))
+	}
+	return ""
+}
+
+//export callbackPerson_SetFirstName
+func callbackPerson_SetFirstName(ptr unsafe.Pointer, firstName C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "setFirstName"); signal != nil {
+		signal.(func(string))(cGoUnpackString(firstName))
+	} else {
+		NewPersonFromPointer(ptr).SetFirstNameDefault(cGoUnpackString(firstName))
+	}
+}
+
+func (ptr *Person) ConnectSetFirstName(f func(firstName string)) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "setFirstName"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "setFirstName", func(firstName string) {
+				signal.(func(string))(firstName)
+				f(firstName)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "setFirstName", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectSetFirstName() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "setFirstName")
+	}
+}
+
+func (ptr *Person) SetFirstName(firstName string) {
+	if ptr.Pointer() != nil {
+		var firstNameC *C.char
+		if firstName != "" {
+			firstNameC = C.CString(firstName)
+			defer C.free(unsafe.Pointer(firstNameC))
+		}
+		C.Person_SetFirstName(ptr.Pointer(), C.struct_Moc_PackedString{data: firstNameC, len: C.longlong(len(firstName))})
+	}
+}
+
+func (ptr *Person) SetFirstNameDefault(firstName string) {
+	if ptr.Pointer() != nil {
+		var firstNameC *C.char
+		if firstName != "" {
+			firstNameC = C.CString(firstName)
+			defer C.free(unsafe.Pointer(firstNameC))
+		}
+		C.Person_SetFirstNameDefault(ptr.Pointer(), C.struct_Moc_PackedString{data: firstNameC, len: C.longlong(len(firstName))})
+	}
+}
+
+//export callbackPerson_FirstNameChanged
+func callbackPerson_FirstNameChanged(ptr unsafe.Pointer, firstName C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "firstNameChanged"); signal != nil {
+		signal.(func(string))(cGoUnpackString(firstName))
+	}
+
+}
+
+func (ptr *Person) ConnectFirstNameChanged(f func(firstName string)) {
+	if ptr.Pointer() != nil {
+
+		if !qt.ExistsSignal(ptr.Pointer(), "firstNameChanged") {
+			C.Person_ConnectFirstNameChanged(ptr.Pointer())
+		}
+
+		if signal := qt.LendSignal(ptr.Pointer(), "firstNameChanged"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "firstNameChanged", func(firstName string) {
+				signal.(func(string))(firstName)
+				f(firstName)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "firstNameChanged", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectFirstNameChanged() {
+	if ptr.Pointer() != nil {
+		C.Person_DisconnectFirstNameChanged(ptr.Pointer())
+		qt.DisconnectSignal(ptr.Pointer(), "firstNameChanged")
+	}
+}
+
+func (ptr *Person) FirstNameChanged(firstName string) {
+	if ptr.Pointer() != nil {
+		var firstNameC *C.char
+		if firstName != "" {
+			firstNameC = C.CString(firstName)
+			defer C.free(unsafe.Pointer(firstNameC))
+		}
+		C.Person_FirstNameChanged(ptr.Pointer(), C.struct_Moc_PackedString{data: firstNameC, len: C.longlong(len(firstName))})
+	}
+}
+
+//export callbackPerson_LastName
+func callbackPerson_LastName(ptr unsafe.Pointer) C.struct_Moc_PackedString {
+	if signal := qt.GetSignal(ptr, "lastName"); signal != nil {
+		tempVal := signal.(func() string)()
+		return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
+	}
+	tempVal := NewPersonFromPointer(ptr).LastNameDefault()
+	return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
+}
+
+func (ptr *Person) ConnectLastName(f func() string) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "lastName"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "lastName", func() string {
+				signal.(func() string)()
+				return f()
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "lastName", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectLastName() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "lastName")
+	}
+}
+
+func (ptr *Person) LastName() string {
+	if ptr.Pointer() != nil {
+		return cGoUnpackString(C.Person_LastName(ptr.Pointer()))
+	}
+	return ""
+}
+
+func (ptr *Person) LastNameDefault() string {
+	if ptr.Pointer() != nil {
+		return cGoUnpackString(C.Person_LastNameDefault(ptr.Pointer()))
+	}
+	return ""
+}
+
+//export callbackPerson_SetLastName
+func callbackPerson_SetLastName(ptr unsafe.Pointer, lastName C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "setLastName"); signal != nil {
+		signal.(func(string))(cGoUnpackString(lastName))
+	} else {
+		NewPersonFromPointer(ptr).SetLastNameDefault(cGoUnpackString(lastName))
+	}
+}
+
+func (ptr *Person) ConnectSetLastName(f func(lastName string)) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "setLastName"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "setLastName", func(lastName string) {
+				signal.(func(string))(lastName)
+				f(lastName)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "setLastName", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectSetLastName() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "setLastName")
+	}
+}
+
+func (ptr *Person) SetLastName(lastName string) {
+	if ptr.Pointer() != nil {
+		var lastNameC *C.char
+		if lastName != "" {
+			lastNameC = C.CString(lastName)
+			defer C.free(unsafe.Pointer(lastNameC))
+		}
+		C.Person_SetLastName(ptr.Pointer(), C.struct_Moc_PackedString{data: lastNameC, len: C.longlong(len(lastName))})
+	}
+}
+
+func (ptr *Person) SetLastNameDefault(lastName string) {
+	if ptr.Pointer() != nil {
+		var lastNameC *C.char
+		if lastName != "" {
+			lastNameC = C.CString(lastName)
+			defer C.free(unsafe.Pointer(lastNameC))
+		}
+		C.Person_SetLastNameDefault(ptr.Pointer(), C.struct_Moc_PackedString{data: lastNameC, len: C.longlong(len(lastName))})
+	}
+}
+
+//export callbackPerson_LastNameChanged
+func callbackPerson_LastNameChanged(ptr unsafe.Pointer, lastName C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "lastNameChanged"); signal != nil {
+		signal.(func(string))(cGoUnpackString(lastName))
+	}
+
+}
+
+func (ptr *Person) ConnectLastNameChanged(f func(lastName string)) {
+	if ptr.Pointer() != nil {
+
+		if !qt.ExistsSignal(ptr.Pointer(), "lastNameChanged") {
+			C.Person_ConnectLastNameChanged(ptr.Pointer())
+		}
+
+		if signal := qt.LendSignal(ptr.Pointer(), "lastNameChanged"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "lastNameChanged", func(lastName string) {
+				signal.(func(string))(lastName)
+				f(lastName)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "lastNameChanged", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectLastNameChanged() {
+	if ptr.Pointer() != nil {
+		C.Person_DisconnectLastNameChanged(ptr.Pointer())
+		qt.DisconnectSignal(ptr.Pointer(), "lastNameChanged")
+	}
+}
+
+func (ptr *Person) LastNameChanged(lastName string) {
+	if ptr.Pointer() != nil {
+		var lastNameC *C.char
+		if lastName != "" {
+			lastNameC = C.CString(lastName)
+			defer C.free(unsafe.Pointer(lastNameC))
+		}
+		C.Person_LastNameChanged(ptr.Pointer(), C.struct_Moc_PackedString{data: lastNameC, len: C.longlong(len(lastName))})
+	}
+}
+
+//export callbackPerson_Email
+func callbackPerson_Email(ptr unsafe.Pointer) C.struct_Moc_PackedString {
+	if signal := qt.GetSignal(ptr, "email"); signal != nil {
+		tempVal := signal.(func() string)()
+		return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
+	}
+	tempVal := NewPersonFromPointer(ptr).EmailDefault()
+	return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
+}
+
+func (ptr *Person) ConnectEmail(f func() string) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "email"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "email", func() string {
+				signal.(func() string)()
+				return f()
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "email", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectEmail() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "email")
+	}
+}
+
+func (ptr *Person) Email() string {
+	if ptr.Pointer() != nil {
+		return cGoUnpackString(C.Person_Email(ptr.Pointer()))
+	}
+	return ""
+}
+
+func (ptr *Person) EmailDefault() string {
+	if ptr.Pointer() != nil {
+		return cGoUnpackString(C.Person_EmailDefault(ptr.Pointer()))
+	}
+	return ""
+}
+
+//export callbackPerson_SetEmail
+func callbackPerson_SetEmail(ptr unsafe.Pointer, email C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "setEmail"); signal != nil {
+		signal.(func(string))(cGoUnpackString(email))
+	} else {
+		NewPersonFromPointer(ptr).SetEmailDefault(cGoUnpackString(email))
+	}
+}
+
+func (ptr *Person) ConnectSetEmail(f func(email string)) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "setEmail"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "setEmail", func(email string) {
+				signal.(func(string))(email)
+				f(email)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "setEmail", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectSetEmail() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "setEmail")
+	}
+}
+
+func (ptr *Person) SetEmail(email string) {
+	if ptr.Pointer() != nil {
+		var emailC *C.char
+		if email != "" {
+			emailC = C.CString(email)
+			defer C.free(unsafe.Pointer(emailC))
+		}
+		C.Person_SetEmail(ptr.Pointer(), C.struct_Moc_PackedString{data: emailC, len: C.longlong(len(email))})
+	}
+}
+
+func (ptr *Person) SetEmailDefault(email string) {
+	if ptr.Pointer() != nil {
+		var emailC *C.char
+		if email != "" {
+			emailC = C.CString(email)
+			defer C.free(unsafe.Pointer(emailC))
+		}
+		C.Person_SetEmailDefault(ptr.Pointer(), C.struct_Moc_PackedString{data: emailC, len: C.longlong(len(email))})
+	}
+}
+
+//export callbackPerson_EmailChanged
+func callbackPerson_EmailChanged(ptr unsafe.Pointer, email C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "emailChanged"); signal != nil {
+		signal.(func(string))(cGoUnpackString(email))
+	}
+
+}
+
+func (ptr *Person) ConnectEmailChanged(f func(email string)) {
+	if ptr.Pointer() != nil {
+
+		if !qt.ExistsSignal(ptr.Pointer(), "emailChanged") {
+			C.Person_ConnectEmailChanged(ptr.Pointer())
+		}
+
+		if signal := qt.LendSignal(ptr.Pointer(), "emailChanged"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "emailChanged", func(email string) {
+				signal.(func(string))(email)
+				f(email)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "emailChanged", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectEmailChanged() {
+	if ptr.Pointer() != nil {
+		C.Person_DisconnectEmailChanged(ptr.Pointer())
+		qt.DisconnectSignal(ptr.Pointer(), "emailChanged")
+	}
+}
+
+func (ptr *Person) EmailChanged(email string) {
+	if ptr.Pointer() != nil {
+		var emailC *C.char
+		if email != "" {
+			emailC = C.CString(email)
+			defer C.free(unsafe.Pointer(emailC))
+		}
+		C.Person_EmailChanged(ptr.Pointer(), C.struct_Moc_PackedString{data: emailC, len: C.longlong(len(email))})
+	}
+}
+
+func Person_QRegisterMetaType() int {
+	return int(int32(C.Person_Person_QRegisterMetaType()))
+}
+
+func (ptr *Person) QRegisterMetaType() int {
+	return int(int32(C.Person_Person_QRegisterMetaType()))
+}
+
+func Person_QRegisterMetaType2(typeName string) int {
+	var typeNameC *C.char
+	if typeName != "" {
+		typeNameC = C.CString(typeName)
+		defer C.free(unsafe.Pointer(typeNameC))
+	}
+	return int(int32(C.Person_Person_QRegisterMetaType2(typeNameC)))
+}
+
+func (ptr *Person) QRegisterMetaType2(typeName string) int {
+	var typeNameC *C.char
+	if typeName != "" {
+		typeNameC = C.CString(typeName)
+		defer C.free(unsafe.Pointer(typeNameC))
+	}
+	return int(int32(C.Person_Person_QRegisterMetaType2(typeNameC)))
+}
+
+func Person_QmlRegisterType() int {
+	return int(int32(C.Person_Person_QmlRegisterType()))
+}
+
+func (ptr *Person) QmlRegisterType() int {
+	return int(int32(C.Person_Person_QmlRegisterType()))
+}
+
+func Person_QmlRegisterType2(uri string, versionMajor int, versionMinor int, qmlName string) int {
+	var uriC *C.char
+	if uri != "" {
+		uriC = C.CString(uri)
+		defer C.free(unsafe.Pointer(uriC))
+	}
+	var qmlNameC *C.char
+	if qmlName != "" {
+		qmlNameC = C.CString(qmlName)
+		defer C.free(unsafe.Pointer(qmlNameC))
+	}
+	return int(int32(C.Person_Person_QmlRegisterType2(uriC, C.int(int32(versionMajor)), C.int(int32(versionMinor)), qmlNameC)))
+}
+
+func (ptr *Person) QmlRegisterType2(uri string, versionMajor int, versionMinor int, qmlName string) int {
+	var uriC *C.char
+	if uri != "" {
+		uriC = C.CString(uri)
+		defer C.free(unsafe.Pointer(uriC))
+	}
+	var qmlNameC *C.char
+	if qmlName != "" {
+		qmlNameC = C.CString(qmlName)
+		defer C.free(unsafe.Pointer(qmlNameC))
+	}
+	return int(int32(C.Person_Person_QmlRegisterType2(uriC, C.int(int32(versionMajor)), C.int(int32(versionMinor)), qmlNameC)))
+}
+
+func (ptr *Person) __dynamicPropertyNames_atList(i int) *std_core.QByteArray {
+	if ptr.Pointer() != nil {
+		var tmpValue = std_core.NewQByteArrayFromPointer(C.Person___dynamicPropertyNames_atList(ptr.Pointer(), C.int(int32(i))))
+		runtime.SetFinalizer(tmpValue, (*std_core.QByteArray).DestroyQByteArray)
+		return tmpValue
+	}
+	return nil
+}
+
+func (ptr *Person) __dynamicPropertyNames_setList(i std_core.QByteArray_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person___dynamicPropertyNames_setList(ptr.Pointer(), std_core.PointerFromQByteArray(i))
+	}
+}
+
+func (ptr *Person) __dynamicPropertyNames_newList() unsafe.Pointer {
+	return unsafe.Pointer(C.Person___dynamicPropertyNames_newList(ptr.Pointer()))
+}
+
+func (ptr *Person) __findChildren_atList2(i int) *std_core.QObject {
+	if ptr.Pointer() != nil {
+		var tmpValue = std_core.NewQObjectFromPointer(C.Person___findChildren_atList2(ptr.Pointer(), C.int(int32(i))))
+		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
+			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
+		}
+		return tmpValue
+	}
+	return nil
+}
+
+func (ptr *Person) __findChildren_setList2(i std_core.QObject_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person___findChildren_setList2(ptr.Pointer(), std_core.PointerFromQObject(i))
+	}
+}
+
+func (ptr *Person) __findChildren_newList2() unsafe.Pointer {
+	return unsafe.Pointer(C.Person___findChildren_newList2(ptr.Pointer()))
+}
+
+func (ptr *Person) __findChildren_atList3(i int) *std_core.QObject {
+	if ptr.Pointer() != nil {
+		var tmpValue = std_core.NewQObjectFromPointer(C.Person___findChildren_atList3(ptr.Pointer(), C.int(int32(i))))
+		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
+			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
+		}
+		return tmpValue
+	}
+	return nil
+}
+
+func (ptr *Person) __findChildren_setList3(i std_core.QObject_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person___findChildren_setList3(ptr.Pointer(), std_core.PointerFromQObject(i))
+	}
+}
+
+func (ptr *Person) __findChildren_newList3() unsafe.Pointer {
+	return unsafe.Pointer(C.Person___findChildren_newList3(ptr.Pointer()))
+}
+
+func (ptr *Person) __findChildren_atList(i int) *std_core.QObject {
+	if ptr.Pointer() != nil {
+		var tmpValue = std_core.NewQObjectFromPointer(C.Person___findChildren_atList(ptr.Pointer(), C.int(int32(i))))
+		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
+			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
+		}
+		return tmpValue
+	}
+	return nil
+}
+
+func (ptr *Person) __findChildren_setList(i std_core.QObject_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person___findChildren_setList(ptr.Pointer(), std_core.PointerFromQObject(i))
+	}
+}
+
+func (ptr *Person) __findChildren_newList() unsafe.Pointer {
+	return unsafe.Pointer(C.Person___findChildren_newList(ptr.Pointer()))
+}
+
+func (ptr *Person) __children_atList(i int) *std_core.QObject {
+	if ptr.Pointer() != nil {
+		var tmpValue = std_core.NewQObjectFromPointer(C.Person___children_atList(ptr.Pointer(), C.int(int32(i))))
+		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
+			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
+		}
+		return tmpValue
+	}
+	return nil
+}
+
+func (ptr *Person) __children_setList(i std_core.QObject_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person___children_setList(ptr.Pointer(), std_core.PointerFromQObject(i))
+	}
+}
+
+func (ptr *Person) __children_newList() unsafe.Pointer {
+	return unsafe.Pointer(C.Person___children_newList(ptr.Pointer()))
+}
+
+func NewPerson(parent std_core.QObject_ITF) *Person {
+	var tmpValue = NewPersonFromPointer(C.Person_NewPerson(std_core.PointerFromQObject(parent)))
+	if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
+		tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
+	}
+	return tmpValue
+}
+
+//export callbackPerson_DestroyPerson
+func callbackPerson_DestroyPerson(ptr unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "~Person"); signal != nil {
+		signal.(func())()
+	} else {
+		NewPersonFromPointer(ptr).DestroyPersonDefault()
+	}
+}
+
+func (ptr *Person) ConnectDestroyPerson(f func()) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "~Person"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "~Person", func() {
+				signal.(func())()
+				f()
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "~Person", f)
+		}
+	}
+}
+
+func (ptr *Person) DisconnectDestroyPerson() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "~Person")
+	}
+}
+
+func (ptr *Person) DestroyPerson() {
+	if ptr.Pointer() != nil {
+		C.Person_DestroyPerson(ptr.Pointer())
+		ptr.SetPointer(nil)
+		runtime.SetFinalizer(ptr, nil)
+	}
+}
+
+func (ptr *Person) DestroyPersonDefault() {
+	if ptr.Pointer() != nil {
+		C.Person_DestroyPersonDefault(ptr.Pointer())
+		ptr.SetPointer(nil)
+		runtime.SetFinalizer(ptr, nil)
+	}
+}
+
+//export callbackPerson_Event
+func callbackPerson_Event(ptr unsafe.Pointer, e unsafe.Pointer) C.char {
+	if signal := qt.GetSignal(ptr, "event"); signal != nil {
+		return C.char(int8(qt.GoBoolToInt(signal.(func(*std_core.QEvent) bool)(std_core.NewQEventFromPointer(e)))))
+	}
+
+	return C.char(int8(qt.GoBoolToInt(NewPersonFromPointer(ptr).EventDefault(std_core.NewQEventFromPointer(e)))))
+}
+
+func (ptr *Person) EventDefault(e std_core.QEvent_ITF) bool {
+	if ptr.Pointer() != nil {
+		return C.Person_EventDefault(ptr.Pointer(), std_core.PointerFromQEvent(e)) != 0
+	}
+	return false
+}
+
+//export callbackPerson_EventFilter
+func callbackPerson_EventFilter(ptr unsafe.Pointer, watched unsafe.Pointer, event unsafe.Pointer) C.char {
+	if signal := qt.GetSignal(ptr, "eventFilter"); signal != nil {
+		return C.char(int8(qt.GoBoolToInt(signal.(func(*std_core.QObject, *std_core.QEvent) bool)(std_core.NewQObjectFromPointer(watched), std_core.NewQEventFromPointer(event)))))
+	}
+
+	return C.char(int8(qt.GoBoolToInt(NewPersonFromPointer(ptr).EventFilterDefault(std_core.NewQObjectFromPointer(watched), std_core.NewQEventFromPointer(event)))))
+}
+
+func (ptr *Person) EventFilterDefault(watched std_core.QObject_ITF, event std_core.QEvent_ITF) bool {
+	if ptr.Pointer() != nil {
+		return C.Person_EventFilterDefault(ptr.Pointer(), std_core.PointerFromQObject(watched), std_core.PointerFromQEvent(event)) != 0
+	}
+	return false
+}
+
+//export callbackPerson_ChildEvent
+func callbackPerson_ChildEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "childEvent"); signal != nil {
+		signal.(func(*std_core.QChildEvent))(std_core.NewQChildEventFromPointer(event))
+	} else {
+		NewPersonFromPointer(ptr).ChildEventDefault(std_core.NewQChildEventFromPointer(event))
+	}
+}
+
+func (ptr *Person) ChildEventDefault(event std_core.QChildEvent_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person_ChildEventDefault(ptr.Pointer(), std_core.PointerFromQChildEvent(event))
+	}
+}
+
+//export callbackPerson_ConnectNotify
+func callbackPerson_ConnectNotify(ptr unsafe.Pointer, sign unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "connectNotify"); signal != nil {
+		signal.(func(*std_core.QMetaMethod))(std_core.NewQMetaMethodFromPointer(sign))
+	} else {
+		NewPersonFromPointer(ptr).ConnectNotifyDefault(std_core.NewQMetaMethodFromPointer(sign))
+	}
+}
+
+func (ptr *Person) ConnectNotifyDefault(sign std_core.QMetaMethod_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person_ConnectNotifyDefault(ptr.Pointer(), std_core.PointerFromQMetaMethod(sign))
+	}
+}
+
+//export callbackPerson_CustomEvent
+func callbackPerson_CustomEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "customEvent"); signal != nil {
+		signal.(func(*std_core.QEvent))(std_core.NewQEventFromPointer(event))
+	} else {
+		NewPersonFromPointer(ptr).CustomEventDefault(std_core.NewQEventFromPointer(event))
+	}
+}
+
+func (ptr *Person) CustomEventDefault(event std_core.QEvent_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person_CustomEventDefault(ptr.Pointer(), std_core.PointerFromQEvent(event))
+	}
+}
+
+//export callbackPerson_DeleteLater
+func callbackPerson_DeleteLater(ptr unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "deleteLater"); signal != nil {
+		signal.(func())()
+	} else {
+		NewPersonFromPointer(ptr).DeleteLaterDefault()
+	}
+}
+
+func (ptr *Person) DeleteLaterDefault() {
+	if ptr.Pointer() != nil {
+		C.Person_DeleteLaterDefault(ptr.Pointer())
+		ptr.SetPointer(nil)
+		runtime.SetFinalizer(ptr, nil)
+	}
+}
+
+//export callbackPerson_Destroyed
+func callbackPerson_Destroyed(ptr unsafe.Pointer, obj unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "destroyed"); signal != nil {
+		signal.(func(*std_core.QObject))(std_core.NewQObjectFromPointer(obj))
+	}
+
+}
+
+//export callbackPerson_DisconnectNotify
+func callbackPerson_DisconnectNotify(ptr unsafe.Pointer, sign unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "disconnectNotify"); signal != nil {
+		signal.(func(*std_core.QMetaMethod))(std_core.NewQMetaMethodFromPointer(sign))
+	} else {
+		NewPersonFromPointer(ptr).DisconnectNotifyDefault(std_core.NewQMetaMethodFromPointer(sign))
+	}
+}
+
+func (ptr *Person) DisconnectNotifyDefault(sign std_core.QMetaMethod_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person_DisconnectNotifyDefault(ptr.Pointer(), std_core.PointerFromQMetaMethod(sign))
+	}
+}
+
+//export callbackPerson_ObjectNameChanged
+func callbackPerson_ObjectNameChanged(ptr unsafe.Pointer, objectName C.struct_Moc_PackedString) {
+	if signal := qt.GetSignal(ptr, "objectNameChanged"); signal != nil {
+		signal.(func(string))(cGoUnpackString(objectName))
+	}
+
+}
+
+//export callbackPerson_TimerEvent
+func callbackPerson_TimerEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "timerEvent"); signal != nil {
+		signal.(func(*std_core.QTimerEvent))(std_core.NewQTimerEventFromPointer(event))
+	} else {
+		NewPersonFromPointer(ptr).TimerEventDefault(std_core.NewQTimerEventFromPointer(event))
+	}
+}
+
+func (ptr *Person) TimerEventDefault(event std_core.QTimerEvent_ITF) {
+	if ptr.Pointer() != nil {
+		C.Person_TimerEventDefault(ptr.Pointer(), std_core.PointerFromQTimerEvent(event))
+	}
+}
+
 type PersonModel_ITF interface {
 	std_core.QAbstractListModel_ITF
 	PersonModel_PTR() *PersonModel
@@ -2874,843 +3712,5 @@ func callbackQmlBridge_TimerEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
 func (ptr *QmlBridge) TimerEventDefault(event std_core.QTimerEvent_ITF) {
 	if ptr.Pointer() != nil {
 		C.QmlBridge_TimerEventDefault(ptr.Pointer(), std_core.PointerFromQTimerEvent(event))
-	}
-}
-
-type Person_ITF interface {
-	std_core.QObject_ITF
-	Person_PTR() *Person
-}
-
-func (ptr *Person) Person_PTR() *Person {
-	return ptr
-}
-
-func (ptr *Person) Pointer() unsafe.Pointer {
-	if ptr != nil {
-		return ptr.QObject_PTR().Pointer()
-	}
-	return nil
-}
-
-func (ptr *Person) SetPointer(p unsafe.Pointer) {
-	if ptr != nil {
-		ptr.QObject_PTR().SetPointer(p)
-	}
-}
-
-func PointerFromPerson(ptr Person_ITF) unsafe.Pointer {
-	if ptr != nil {
-		return ptr.Person_PTR().Pointer()
-	}
-	return nil
-}
-
-func NewPersonFromPointer(ptr unsafe.Pointer) *Person {
-	var n *Person
-	if gPtr, ok := qt.Receive(ptr); !ok {
-		n = new(Person)
-		n.SetPointer(ptr)
-	} else {
-		switch deduced := gPtr.(type) {
-		case *Person:
-			n = deduced
-
-		case *std_core.QObject:
-			n = &Person{QObject: *deduced}
-
-		default:
-			n = new(Person)
-			n.SetPointer(ptr)
-		}
-	}
-	return n
-}
-
-//export callbackPerson_Constructor
-func callbackPerson_Constructor(ptr unsafe.Pointer) {
-	gPtr := NewPersonFromPointer(ptr)
-	qt.Register(ptr, gPtr)
-}
-
-//export callbackPerson_FirstName
-func callbackPerson_FirstName(ptr unsafe.Pointer) C.struct_Moc_PackedString {
-	if signal := qt.GetSignal(ptr, "firstName"); signal != nil {
-		tempVal := signal.(func() string)()
-		return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
-	}
-	tempVal := NewPersonFromPointer(ptr).FirstNameDefault()
-	return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
-}
-
-func (ptr *Person) ConnectFirstName(f func() string) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "firstName"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "firstName", func() string {
-				signal.(func() string)()
-				return f()
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "firstName", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectFirstName() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "firstName")
-	}
-}
-
-func (ptr *Person) FirstName() string {
-	if ptr.Pointer() != nil {
-		return cGoUnpackString(C.Person_FirstName(ptr.Pointer()))
-	}
-	return ""
-}
-
-func (ptr *Person) FirstNameDefault() string {
-	if ptr.Pointer() != nil {
-		return cGoUnpackString(C.Person_FirstNameDefault(ptr.Pointer()))
-	}
-	return ""
-}
-
-//export callbackPerson_SetFirstName
-func callbackPerson_SetFirstName(ptr unsafe.Pointer, firstName C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "setFirstName"); signal != nil {
-		signal.(func(string))(cGoUnpackString(firstName))
-	} else {
-		NewPersonFromPointer(ptr).SetFirstNameDefault(cGoUnpackString(firstName))
-	}
-}
-
-func (ptr *Person) ConnectSetFirstName(f func(firstName string)) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "setFirstName"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "setFirstName", func(firstName string) {
-				signal.(func(string))(firstName)
-				f(firstName)
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "setFirstName", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectSetFirstName() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "setFirstName")
-	}
-}
-
-func (ptr *Person) SetFirstName(firstName string) {
-	if ptr.Pointer() != nil {
-		var firstNameC *C.char
-		if firstName != "" {
-			firstNameC = C.CString(firstName)
-			defer C.free(unsafe.Pointer(firstNameC))
-		}
-		C.Person_SetFirstName(ptr.Pointer(), C.struct_Moc_PackedString{data: firstNameC, len: C.longlong(len(firstName))})
-	}
-}
-
-func (ptr *Person) SetFirstNameDefault(firstName string) {
-	if ptr.Pointer() != nil {
-		var firstNameC *C.char
-		if firstName != "" {
-			firstNameC = C.CString(firstName)
-			defer C.free(unsafe.Pointer(firstNameC))
-		}
-		C.Person_SetFirstNameDefault(ptr.Pointer(), C.struct_Moc_PackedString{data: firstNameC, len: C.longlong(len(firstName))})
-	}
-}
-
-//export callbackPerson_FirstNameChanged
-func callbackPerson_FirstNameChanged(ptr unsafe.Pointer, firstName C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "firstNameChanged"); signal != nil {
-		signal.(func(string))(cGoUnpackString(firstName))
-	}
-
-}
-
-func (ptr *Person) ConnectFirstNameChanged(f func(firstName string)) {
-	if ptr.Pointer() != nil {
-
-		if !qt.ExistsSignal(ptr.Pointer(), "firstNameChanged") {
-			C.Person_ConnectFirstNameChanged(ptr.Pointer())
-		}
-
-		if signal := qt.LendSignal(ptr.Pointer(), "firstNameChanged"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "firstNameChanged", func(firstName string) {
-				signal.(func(string))(firstName)
-				f(firstName)
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "firstNameChanged", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectFirstNameChanged() {
-	if ptr.Pointer() != nil {
-		C.Person_DisconnectFirstNameChanged(ptr.Pointer())
-		qt.DisconnectSignal(ptr.Pointer(), "firstNameChanged")
-	}
-}
-
-func (ptr *Person) FirstNameChanged(firstName string) {
-	if ptr.Pointer() != nil {
-		var firstNameC *C.char
-		if firstName != "" {
-			firstNameC = C.CString(firstName)
-			defer C.free(unsafe.Pointer(firstNameC))
-		}
-		C.Person_FirstNameChanged(ptr.Pointer(), C.struct_Moc_PackedString{data: firstNameC, len: C.longlong(len(firstName))})
-	}
-}
-
-//export callbackPerson_LastName
-func callbackPerson_LastName(ptr unsafe.Pointer) C.struct_Moc_PackedString {
-	if signal := qt.GetSignal(ptr, "lastName"); signal != nil {
-		tempVal := signal.(func() string)()
-		return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
-	}
-	tempVal := NewPersonFromPointer(ptr).LastNameDefault()
-	return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
-}
-
-func (ptr *Person) ConnectLastName(f func() string) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "lastName"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "lastName", func() string {
-				signal.(func() string)()
-				return f()
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "lastName", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectLastName() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "lastName")
-	}
-}
-
-func (ptr *Person) LastName() string {
-	if ptr.Pointer() != nil {
-		return cGoUnpackString(C.Person_LastName(ptr.Pointer()))
-	}
-	return ""
-}
-
-func (ptr *Person) LastNameDefault() string {
-	if ptr.Pointer() != nil {
-		return cGoUnpackString(C.Person_LastNameDefault(ptr.Pointer()))
-	}
-	return ""
-}
-
-//export callbackPerson_SetLastName
-func callbackPerson_SetLastName(ptr unsafe.Pointer, lastName C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "setLastName"); signal != nil {
-		signal.(func(string))(cGoUnpackString(lastName))
-	} else {
-		NewPersonFromPointer(ptr).SetLastNameDefault(cGoUnpackString(lastName))
-	}
-}
-
-func (ptr *Person) ConnectSetLastName(f func(lastName string)) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "setLastName"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "setLastName", func(lastName string) {
-				signal.(func(string))(lastName)
-				f(lastName)
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "setLastName", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectSetLastName() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "setLastName")
-	}
-}
-
-func (ptr *Person) SetLastName(lastName string) {
-	if ptr.Pointer() != nil {
-		var lastNameC *C.char
-		if lastName != "" {
-			lastNameC = C.CString(lastName)
-			defer C.free(unsafe.Pointer(lastNameC))
-		}
-		C.Person_SetLastName(ptr.Pointer(), C.struct_Moc_PackedString{data: lastNameC, len: C.longlong(len(lastName))})
-	}
-}
-
-func (ptr *Person) SetLastNameDefault(lastName string) {
-	if ptr.Pointer() != nil {
-		var lastNameC *C.char
-		if lastName != "" {
-			lastNameC = C.CString(lastName)
-			defer C.free(unsafe.Pointer(lastNameC))
-		}
-		C.Person_SetLastNameDefault(ptr.Pointer(), C.struct_Moc_PackedString{data: lastNameC, len: C.longlong(len(lastName))})
-	}
-}
-
-//export callbackPerson_LastNameChanged
-func callbackPerson_LastNameChanged(ptr unsafe.Pointer, lastName C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "lastNameChanged"); signal != nil {
-		signal.(func(string))(cGoUnpackString(lastName))
-	}
-
-}
-
-func (ptr *Person) ConnectLastNameChanged(f func(lastName string)) {
-	if ptr.Pointer() != nil {
-
-		if !qt.ExistsSignal(ptr.Pointer(), "lastNameChanged") {
-			C.Person_ConnectLastNameChanged(ptr.Pointer())
-		}
-
-		if signal := qt.LendSignal(ptr.Pointer(), "lastNameChanged"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "lastNameChanged", func(lastName string) {
-				signal.(func(string))(lastName)
-				f(lastName)
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "lastNameChanged", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectLastNameChanged() {
-	if ptr.Pointer() != nil {
-		C.Person_DisconnectLastNameChanged(ptr.Pointer())
-		qt.DisconnectSignal(ptr.Pointer(), "lastNameChanged")
-	}
-}
-
-func (ptr *Person) LastNameChanged(lastName string) {
-	if ptr.Pointer() != nil {
-		var lastNameC *C.char
-		if lastName != "" {
-			lastNameC = C.CString(lastName)
-			defer C.free(unsafe.Pointer(lastNameC))
-		}
-		C.Person_LastNameChanged(ptr.Pointer(), C.struct_Moc_PackedString{data: lastNameC, len: C.longlong(len(lastName))})
-	}
-}
-
-//export callbackPerson_Email
-func callbackPerson_Email(ptr unsafe.Pointer) C.struct_Moc_PackedString {
-	if signal := qt.GetSignal(ptr, "email"); signal != nil {
-		tempVal := signal.(func() string)()
-		return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
-	}
-	tempVal := NewPersonFromPointer(ptr).EmailDefault()
-	return C.struct_Moc_PackedString{data: C.CString(tempVal), len: C.longlong(len(tempVal))}
-}
-
-func (ptr *Person) ConnectEmail(f func() string) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "email"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "email", func() string {
-				signal.(func() string)()
-				return f()
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "email", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectEmail() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "email")
-	}
-}
-
-func (ptr *Person) Email() string {
-	if ptr.Pointer() != nil {
-		return cGoUnpackString(C.Person_Email(ptr.Pointer()))
-	}
-	return ""
-}
-
-func (ptr *Person) EmailDefault() string {
-	if ptr.Pointer() != nil {
-		return cGoUnpackString(C.Person_EmailDefault(ptr.Pointer()))
-	}
-	return ""
-}
-
-//export callbackPerson_SetEmail
-func callbackPerson_SetEmail(ptr unsafe.Pointer, email C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "setEmail"); signal != nil {
-		signal.(func(string))(cGoUnpackString(email))
-	} else {
-		NewPersonFromPointer(ptr).SetEmailDefault(cGoUnpackString(email))
-	}
-}
-
-func (ptr *Person) ConnectSetEmail(f func(email string)) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "setEmail"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "setEmail", func(email string) {
-				signal.(func(string))(email)
-				f(email)
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "setEmail", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectSetEmail() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "setEmail")
-	}
-}
-
-func (ptr *Person) SetEmail(email string) {
-	if ptr.Pointer() != nil {
-		var emailC *C.char
-		if email != "" {
-			emailC = C.CString(email)
-			defer C.free(unsafe.Pointer(emailC))
-		}
-		C.Person_SetEmail(ptr.Pointer(), C.struct_Moc_PackedString{data: emailC, len: C.longlong(len(email))})
-	}
-}
-
-func (ptr *Person) SetEmailDefault(email string) {
-	if ptr.Pointer() != nil {
-		var emailC *C.char
-		if email != "" {
-			emailC = C.CString(email)
-			defer C.free(unsafe.Pointer(emailC))
-		}
-		C.Person_SetEmailDefault(ptr.Pointer(), C.struct_Moc_PackedString{data: emailC, len: C.longlong(len(email))})
-	}
-}
-
-//export callbackPerson_EmailChanged
-func callbackPerson_EmailChanged(ptr unsafe.Pointer, email C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "emailChanged"); signal != nil {
-		signal.(func(string))(cGoUnpackString(email))
-	}
-
-}
-
-func (ptr *Person) ConnectEmailChanged(f func(email string)) {
-	if ptr.Pointer() != nil {
-
-		if !qt.ExistsSignal(ptr.Pointer(), "emailChanged") {
-			C.Person_ConnectEmailChanged(ptr.Pointer())
-		}
-
-		if signal := qt.LendSignal(ptr.Pointer(), "emailChanged"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "emailChanged", func(email string) {
-				signal.(func(string))(email)
-				f(email)
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "emailChanged", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectEmailChanged() {
-	if ptr.Pointer() != nil {
-		C.Person_DisconnectEmailChanged(ptr.Pointer())
-		qt.DisconnectSignal(ptr.Pointer(), "emailChanged")
-	}
-}
-
-func (ptr *Person) EmailChanged(email string) {
-	if ptr.Pointer() != nil {
-		var emailC *C.char
-		if email != "" {
-			emailC = C.CString(email)
-			defer C.free(unsafe.Pointer(emailC))
-		}
-		C.Person_EmailChanged(ptr.Pointer(), C.struct_Moc_PackedString{data: emailC, len: C.longlong(len(email))})
-	}
-}
-
-func Person_QRegisterMetaType() int {
-	return int(int32(C.Person_Person_QRegisterMetaType()))
-}
-
-func (ptr *Person) QRegisterMetaType() int {
-	return int(int32(C.Person_Person_QRegisterMetaType()))
-}
-
-func Person_QRegisterMetaType2(typeName string) int {
-	var typeNameC *C.char
-	if typeName != "" {
-		typeNameC = C.CString(typeName)
-		defer C.free(unsafe.Pointer(typeNameC))
-	}
-	return int(int32(C.Person_Person_QRegisterMetaType2(typeNameC)))
-}
-
-func (ptr *Person) QRegisterMetaType2(typeName string) int {
-	var typeNameC *C.char
-	if typeName != "" {
-		typeNameC = C.CString(typeName)
-		defer C.free(unsafe.Pointer(typeNameC))
-	}
-	return int(int32(C.Person_Person_QRegisterMetaType2(typeNameC)))
-}
-
-func Person_QmlRegisterType() int {
-	return int(int32(C.Person_Person_QmlRegisterType()))
-}
-
-func (ptr *Person) QmlRegisterType() int {
-	return int(int32(C.Person_Person_QmlRegisterType()))
-}
-
-func Person_QmlRegisterType2(uri string, versionMajor int, versionMinor int, qmlName string) int {
-	var uriC *C.char
-	if uri != "" {
-		uriC = C.CString(uri)
-		defer C.free(unsafe.Pointer(uriC))
-	}
-	var qmlNameC *C.char
-	if qmlName != "" {
-		qmlNameC = C.CString(qmlName)
-		defer C.free(unsafe.Pointer(qmlNameC))
-	}
-	return int(int32(C.Person_Person_QmlRegisterType2(uriC, C.int(int32(versionMajor)), C.int(int32(versionMinor)), qmlNameC)))
-}
-
-func (ptr *Person) QmlRegisterType2(uri string, versionMajor int, versionMinor int, qmlName string) int {
-	var uriC *C.char
-	if uri != "" {
-		uriC = C.CString(uri)
-		defer C.free(unsafe.Pointer(uriC))
-	}
-	var qmlNameC *C.char
-	if qmlName != "" {
-		qmlNameC = C.CString(qmlName)
-		defer C.free(unsafe.Pointer(qmlNameC))
-	}
-	return int(int32(C.Person_Person_QmlRegisterType2(uriC, C.int(int32(versionMajor)), C.int(int32(versionMinor)), qmlNameC)))
-}
-
-func (ptr *Person) __dynamicPropertyNames_atList(i int) *std_core.QByteArray {
-	if ptr.Pointer() != nil {
-		var tmpValue = std_core.NewQByteArrayFromPointer(C.Person___dynamicPropertyNames_atList(ptr.Pointer(), C.int(int32(i))))
-		runtime.SetFinalizer(tmpValue, (*std_core.QByteArray).DestroyQByteArray)
-		return tmpValue
-	}
-	return nil
-}
-
-func (ptr *Person) __dynamicPropertyNames_setList(i std_core.QByteArray_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person___dynamicPropertyNames_setList(ptr.Pointer(), std_core.PointerFromQByteArray(i))
-	}
-}
-
-func (ptr *Person) __dynamicPropertyNames_newList() unsafe.Pointer {
-	return unsafe.Pointer(C.Person___dynamicPropertyNames_newList(ptr.Pointer()))
-}
-
-func (ptr *Person) __findChildren_atList2(i int) *std_core.QObject {
-	if ptr.Pointer() != nil {
-		var tmpValue = std_core.NewQObjectFromPointer(C.Person___findChildren_atList2(ptr.Pointer(), C.int(int32(i))))
-		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
-			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
-		}
-		return tmpValue
-	}
-	return nil
-}
-
-func (ptr *Person) __findChildren_setList2(i std_core.QObject_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person___findChildren_setList2(ptr.Pointer(), std_core.PointerFromQObject(i))
-	}
-}
-
-func (ptr *Person) __findChildren_newList2() unsafe.Pointer {
-	return unsafe.Pointer(C.Person___findChildren_newList2(ptr.Pointer()))
-}
-
-func (ptr *Person) __findChildren_atList3(i int) *std_core.QObject {
-	if ptr.Pointer() != nil {
-		var tmpValue = std_core.NewQObjectFromPointer(C.Person___findChildren_atList3(ptr.Pointer(), C.int(int32(i))))
-		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
-			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
-		}
-		return tmpValue
-	}
-	return nil
-}
-
-func (ptr *Person) __findChildren_setList3(i std_core.QObject_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person___findChildren_setList3(ptr.Pointer(), std_core.PointerFromQObject(i))
-	}
-}
-
-func (ptr *Person) __findChildren_newList3() unsafe.Pointer {
-	return unsafe.Pointer(C.Person___findChildren_newList3(ptr.Pointer()))
-}
-
-func (ptr *Person) __findChildren_atList(i int) *std_core.QObject {
-	if ptr.Pointer() != nil {
-		var tmpValue = std_core.NewQObjectFromPointer(C.Person___findChildren_atList(ptr.Pointer(), C.int(int32(i))))
-		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
-			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
-		}
-		return tmpValue
-	}
-	return nil
-}
-
-func (ptr *Person) __findChildren_setList(i std_core.QObject_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person___findChildren_setList(ptr.Pointer(), std_core.PointerFromQObject(i))
-	}
-}
-
-func (ptr *Person) __findChildren_newList() unsafe.Pointer {
-	return unsafe.Pointer(C.Person___findChildren_newList(ptr.Pointer()))
-}
-
-func (ptr *Person) __children_atList(i int) *std_core.QObject {
-	if ptr.Pointer() != nil {
-		var tmpValue = std_core.NewQObjectFromPointer(C.Person___children_atList(ptr.Pointer(), C.int(int32(i))))
-		if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
-			tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
-		}
-		return tmpValue
-	}
-	return nil
-}
-
-func (ptr *Person) __children_setList(i std_core.QObject_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person___children_setList(ptr.Pointer(), std_core.PointerFromQObject(i))
-	}
-}
-
-func (ptr *Person) __children_newList() unsafe.Pointer {
-	return unsafe.Pointer(C.Person___children_newList(ptr.Pointer()))
-}
-
-func NewPerson(parent std_core.QObject_ITF) *Person {
-	var tmpValue = NewPersonFromPointer(C.Person_NewPerson(std_core.PointerFromQObject(parent)))
-	if !qt.ExistsSignal(tmpValue.Pointer(), "destroyed") {
-		tmpValue.ConnectDestroyed(func(*std_core.QObject) { tmpValue.SetPointer(nil) })
-	}
-	return tmpValue
-}
-
-//export callbackPerson_DestroyPerson
-func callbackPerson_DestroyPerson(ptr unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "~Person"); signal != nil {
-		signal.(func())()
-	} else {
-		NewPersonFromPointer(ptr).DestroyPersonDefault()
-	}
-}
-
-func (ptr *Person) ConnectDestroyPerson(f func()) {
-	if ptr.Pointer() != nil {
-
-		if signal := qt.LendSignal(ptr.Pointer(), "~Person"); signal != nil {
-			qt.ConnectSignal(ptr.Pointer(), "~Person", func() {
-				signal.(func())()
-				f()
-			})
-		} else {
-			qt.ConnectSignal(ptr.Pointer(), "~Person", f)
-		}
-	}
-}
-
-func (ptr *Person) DisconnectDestroyPerson() {
-	if ptr.Pointer() != nil {
-
-		qt.DisconnectSignal(ptr.Pointer(), "~Person")
-	}
-}
-
-func (ptr *Person) DestroyPerson() {
-	if ptr.Pointer() != nil {
-		C.Person_DestroyPerson(ptr.Pointer())
-		ptr.SetPointer(nil)
-		runtime.SetFinalizer(ptr, nil)
-	}
-}
-
-func (ptr *Person) DestroyPersonDefault() {
-	if ptr.Pointer() != nil {
-		C.Person_DestroyPersonDefault(ptr.Pointer())
-		ptr.SetPointer(nil)
-		runtime.SetFinalizer(ptr, nil)
-	}
-}
-
-//export callbackPerson_Event
-func callbackPerson_Event(ptr unsafe.Pointer, e unsafe.Pointer) C.char {
-	if signal := qt.GetSignal(ptr, "event"); signal != nil {
-		return C.char(int8(qt.GoBoolToInt(signal.(func(*std_core.QEvent) bool)(std_core.NewQEventFromPointer(e)))))
-	}
-
-	return C.char(int8(qt.GoBoolToInt(NewPersonFromPointer(ptr).EventDefault(std_core.NewQEventFromPointer(e)))))
-}
-
-func (ptr *Person) EventDefault(e std_core.QEvent_ITF) bool {
-	if ptr.Pointer() != nil {
-		return C.Person_EventDefault(ptr.Pointer(), std_core.PointerFromQEvent(e)) != 0
-	}
-	return false
-}
-
-//export callbackPerson_EventFilter
-func callbackPerson_EventFilter(ptr unsafe.Pointer, watched unsafe.Pointer, event unsafe.Pointer) C.char {
-	if signal := qt.GetSignal(ptr, "eventFilter"); signal != nil {
-		return C.char(int8(qt.GoBoolToInt(signal.(func(*std_core.QObject, *std_core.QEvent) bool)(std_core.NewQObjectFromPointer(watched), std_core.NewQEventFromPointer(event)))))
-	}
-
-	return C.char(int8(qt.GoBoolToInt(NewPersonFromPointer(ptr).EventFilterDefault(std_core.NewQObjectFromPointer(watched), std_core.NewQEventFromPointer(event)))))
-}
-
-func (ptr *Person) EventFilterDefault(watched std_core.QObject_ITF, event std_core.QEvent_ITF) bool {
-	if ptr.Pointer() != nil {
-		return C.Person_EventFilterDefault(ptr.Pointer(), std_core.PointerFromQObject(watched), std_core.PointerFromQEvent(event)) != 0
-	}
-	return false
-}
-
-//export callbackPerson_ChildEvent
-func callbackPerson_ChildEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "childEvent"); signal != nil {
-		signal.(func(*std_core.QChildEvent))(std_core.NewQChildEventFromPointer(event))
-	} else {
-		NewPersonFromPointer(ptr).ChildEventDefault(std_core.NewQChildEventFromPointer(event))
-	}
-}
-
-func (ptr *Person) ChildEventDefault(event std_core.QChildEvent_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person_ChildEventDefault(ptr.Pointer(), std_core.PointerFromQChildEvent(event))
-	}
-}
-
-//export callbackPerson_ConnectNotify
-func callbackPerson_ConnectNotify(ptr unsafe.Pointer, sign unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "connectNotify"); signal != nil {
-		signal.(func(*std_core.QMetaMethod))(std_core.NewQMetaMethodFromPointer(sign))
-	} else {
-		NewPersonFromPointer(ptr).ConnectNotifyDefault(std_core.NewQMetaMethodFromPointer(sign))
-	}
-}
-
-func (ptr *Person) ConnectNotifyDefault(sign std_core.QMetaMethod_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person_ConnectNotifyDefault(ptr.Pointer(), std_core.PointerFromQMetaMethod(sign))
-	}
-}
-
-//export callbackPerson_CustomEvent
-func callbackPerson_CustomEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "customEvent"); signal != nil {
-		signal.(func(*std_core.QEvent))(std_core.NewQEventFromPointer(event))
-	} else {
-		NewPersonFromPointer(ptr).CustomEventDefault(std_core.NewQEventFromPointer(event))
-	}
-}
-
-func (ptr *Person) CustomEventDefault(event std_core.QEvent_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person_CustomEventDefault(ptr.Pointer(), std_core.PointerFromQEvent(event))
-	}
-}
-
-//export callbackPerson_DeleteLater
-func callbackPerson_DeleteLater(ptr unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "deleteLater"); signal != nil {
-		signal.(func())()
-	} else {
-		NewPersonFromPointer(ptr).DeleteLaterDefault()
-	}
-}
-
-func (ptr *Person) DeleteLaterDefault() {
-	if ptr.Pointer() != nil {
-		C.Person_DeleteLaterDefault(ptr.Pointer())
-		ptr.SetPointer(nil)
-		runtime.SetFinalizer(ptr, nil)
-	}
-}
-
-//export callbackPerson_Destroyed
-func callbackPerson_Destroyed(ptr unsafe.Pointer, obj unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "destroyed"); signal != nil {
-		signal.(func(*std_core.QObject))(std_core.NewQObjectFromPointer(obj))
-	}
-
-}
-
-//export callbackPerson_DisconnectNotify
-func callbackPerson_DisconnectNotify(ptr unsafe.Pointer, sign unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "disconnectNotify"); signal != nil {
-		signal.(func(*std_core.QMetaMethod))(std_core.NewQMetaMethodFromPointer(sign))
-	} else {
-		NewPersonFromPointer(ptr).DisconnectNotifyDefault(std_core.NewQMetaMethodFromPointer(sign))
-	}
-}
-
-func (ptr *Person) DisconnectNotifyDefault(sign std_core.QMetaMethod_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person_DisconnectNotifyDefault(ptr.Pointer(), std_core.PointerFromQMetaMethod(sign))
-	}
-}
-
-//export callbackPerson_ObjectNameChanged
-func callbackPerson_ObjectNameChanged(ptr unsafe.Pointer, objectName C.struct_Moc_PackedString) {
-	if signal := qt.GetSignal(ptr, "objectNameChanged"); signal != nil {
-		signal.(func(string))(cGoUnpackString(objectName))
-	}
-
-}
-
-//export callbackPerson_TimerEvent
-func callbackPerson_TimerEvent(ptr unsafe.Pointer, event unsafe.Pointer) {
-	if signal := qt.GetSignal(ptr, "timerEvent"); signal != nil {
-		signal.(func(*std_core.QTimerEvent))(std_core.NewQTimerEventFromPointer(event))
-	} else {
-		NewPersonFromPointer(ptr).TimerEventDefault(std_core.NewQTimerEventFromPointer(event))
-	}
-}
-
-func (ptr *Person) TimerEventDefault(event std_core.QTimerEvent_ITF) {
-	if ptr.Pointer() != nil {
-		C.Person_TimerEventDefault(ptr.Pointer(), std_core.PointerFromQTimerEvent(event))
 	}
 }

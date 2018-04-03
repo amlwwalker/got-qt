@@ -2,7 +2,6 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
-import "../elements"
 Pane {
     padding: 0
     property var delegateComponentMap: {
@@ -39,8 +38,8 @@ Pane {
             wrapMode: Label.Wrap
             padding: 20
             topPadding: 0
-            horizontalAlignment: Qt.AlignHCenter
-            text: "These are the files you have been sent by ..."
+            horizontalAlignment: Qt.AlignHLeft
+            text: "These are file sent to you. <br><ul><li>Click on one to download it</li></ul>"
         }
         ListView {
             id: listView
