@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/src/debug/shaders"/></dataSet></merger>

@@ -1,0 +1,188 @@
+[
+    {
+        "outputFile": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 472,
+                    "endColumn": 12,
+                    "endOffset": 65109
+                },
+                "from": {
+                    "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
+                    "position": {
+                        "startLine": 79,
+                        "startColumn": 4,
+                        "startOffset": 5003,
+                        "endLine": 549,
+                        "endColumn": 12,
+                        "endOffset": 70057
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 473,
+                    "startColumn": 4,
+                    "startOffset": 65114,
+                    "endLine": 514,
+                    "endColumn": 12,
+                    "endOffset": 69217
+                },
+                "from": {
+                    "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
+                    "position": {
+                        "startLine": 37,
+                        "startColumn": 4,
+                        "startOffset": 895,
+                        "endLine": 78,
+                        "endColumn": 12,
+                        "endOffset": 4998
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 515,
+                    "startColumn": 4,
+                    "startOffset": 69222,
+                    "endLine": 520,
+                    "endColumn": 12,
+                    "endOffset": 69329
+                },
+                "from": {
+                    "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 291,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 398
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 521,
+                    "startColumn": 4,
+                    "startOffset": 69334,
+                    "endLine": 540,
+                    "endColumn": 13,
+                    "endOffset": 69818
+                },
+                "from": {
+                    "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 5,
+                        "startOffset": 405,
+                        "endLine": 35,
+                        "endColumn": 13,
+                        "endOffset": 889
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 541,
+                    "startColumn": 4,
+                    "startOffset": 69823,
+                    "endLine": 543,
+                    "endColumn": 12,
+                    "endOffset": 69933
+                },
+                "from": {
+                    "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 165
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 544,
+                    "startColumn": 4,
+                    "startOffset": 69938,
+                    "endColumn": 107,
+                    "endOffset": 70041
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 319,
+                        "endColumn": 107,
+                        "endOffset": 422
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 545,
+                    "startColumn": 4,
+                    "startOffset": 70046,
+                    "endColumn": 121,
+                    "endOffset": 70163
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 197,
+                        "endColumn": 121,
+                        "endOffset": 314
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 546,
+                    "startColumn": 4,
+                    "startOffset": 70168,
+                    "endColumn": 111,
+                    "endOffset": 70275
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 85,
+                        "endColumn": 111,
+                        "endOffset": 192
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 547,
+                    "startColumn": 4,
+                    "startOffset": 70280,
+                    "endColumn": 84,
+                    "endOffset": 70360
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 427,
+                        "endColumn": 84,
+                        "endOffset": 507
+                    }
+                }
+            }
+        ]
+    }
+]

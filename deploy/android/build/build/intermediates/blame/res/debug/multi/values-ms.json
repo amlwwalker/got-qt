@@ -1,0 +1,64 @@
+[
+    {
+        "outputFile": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ms/values-ms.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 104,
+                    "endOffset": 155
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values-ms/strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 294,
+                        "endColumn": 104,
+                        "endOffset": 394
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 160,
+                    "endColumn": 125,
+                    "endOffset": 281
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values-ms/strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 168,
+                        "endColumn": 125,
+                        "endOffset": 289
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 286,
+                    "endColumn": 112,
+                    "endOffset": 394
+                },
+                "from": {
+                    "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values-ms/strings.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 112,
+                        "endOffset": 163
+                    }
+                }
+            }
+        ]
+    }
+]

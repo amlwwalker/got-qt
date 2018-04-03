@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/libs/QtAndroidBearer-bundled.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="dfc4cbc036c544d5556e4c53ca93f3fbbd38cff1">
+        <dex dex="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/build/intermediates/pre-dexed/debug/QtAndroidBearer-bundled_3c58d66bc0cd83685e166889a3311c8045b95fe0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/libs/QtMultimedia-bundled.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4dcbd9b3f52ca576a4bc0154ecaf1244f684c1ec">
+        <dex dex="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/build/intermediates/pre-dexed/debug/QtMultimedia-bundled_d276b657a630dd6facd02f2c47869363a076f88f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/libs/QtAndroid-bundled.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="c927a4cf17d11a87e606ae315eede6cca42f1dc4">
+        <dex dex="/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/build/intermediates/pre-dexed/debug/QtAndroid-bundled_66c2a043dedeff811ee7840a1a0ad80589e312a9.jar" />
+    </item>
+
+</items>

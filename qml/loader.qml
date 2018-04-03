@@ -4,7 +4,6 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Universal 2.0
 import Qt.labs.settings 1.0
-
 Item {
     id: window
     width: 360
@@ -36,15 +35,16 @@ Item {
 	                    fillMode: Image.Pad
 	                    horizontalAlignment: Image.AlignHCenter
 	                    verticalAlignment: Image.AlignVCenter
-	                    source: stackView.depth > 1 ? "images/back.png" : "images/drawer.png"
+	                    source: "images/drawer.png" //stackView.depth > 1 ? "images/back.png" : "images/drawer.png"
 	                }
 	                onClicked: {
-	                    if (stackView.depth > 1) {
-	                        stackView.pop()
-	                        listView.currentIndex = -1
-	                    } else {
-	                        drawer.open()
-	                    }
+	                    //if (stackView.depth > 1) {
+	                    //    stackView.pop()
+	                    //    listView.currentIndex = -1
+	                    //} else {
+	                    //    drawer.open()
+	                    //}
+                        drawer.open()
 	                }
 	            }
 
@@ -57,8 +57,8 @@ Item {
 	                verticalAlignment: Qt.AlignVCenter
 	                Layout.fillWidth: true
 	            }
-
 	            ToolButton {
+                    id: settingsViewer
 	                contentItem: Image {
 	                    fillMode: Image.Pad
 	                    horizontalAlignment: Image.AlignHCenter
@@ -69,9 +69,6 @@ Item {
 
 	                Menu {
 	                    id: optionsMenu
-	                    x: parent.width - width
-	                    transformOrigin: Menu.TopRight
-
 	                    MenuItem {
 	                        text: "Settings"
 	                        onTriggered: settingsPopup.open()
@@ -80,6 +77,10 @@ Item {
 	                        text: "About"
 	                        onTriggered: aboutDialog.open()
 	                    }
+                        MenuItem {
+                            text: "Log Out"
+                            onTriggered: logoutDialog.open()
+                        }
 	                }
 	            }
 	        }
@@ -95,6 +96,15 @@ Item {
             anchors.bottom: footer.top
             Material.accent: Material.BlueGrey
         }
+        //ProgressBar {
+        //    id: progressIndicator
+        //    value: 0.75
+        //    z: 100
+        //    width: parent.width
+        //    anchors.horizontalCenter: parent.horizontalCenter
+        //    Material.accent: Material.BlueGrey
+        //}
+
         ToolBar {
             id: footer
             Material.foreground: "white"
@@ -137,6 +147,7 @@ Item {
                     loadingIndicator.visible = true
                 }
               }
+
 //animates the loader for 1 second when respawning a page for effect
                 PropertyAnimation {
                     running: true
@@ -145,6 +156,7 @@ Item {
                     to: false
                     duration: 2000
                 }
+
 	        initialItem: Pane {
 	            id: pane
 
@@ -164,18 +176,11 @@ Item {
 	                anchors.top: logo.bottom
 	                anchors.left: parent.left
 	                anchors.right: parent.right
-	                anchors.bottom: arrow.top
 	                horizontalAlignment: Label.AlignHCenter
 	                verticalAlignment: Label.AlignVCenter
 	                wrapMode: Label.Wrap
 	            }
 
-	            Image {
-	                id: arrow
-	                source: "qrc:/qml/images/arrow.png"
-	                anchors.left: parent.left
-	                anchors.bottom: parent.bottom
-	            }
 	        }
 	    }
 	}
@@ -209,7 +214,11 @@ Item {
             //application
                 ListElement { title: "Contacts"; source: "pages/_contactsPage.qml" }
                 ListElement { title: "Files"; source: "pages/_filelistPage.qml" }
+                ListElement { title: "Downloads"; source: "pages/_downloadsPage.qml" }
+                ListElement { title: "Search"; source: "pages/_searchPage.qml" }
                 ListElement { title: "Login"; source: "pages/_loginPage.qml" }
+                ListElement { title: "Calulator"; source: "pages/_calculatorPage.qml" }
+                ListElement { title: "Clock"; source: "pages/_clockPage.qml" }
             //demos
                 ListElement { title: "BusyIndicator"; source: "pages/BusyIndicatorPage.qml" }
                 ListElement { title: "Button"; source: "pages/ButtonPage.qml" }
@@ -270,39 +279,52 @@ Item {
             spacing: 20
 
             Label {
-                text: "Settings"
+                text: "Configuration"
                 font.bold: true
             }
 
             RowLayout {
                 spacing: 10
 
-                Label {
-                    text: "Style:"
+                GridLayout {
+                    id: grid
+                    columns: 2
+
+                    Text { text: "Hotloading"; font.bold: true; }
+                    Text { id: hotloading; text: "waiting"; color: "red" }
+                    Text { text: "Version"; font.bold: true; }
+                    Text { id: host; text: "waiting"; color: "red" }
                 }
 
-                ComboBox {
-                    id: styleBox
-                    property int styleIndex: -1
-                    model: ["Default", "Material", "Universal"]
-                    Component.onCompleted: {
-                        styleIndex = find(settings.style, Qt.MatchFixedString)
-                        if (styleIndex !== -1)
-                            currentIndex = styleIndex
-                    }
-                    Layout.fillWidth: true
+              Connections {
+                target: QmlBridge
+                onUpdateSettings: {
+                    footerLabel.text = version
+                    hotloading.text = hotload
                 }
+              }
+                //ComboBox {
+                //    id: styleBox
+                //    property int styleIndex: -1
+                //    model: ["Default", "Material", "Universal"]
+                //    Component.onCompleted: {
+                //        styleIndex = find(settings.style, Qt.MatchFixedString)
+                //        if (styleIndex !== -1)
+                //            currentIndex = styleIndex
+                //    }
+                //    Layout.fillWidth: true
+                //}
             }
 
-            Label {
-                text: "Restart required"
-                color: "#e41e25"
-                opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
+            //Label {
+            //    text: "Restart required"
+            //    color: "#e41e25"
+            //    opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
+            //    horizontalAlignment: Label.AlignHCenter
+            //    verticalAlignment: Label.AlignVCenter
+            //    Layout.fillWidth: true
+            //    Layout.fillHeight: true
+            //}
 
             RowLayout {
                 spacing: 10
@@ -311,7 +333,7 @@ Item {
                     id: okButton
                     text: "Ok"
                     onClicked: {
-                        settings.style = styleBox.displayText
+                        //settings.style = styleBox.displayText
                         settingsPopup.close()
                     }
 
@@ -327,7 +349,7 @@ Item {
                     id: cancelButton
                     text: "Cancel"
                     onClicked: {
-                        styleBox.currentIndex = styleBox.styleIndex
+                        //styleBox.currentIndex = styleBox.styleIndex
                         settingsPopup.close()
                     }
 
@@ -340,7 +362,40 @@ Item {
             }
         }
     }
+    Popup {
+        id: logoutDialog
+        modal: true
+        focus: true
+        x: (window.width - width) / 2
+        y: window.height / 6
+        width: Math.min(window.width, window.height) / 3 * 2
+        contentHeight: logoutColumn.height
 
+        Column {
+            id: logoutColumn
+            spacing: 20
+
+            Label {
+                text: "Logout"
+                font.bold: true
+            }
+
+            Label {
+                width: logoutDialog.availableWidth
+                text: "Logging out is really only necessary if you share a computer with others. If you want to continue, click logout below otherwise click elsewhere on the window"
+                wrapMode: Label.Wrap
+                font.pixelSize: 12
+            }
+            Button {
+                id: searchButton
+                text: "Logout"
+                width: logoutDialog.availableWidth
+                onClicked: function() {
+                    console.log('logging out')
+                }
+            }
+        }
+    }
     Popup {
         id: aboutDialog
         modal: true
