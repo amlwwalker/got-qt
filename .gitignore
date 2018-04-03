@@ -1,0 +1,12 @@
+#directories
+deploy/
+
+#file extensions
+*.o
+*.qmlc
+*.cpp
+*.h
+*.qrc
+
+#file prefixes
+moc_*.*
