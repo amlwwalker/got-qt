@@ -14,3 +14,4 @@ rcc*.*
 
 #binary files
 ./got-qt
+./cuiinterface/cuiinterface

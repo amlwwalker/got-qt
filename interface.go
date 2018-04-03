@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"github.com/therecipe/qt/core"
+	"github.com/amlwwalker/got-qt/logic"
 )
 
 type QmlBridge struct {
@@ -81,34 +82,41 @@ type BusinessInterface struct {
 	pModel *PersonModel
 	sModel *PersonModel
 	fModel *PersonModel
+	logic *logic.LogicInterface
 }
-//handles the interface between any go functions
-//and the qml
+//handles the interface between the backend architecture
+//and the bridge
 func (b *BusinessInterface) configureInterface() {
 	b.pModel = NewPersonModel(nil)
 	b.sModel = NewPersonModel(nil)
 	b.fModel = NewPersonModel(nil)
+	//pointer so needs starting update
+	b.logic = &logic.LogicInterface{}
+	b.logic.ConfigureLogic()
 }
 
 func (b *BusinessInterface) searchForMatches(regex string, informant func(float64, bool)) {
-	//if search takes a while then the informant can alert the front end
-	var p = NewPerson(nil)
-	p.SetFirstName(regex)
-	p.SetLastName("Search")
-	p.SetEmail(regex + "@hotmail.com")
-	//just demoing using async if things are slow
-	go func() {
-		time.Sleep(1 * time.Second)
-		informant(0.3, true) //we don't know how long this will take
-		time.Sleep(1 * time.Second)
-		informant(0.5, true) //we don't know how long this will take
-		time.Sleep(1 * time.Second)
-		informant(7.0, true) //we don't know how long this will take
-		time.Sleep(1 * time.Second)
-		informant(1.0, true) //we don't know how long this will take
-		fmt.Println("found match...")
-		b.sModel.AddPerson(p)
-	}()
+	//can do any preprocessing before it goes to the backend
+	modelUpdater := func(c float64, indeterminate bool) {
+
+		//if the logic is complete, then we need to update our model
+		//with the search results
+		//otherwise just inform the front end
+		if (1.0 == c) { //complete
+			//but also needs to know when its complete
+			// because if it is, then need to update the model
+			for _, v := range b.logic.People {
+				var p = NewPerson(nil)
+				p.SetFirstName(v.FirstName)
+				p.SetLastName(v.LastName)
+				p.SetEmail(v.Email)
+				b.sModel.AddPerson(p)
+			}
+		}
+		//updates the front end
+		informant(c, true) //we don't know how long it will take
+	}
+	b.logic.SearchForMatches(regex, modelUpdater)
 }
 //the interface needs to know how to inform the front end on progress
 //so takes a function that takes a value that the front end will use
@@ -121,7 +129,6 @@ func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64, boo
 		var c float64
 		c = 0.0
 		for (c < 1.0) {
-			fmt.Printf("sending %.2f\r\n", c)
 			informant(c, false) //we know how long this process will take
 			time.Sleep(1 * time.Second)
 			c = c + 0.1
