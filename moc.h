@@ -8,12 +8,12 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
-class PersonModel;
-void PersonModel_PersonModel_QRegisterMetaTypes();
 class QmlBridge;
 void QmlBridge_QmlBridge_QRegisterMetaTypes();
 class Person;
 void Person_Person_QRegisterMetaTypes();
+class PersonModel;
+void PersonModel_PersonModel_QRegisterMetaTypes();
 extern "C" {
 #endif
 
@@ -243,7 +243,11 @@ void QmlBridge_UpdateSettings(void* ptr, struct Moc_PackedString author, struct 
 void QmlBridge_ConnectSendTime(void* ptr);
 void QmlBridge_DisconnectSendTime(void* ptr);
 void QmlBridge_SendTime(void* ptr, struct Moc_PackedString data);
+void QmlBridge_ConnectUpdateProcessStatus(void* ptr);
+void QmlBridge_DisconnectUpdateProcessStatus(void* ptr);
+void QmlBridge_UpdateProcessStatus(void* ptr, double c);
 struct Moc_PackedString QmlBridge_Calculator(void* ptr, struct Moc_PackedString number1, struct Moc_PackedString number2);
+void QmlBridge_StartAsynchronousProcess(void* ptr);
 int QmlBridge_QmlBridge_QRegisterMetaType();
 int QmlBridge_QmlBridge_QRegisterMetaType2(char* typeName);
 int QmlBridge_QmlBridge_QmlRegisterType();

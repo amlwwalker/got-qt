@@ -211,6 +211,7 @@ public:
 	void Signal_UpdateLoader(QString p) { QByteArray t516b97 = p.toUtf8(); Moc_PackedString pPacked = { const_cast<char*>(t516b97.prepend("WHITESPACE").constData()+10), t516b97.size()-10 };callbackQmlBridge_UpdateLoader(this, pPacked); };
 	void Signal_UpdateSettings(QString author, QString mode, QString date, QString host, QString version, QString port, bool hotload) { QByteArray tf64cd8 = author.toUtf8(); Moc_PackedString authorPacked = { const_cast<char*>(tf64cd8.prepend("WHITESPACE").constData()+10), tf64cd8.size()-10 };QByteArray te78fe7 = mode.toUtf8(); Moc_PackedString modePacked = { const_cast<char*>(te78fe7.prepend("WHITESPACE").constData()+10), te78fe7.size()-10 };QByteArray te927d0 = date.toUtf8(); Moc_PackedString datePacked = { const_cast<char*>(te927d0.prepend("WHITESPACE").constData()+10), te927d0.size()-10 };QByteArray t86dd1c = host.toUtf8(); Moc_PackedString hostPacked = { const_cast<char*>(t86dd1c.prepend("WHITESPACE").constData()+10), t86dd1c.size()-10 };QByteArray tc69227 = version.toUtf8(); Moc_PackedString versionPacked = { const_cast<char*>(tc69227.prepend("WHITESPACE").constData()+10), tc69227.size()-10 };QByteArray t062d8a = port.toUtf8(); Moc_PackedString portPacked = { const_cast<char*>(t062d8a.prepend("WHITESPACE").constData()+10), t062d8a.size()-10 };callbackQmlBridge_UpdateSettings(this, authorPacked, modePacked, datePacked, hostPacked, versionPacked, portPacked, hotload); };
 	void Signal_SendTime(QString data) { QByteArray ta17c9a = data.toUtf8(); Moc_PackedString dataPacked = { const_cast<char*>(ta17c9a.prepend("WHITESPACE").constData()+10), ta17c9a.size()-10 };callbackQmlBridge_SendTime(this, dataPacked); };
+	void Signal_UpdateProcessStatus(qreal c) { callbackQmlBridge_UpdateProcessStatus(this, c); };
 	 ~QmlBridge() { callbackQmlBridge_DestroyQmlBridge(this); };
 	bool event(QEvent * e) { return callbackQmlBridge_Event(this, e) != 0; };
 	bool eventFilter(QObject * watched, QEvent * event) { return callbackQmlBridge_EventFilter(this, watched, event) != 0; };
@@ -227,8 +228,10 @@ signals:
 	void updateLoader(QString p);
 	void updateSettings(QString author, QString mode, QString date, QString host, QString version, QString port, bool hotload);
 	void sendTime(QString data);
+	void updateProcessStatus(qreal c);
 public slots:
 	QString calculator(QString number1, QString number2) { QByteArray t97e313 = number1.toUtf8(); Moc_PackedString number1Packed = { const_cast<char*>(t97e313.prepend("WHITESPACE").constData()+10), t97e313.size()-10 };QByteArray t0bc97d = number2.toUtf8(); Moc_PackedString number2Packed = { const_cast<char*>(t0bc97d.prepend("WHITESPACE").constData()+10), t0bc97d.size()-10 };return ({ Moc_PackedString tempVal = callbackQmlBridge_Calculator(this, number1Packed, number2Packed); QString ret = QString::fromUtf8(tempVal.data, tempVal.len); free(tempVal.data); ret; }); };
+	void startAsynchronousProcess() { callbackQmlBridge_StartAsynchronousProcess(this); };
 private:
 };
 
@@ -237,6 +240,313 @@ Q_DECLARE_METATYPE(QmlBridge*)
 
 void QmlBridge_QmlBridge_QRegisterMetaTypes() {
 }
+
+struct Moc_PackedString Person_FirstName(void* ptr)
+{
+	return ({ QByteArray td2d56b = static_cast<Person*>(ptr)->firstName().toUtf8(); Moc_PackedString { const_cast<char*>(td2d56b.prepend("WHITESPACE").constData()+10), td2d56b.size()-10 }; });
+}
+
+struct Moc_PackedString Person_FirstNameDefault(void* ptr)
+{
+	return ({ QByteArray te9c1fc = static_cast<Person*>(ptr)->firstNameDefault().toUtf8(); Moc_PackedString { const_cast<char*>(te9c1fc.prepend("WHITESPACE").constData()+10), te9c1fc.size()-10 }; });
+}
+
+void Person_SetFirstName(void* ptr, struct Moc_PackedString firstName)
+{
+	static_cast<Person*>(ptr)->setFirstName(QString::fromUtf8(firstName.data, firstName.len));
+}
+
+void Person_SetFirstNameDefault(void* ptr, struct Moc_PackedString firstName)
+{
+	static_cast<Person*>(ptr)->setFirstNameDefault(QString::fromUtf8(firstName.data, firstName.len));
+}
+
+void Person_ConnectFirstNameChanged(void* ptr)
+{
+	QObject::connect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::firstNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_FirstNameChanged));
+}
+
+void Person_DisconnectFirstNameChanged(void* ptr)
+{
+	QObject::disconnect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::firstNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_FirstNameChanged));
+}
+
+void Person_FirstNameChanged(void* ptr, struct Moc_PackedString firstName)
+{
+	static_cast<Person*>(ptr)->firstNameChanged(QString::fromUtf8(firstName.data, firstName.len));
+}
+
+struct Moc_PackedString Person_LastName(void* ptr)
+{
+	return ({ QByteArray t2d35c4 = static_cast<Person*>(ptr)->lastName().toUtf8(); Moc_PackedString { const_cast<char*>(t2d35c4.prepend("WHITESPACE").constData()+10), t2d35c4.size()-10 }; });
+}
+
+struct Moc_PackedString Person_LastNameDefault(void* ptr)
+{
+	return ({ QByteArray tdd9162 = static_cast<Person*>(ptr)->lastNameDefault().toUtf8(); Moc_PackedString { const_cast<char*>(tdd9162.prepend("WHITESPACE").constData()+10), tdd9162.size()-10 }; });
+}
+
+void Person_SetLastName(void* ptr, struct Moc_PackedString lastName)
+{
+	static_cast<Person*>(ptr)->setLastName(QString::fromUtf8(lastName.data, lastName.len));
+}
+
+void Person_SetLastNameDefault(void* ptr, struct Moc_PackedString lastName)
+{
+	static_cast<Person*>(ptr)->setLastNameDefault(QString::fromUtf8(lastName.data, lastName.len));
+}
+
+void Person_ConnectLastNameChanged(void* ptr)
+{
+	QObject::connect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::lastNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_LastNameChanged));
+}
+
+void Person_DisconnectLastNameChanged(void* ptr)
+{
+	QObject::disconnect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::lastNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_LastNameChanged));
+}
+
+void Person_LastNameChanged(void* ptr, struct Moc_PackedString lastName)
+{
+	static_cast<Person*>(ptr)->lastNameChanged(QString::fromUtf8(lastName.data, lastName.len));
+}
+
+struct Moc_PackedString Person_Email(void* ptr)
+{
+	return ({ QByteArray taba31d = static_cast<Person*>(ptr)->email().toUtf8(); Moc_PackedString { const_cast<char*>(taba31d.prepend("WHITESPACE").constData()+10), taba31d.size()-10 }; });
+}
+
+struct Moc_PackedString Person_EmailDefault(void* ptr)
+{
+	return ({ QByteArray tc63646 = static_cast<Person*>(ptr)->emailDefault().toUtf8(); Moc_PackedString { const_cast<char*>(tc63646.prepend("WHITESPACE").constData()+10), tc63646.size()-10 }; });
+}
+
+void Person_SetEmail(void* ptr, struct Moc_PackedString email)
+{
+	static_cast<Person*>(ptr)->setEmail(QString::fromUtf8(email.data, email.len));
+}
+
+void Person_SetEmailDefault(void* ptr, struct Moc_PackedString email)
+{
+	static_cast<Person*>(ptr)->setEmailDefault(QString::fromUtf8(email.data, email.len));
+}
+
+void Person_ConnectEmailChanged(void* ptr)
+{
+	QObject::connect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::emailChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_EmailChanged));
+}
+
+void Person_DisconnectEmailChanged(void* ptr)
+{
+	QObject::disconnect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::emailChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_EmailChanged));
+}
+
+void Person_EmailChanged(void* ptr, struct Moc_PackedString email)
+{
+	static_cast<Person*>(ptr)->emailChanged(QString::fromUtf8(email.data, email.len));
+}
+
+int Person_Person_QRegisterMetaType()
+{
+	return qRegisterMetaType<Person*>();
+}
+
+int Person_Person_QRegisterMetaType2(char* typeName)
+{
+	return qRegisterMetaType<Person*>(const_cast<const char*>(typeName));
+}
+
+int Person_Person_QmlRegisterType()
+{
+#ifdef QT_QML_LIB
+	return qmlRegisterType<Person>();
+#else
+	return 0;
+#endif
+}
+
+int Person_Person_QmlRegisterType2(char* uri, int versionMajor, int versionMinor, char* qmlName)
+{
+#ifdef QT_QML_LIB
+	return qmlRegisterType<Person>(const_cast<const char*>(uri), versionMajor, versionMinor, const_cast<const char*>(qmlName));
+#else
+	return 0;
+#endif
+}
+
+void* Person___dynamicPropertyNames_atList(void* ptr, int i)
+{
+	return new QByteArray(static_cast<QList<QByteArray>*>(ptr)->at(i));
+}
+
+void Person___dynamicPropertyNames_setList(void* ptr, void* i)
+{
+	static_cast<QList<QByteArray>*>(ptr)->append(*static_cast<QByteArray*>(i));
+}
+
+void* Person___dynamicPropertyNames_newList(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QByteArray>;
+}
+
+void* Person___findChildren_atList2(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
+}
+
+void Person___findChildren_setList2(void* ptr, void* i)
+{
+	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* Person___findChildren_newList2(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject*>;
+}
+
+void* Person___findChildren_atList3(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
+}
+
+void Person___findChildren_setList3(void* ptr, void* i)
+{
+	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* Person___findChildren_newList3(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject*>;
+}
+
+void* Person___findChildren_atList(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
+}
+
+void Person___findChildren_setList(void* ptr, void* i)
+{
+	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* Person___findChildren_newList(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject*>;
+}
+
+void* Person___children_atList(void* ptr, int i)
+{
+	return const_cast<QObject*>(static_cast<QList<QObject *>*>(ptr)->at(i));
+}
+
+void Person___children_setList(void* ptr, void* i)
+{
+	static_cast<QList<QObject *>*>(ptr)->append(static_cast<QObject*>(i));
+}
+
+void* Person___children_newList(void* ptr)
+{
+	Q_UNUSED(ptr);
+	return new QList<QObject *>;
+}
+
+void* Person_NewPerson(void* parent)
+{
+	if (dynamic_cast<QCameraImageCapture*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QCameraImageCapture*>(parent));
+	} else if (dynamic_cast<QDBusPendingCallWatcher*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QDBusPendingCallWatcher*>(parent));
+	} else if (dynamic_cast<QExtensionFactory*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QExtensionFactory*>(parent));
+	} else if (dynamic_cast<QExtensionManager*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QExtensionManager*>(parent));
+	} else if (dynamic_cast<QGraphicsObject*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QGraphicsObject*>(parent));
+	} else if (dynamic_cast<QGraphicsWidget*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QGraphicsWidget*>(parent));
+	} else if (dynamic_cast<QLayout*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QLayout*>(parent));
+	} else if (dynamic_cast<QMediaPlaylist*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QMediaPlaylist*>(parent));
+	} else if (dynamic_cast<QMediaRecorder*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QMediaRecorder*>(parent));
+	} else if (dynamic_cast<QOffscreenSurface*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QOffscreenSurface*>(parent));
+	} else if (dynamic_cast<QPaintDeviceWindow*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QPaintDeviceWindow*>(parent));
+	} else if (dynamic_cast<QPdfWriter*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QPdfWriter*>(parent));
+	} else if (dynamic_cast<QQuickItem*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QQuickItem*>(parent));
+	} else if (dynamic_cast<QRadioData*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QRadioData*>(parent));
+	} else if (dynamic_cast<QSignalSpy*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QSignalSpy*>(parent));
+	} else if (dynamic_cast<QWidget*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QWidget*>(parent));
+	} else if (dynamic_cast<QWindow*>(static_cast<QObject*>(parent))) {
+		return new Person(static_cast<QWindow*>(parent));
+	} else {
+		return new Person(static_cast<QObject*>(parent));
+	}
+}
+
+void Person_DestroyPerson(void* ptr)
+{
+	static_cast<Person*>(ptr)->~Person();
+}
+
+void Person_DestroyPersonDefault(void* ptr)
+{
+	Q_UNUSED(ptr);
+
+}
+
+char Person_EventDefault(void* ptr, void* e)
+{
+	return static_cast<Person*>(ptr)->QObject::event(static_cast<QEvent*>(e));
+}
+
+char Person_EventFilterDefault(void* ptr, void* watched, void* event)
+{
+	return static_cast<Person*>(ptr)->QObject::eventFilter(static_cast<QObject*>(watched), static_cast<QEvent*>(event));
+}
+
+void Person_ChildEventDefault(void* ptr, void* event)
+{
+	static_cast<Person*>(ptr)->QObject::childEvent(static_cast<QChildEvent*>(event));
+}
+
+void Person_ConnectNotifyDefault(void* ptr, void* sign)
+{
+	static_cast<Person*>(ptr)->QObject::connectNotify(*static_cast<QMetaMethod*>(sign));
+}
+
+void Person_CustomEventDefault(void* ptr, void* event)
+{
+	static_cast<Person*>(ptr)->QObject::customEvent(static_cast<QEvent*>(event));
+}
+
+void Person_DeleteLaterDefault(void* ptr)
+{
+	static_cast<Person*>(ptr)->QObject::deleteLater();
+}
+
+void Person_DisconnectNotifyDefault(void* ptr, void* sign)
+{
+	static_cast<Person*>(ptr)->QObject::disconnectNotify(*static_cast<QMetaMethod*>(sign));
+}
+
+void Person_TimerEventDefault(void* ptr, void* event)
+{
+	static_cast<Person*>(ptr)->QObject::timerEvent(static_cast<QTimerEvent*>(event));
+}
+
+
 
 void PersonModel_AddPerson(void* ptr, void* v0)
 {
@@ -1174,11 +1484,31 @@ void QmlBridge_SendTime(void* ptr, struct Moc_PackedString data)
 	static_cast<QmlBridge*>(ptr)->sendTime(QString::fromUtf8(data.data, data.len));
 }
 
+void QmlBridge_ConnectUpdateProcessStatus(void* ptr)
+{
+	QObject::connect(static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(qreal)>(&QmlBridge::updateProcessStatus), static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(qreal)>(&QmlBridge::Signal_UpdateProcessStatus));
+}
+
+void QmlBridge_DisconnectUpdateProcessStatus(void* ptr)
+{
+	QObject::disconnect(static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(qreal)>(&QmlBridge::updateProcessStatus), static_cast<QmlBridge*>(ptr), static_cast<void (QmlBridge::*)(qreal)>(&QmlBridge::Signal_UpdateProcessStatus));
+}
+
+void QmlBridge_UpdateProcessStatus(void* ptr, double c)
+{
+	static_cast<QmlBridge*>(ptr)->updateProcessStatus(c);
+}
+
 struct Moc_PackedString QmlBridge_Calculator(void* ptr, struct Moc_PackedString number1, struct Moc_PackedString number2)
 {
 	QString returnArg;
 	QMetaObject::invokeMethod(static_cast<QmlBridge*>(ptr), "calculator", Q_RETURN_ARG(QString, returnArg), Q_ARG(QString, QString::fromUtf8(number1.data, number1.len)), Q_ARG(QString, QString::fromUtf8(number2.data, number2.len)));
 	return ({ QByteArray t8e5b69 = returnArg.toUtf8(); Moc_PackedString { const_cast<char*>(t8e5b69.prepend("WHITESPACE").constData()+10), t8e5b69.size()-10 }; });
+}
+
+void QmlBridge_StartAsynchronousProcess(void* ptr)
+{
+	QMetaObject::invokeMethod(static_cast<QmlBridge*>(ptr), "startAsynchronousProcess");
 }
 
 int QmlBridge_QmlBridge_QRegisterMetaType()
@@ -1379,313 +1709,6 @@ void QmlBridge_DisconnectNotifyDefault(void* ptr, void* sign)
 void QmlBridge_TimerEventDefault(void* ptr, void* event)
 {
 	static_cast<QmlBridge*>(ptr)->QObject::timerEvent(static_cast<QTimerEvent*>(event));
-}
-
-
-
-struct Moc_PackedString Person_FirstName(void* ptr)
-{
-	return ({ QByteArray td2d56b = static_cast<Person*>(ptr)->firstName().toUtf8(); Moc_PackedString { const_cast<char*>(td2d56b.prepend("WHITESPACE").constData()+10), td2d56b.size()-10 }; });
-}
-
-struct Moc_PackedString Person_FirstNameDefault(void* ptr)
-{
-	return ({ QByteArray te9c1fc = static_cast<Person*>(ptr)->firstNameDefault().toUtf8(); Moc_PackedString { const_cast<char*>(te9c1fc.prepend("WHITESPACE").constData()+10), te9c1fc.size()-10 }; });
-}
-
-void Person_SetFirstName(void* ptr, struct Moc_PackedString firstName)
-{
-	static_cast<Person*>(ptr)->setFirstName(QString::fromUtf8(firstName.data, firstName.len));
-}
-
-void Person_SetFirstNameDefault(void* ptr, struct Moc_PackedString firstName)
-{
-	static_cast<Person*>(ptr)->setFirstNameDefault(QString::fromUtf8(firstName.data, firstName.len));
-}
-
-void Person_ConnectFirstNameChanged(void* ptr)
-{
-	QObject::connect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::firstNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_FirstNameChanged));
-}
-
-void Person_DisconnectFirstNameChanged(void* ptr)
-{
-	QObject::disconnect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::firstNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_FirstNameChanged));
-}
-
-void Person_FirstNameChanged(void* ptr, struct Moc_PackedString firstName)
-{
-	static_cast<Person*>(ptr)->firstNameChanged(QString::fromUtf8(firstName.data, firstName.len));
-}
-
-struct Moc_PackedString Person_LastName(void* ptr)
-{
-	return ({ QByteArray t2d35c4 = static_cast<Person*>(ptr)->lastName().toUtf8(); Moc_PackedString { const_cast<char*>(t2d35c4.prepend("WHITESPACE").constData()+10), t2d35c4.size()-10 }; });
-}
-
-struct Moc_PackedString Person_LastNameDefault(void* ptr)
-{
-	return ({ QByteArray tdd9162 = static_cast<Person*>(ptr)->lastNameDefault().toUtf8(); Moc_PackedString { const_cast<char*>(tdd9162.prepend("WHITESPACE").constData()+10), tdd9162.size()-10 }; });
-}
-
-void Person_SetLastName(void* ptr, struct Moc_PackedString lastName)
-{
-	static_cast<Person*>(ptr)->setLastName(QString::fromUtf8(lastName.data, lastName.len));
-}
-
-void Person_SetLastNameDefault(void* ptr, struct Moc_PackedString lastName)
-{
-	static_cast<Person*>(ptr)->setLastNameDefault(QString::fromUtf8(lastName.data, lastName.len));
-}
-
-void Person_ConnectLastNameChanged(void* ptr)
-{
-	QObject::connect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::lastNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_LastNameChanged));
-}
-
-void Person_DisconnectLastNameChanged(void* ptr)
-{
-	QObject::disconnect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::lastNameChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_LastNameChanged));
-}
-
-void Person_LastNameChanged(void* ptr, struct Moc_PackedString lastName)
-{
-	static_cast<Person*>(ptr)->lastNameChanged(QString::fromUtf8(lastName.data, lastName.len));
-}
-
-struct Moc_PackedString Person_Email(void* ptr)
-{
-	return ({ QByteArray taba31d = static_cast<Person*>(ptr)->email().toUtf8(); Moc_PackedString { const_cast<char*>(taba31d.prepend("WHITESPACE").constData()+10), taba31d.size()-10 }; });
-}
-
-struct Moc_PackedString Person_EmailDefault(void* ptr)
-{
-	return ({ QByteArray tc63646 = static_cast<Person*>(ptr)->emailDefault().toUtf8(); Moc_PackedString { const_cast<char*>(tc63646.prepend("WHITESPACE").constData()+10), tc63646.size()-10 }; });
-}
-
-void Person_SetEmail(void* ptr, struct Moc_PackedString email)
-{
-	static_cast<Person*>(ptr)->setEmail(QString::fromUtf8(email.data, email.len));
-}
-
-void Person_SetEmailDefault(void* ptr, struct Moc_PackedString email)
-{
-	static_cast<Person*>(ptr)->setEmailDefault(QString::fromUtf8(email.data, email.len));
-}
-
-void Person_ConnectEmailChanged(void* ptr)
-{
-	QObject::connect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::emailChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_EmailChanged));
-}
-
-void Person_DisconnectEmailChanged(void* ptr)
-{
-	QObject::disconnect(static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::emailChanged), static_cast<Person*>(ptr), static_cast<void (Person::*)(QString)>(&Person::Signal_EmailChanged));
-}
-
-void Person_EmailChanged(void* ptr, struct Moc_PackedString email)
-{
-	static_cast<Person*>(ptr)->emailChanged(QString::fromUtf8(email.data, email.len));
-}
-
-int Person_Person_QRegisterMetaType()
-{
-	return qRegisterMetaType<Person*>();
-}
-
-int Person_Person_QRegisterMetaType2(char* typeName)
-{
-	return qRegisterMetaType<Person*>(const_cast<const char*>(typeName));
-}
-
-int Person_Person_QmlRegisterType()
-{
-#ifdef QT_QML_LIB
-	return qmlRegisterType<Person>();
-#else
-	return 0;
-#endif
-}
-
-int Person_Person_QmlRegisterType2(char* uri, int versionMajor, int versionMinor, char* qmlName)
-{
-#ifdef QT_QML_LIB
-	return qmlRegisterType<Person>(const_cast<const char*>(uri), versionMajor, versionMinor, const_cast<const char*>(qmlName));
-#else
-	return 0;
-#endif
-}
-
-void* Person___dynamicPropertyNames_atList(void* ptr, int i)
-{
-	return new QByteArray(static_cast<QList<QByteArray>*>(ptr)->at(i));
-}
-
-void Person___dynamicPropertyNames_setList(void* ptr, void* i)
-{
-	static_cast<QList<QByteArray>*>(ptr)->append(*static_cast<QByteArray*>(i));
-}
-
-void* Person___dynamicPropertyNames_newList(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QByteArray>;
-}
-
-void* Person___findChildren_atList2(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
-}
-
-void Person___findChildren_setList2(void* ptr, void* i)
-{
-	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* Person___findChildren_newList2(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject*>;
-}
-
-void* Person___findChildren_atList3(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
-}
-
-void Person___findChildren_setList3(void* ptr, void* i)
-{
-	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* Person___findChildren_newList3(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject*>;
-}
-
-void* Person___findChildren_atList(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject*>*>(ptr)->at(i));
-}
-
-void Person___findChildren_setList(void* ptr, void* i)
-{
-	static_cast<QList<QObject*>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* Person___findChildren_newList(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject*>;
-}
-
-void* Person___children_atList(void* ptr, int i)
-{
-	return const_cast<QObject*>(static_cast<QList<QObject *>*>(ptr)->at(i));
-}
-
-void Person___children_setList(void* ptr, void* i)
-{
-	static_cast<QList<QObject *>*>(ptr)->append(static_cast<QObject*>(i));
-}
-
-void* Person___children_newList(void* ptr)
-{
-	Q_UNUSED(ptr);
-	return new QList<QObject *>;
-}
-
-void* Person_NewPerson(void* parent)
-{
-	if (dynamic_cast<QCameraImageCapture*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QCameraImageCapture*>(parent));
-	} else if (dynamic_cast<QDBusPendingCallWatcher*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QDBusPendingCallWatcher*>(parent));
-	} else if (dynamic_cast<QExtensionFactory*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QExtensionFactory*>(parent));
-	} else if (dynamic_cast<QExtensionManager*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QExtensionManager*>(parent));
-	} else if (dynamic_cast<QGraphicsObject*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QGraphicsObject*>(parent));
-	} else if (dynamic_cast<QGraphicsWidget*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QGraphicsWidget*>(parent));
-	} else if (dynamic_cast<QLayout*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QLayout*>(parent));
-	} else if (dynamic_cast<QMediaPlaylist*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QMediaPlaylist*>(parent));
-	} else if (dynamic_cast<QMediaRecorder*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QMediaRecorder*>(parent));
-	} else if (dynamic_cast<QOffscreenSurface*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QOffscreenSurface*>(parent));
-	} else if (dynamic_cast<QPaintDeviceWindow*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QPaintDeviceWindow*>(parent));
-	} else if (dynamic_cast<QPdfWriter*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QPdfWriter*>(parent));
-	} else if (dynamic_cast<QQuickItem*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QQuickItem*>(parent));
-	} else if (dynamic_cast<QRadioData*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QRadioData*>(parent));
-	} else if (dynamic_cast<QSignalSpy*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QSignalSpy*>(parent));
-	} else if (dynamic_cast<QWidget*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QWidget*>(parent));
-	} else if (dynamic_cast<QWindow*>(static_cast<QObject*>(parent))) {
-		return new Person(static_cast<QWindow*>(parent));
-	} else {
-		return new Person(static_cast<QObject*>(parent));
-	}
-}
-
-void Person_DestroyPerson(void* ptr)
-{
-	static_cast<Person*>(ptr)->~Person();
-}
-
-void Person_DestroyPersonDefault(void* ptr)
-{
-	Q_UNUSED(ptr);
-
-}
-
-char Person_EventDefault(void* ptr, void* e)
-{
-	return static_cast<Person*>(ptr)->QObject::event(static_cast<QEvent*>(e));
-}
-
-char Person_EventFilterDefault(void* ptr, void* watched, void* event)
-{
-	return static_cast<Person*>(ptr)->QObject::eventFilter(static_cast<QObject*>(watched), static_cast<QEvent*>(event));
-}
-
-void Person_ChildEventDefault(void* ptr, void* event)
-{
-	static_cast<Person*>(ptr)->QObject::childEvent(static_cast<QChildEvent*>(event));
-}
-
-void Person_ConnectNotifyDefault(void* ptr, void* sign)
-{
-	static_cast<Person*>(ptr)->QObject::connectNotify(*static_cast<QMetaMethod*>(sign));
-}
-
-void Person_CustomEventDefault(void* ptr, void* event)
-{
-	static_cast<Person*>(ptr)->QObject::customEvent(static_cast<QEvent*>(event));
-}
-
-void Person_DeleteLaterDefault(void* ptr)
-{
-	static_cast<Person*>(ptr)->QObject::deleteLater();
-}
-
-void Person_DisconnectNotifyDefault(void* ptr, void* sign)
-{
-	static_cast<Person*>(ptr)->QObject::disconnectNotify(*static_cast<QMetaMethod*>(sign));
-}
-
-void Person_TimerEventDefault(void* ptr, void* event)
-{
-	static_cast<Person*>(ptr)->QObject::timerEvent(static_cast<QTimerEvent*>(event));
 }
 
 

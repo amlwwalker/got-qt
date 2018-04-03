@@ -5,12 +5,16 @@ import QtQuick.Controls.Material 2.0
 
 Popup {
     id: popup
-    closePolicy: Popup.NoAutoClose
     bottomMargin: 80
     background: Rectangle{
         color: "#ddd"
-        radius: 10
+        radius: 3
     }
+
+    height: 40
+    modal: true
+    focus: true
+    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
     Timer {
         id: toastTimer
         interval: 3000
@@ -23,8 +27,10 @@ Popup {
         id: toastLabel
         leftPadding: 16
         rightPadding: 16
-        font.pixelSize: 16
+        font.pixelSize: 14
         color: "black"
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
     } // toastLabel
     onAboutToShow: {
         toastTimer.start()

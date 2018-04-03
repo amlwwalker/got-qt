@@ -14,9 +14,11 @@ type QmlBridge struct {
     _ func(p string)        `signal:"updateLoader"`
     _ func(author, mode, date, host, version, port string, hotload bool)        `signal:"updateSettings"`
     _ func(data string) 	`signal:"sendTime"`
+    _ func(c float64) 	`signal:"updateProcessStatus"`
 
     //requests from qml
     _ func(number1, number2 string) string `slot:"calculator"`
+    _ func() `slot:"startAsynchronousProcess"`
 }
 //setup functions to communicate between front end and back end
 
@@ -31,6 +33,9 @@ func (q *QmlBridge) ConfigureBridge(config Config) {
 	//configure calculator
 	q.ConnectCalculator(func(number1, number2 string) string {
 	    return addingNumbers(number1, number2)
+	})
+	q.ConnectStartAsynchronousProcess(func() {
+	    q.startAsynchronousProcess()
 	})
 		//example signalling the frontend with settings
 	go func() {
@@ -52,6 +57,13 @@ func (q *QmlBridge) sendCurrentTime() {
 		}
 	}()
 }
+func (q *QmlBridge) startAsynchronousProcess() {
+	//inform process has started
+	//so this needs to be signaled to start a long process.
+	//the frontend will assume a value of 1.0 is process complete
+	q.UpdateProcessStatus(0.0)
+	q.business.startAsynchronousRoutine(q.UpdateProcessStatus)
+}
 //example of handling a receive from frontend via slot
 func addingNumbers(number1, number2 string) string {
 	fmt.Println("addingNumbers")
@@ -72,6 +84,25 @@ func (b *BusinessInterface) configureInterface() {
 	b.fModel = NewPersonModel(nil)
 }
 
+//the interface needs to know how to inform the front end on progress
+//so takes a function that takes a value that the front end will use
+func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64)) {
+	//on a go routine, count up to 10
+	//each tick, inform the front end of your percentage progress
+	//when it reaches ten, inform the front end it is complete
+
+	go func() {
+		var c float64
+		c = 0.0
+		for (c < 1.0) {
+			fmt.Printf("sending %.2f\r\n", c)
+			informant(c)
+			time.Sleep(1 * time.Second)
+			c = c + 0.1
+		}
+		return
+	}()
+}
 func (b *BusinessInterface) demo() {
 	var p = NewPerson(nil)
 	p.SetFirstName("john")

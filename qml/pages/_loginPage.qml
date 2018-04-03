@@ -25,11 +25,7 @@ ScrollablePage {
             id: popup
             x: parent.width / 10
             y: (page.height * 4) / 5
-            width: (parent.width * 4) / 5
-            height: 48
-            modal: true
-            focus: true
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+            width: (page.width * 4) / 5
         }
         Button {
             id: button
@@ -39,7 +35,7 @@ ScrollablePage {
 
             onClicked: function() {
                 popup.open()
-                popup.start("hello")
+                popup.start("Attempting to log in")
         }
 
 

@@ -1,5 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
+<file>qml/elements/Toast.qml</file>
+<file>qml/elements/Toast.qmlc</file>
 <file>qml/images/+material/back.png</file>
 <file>qml/images/+material/back@2x.png</file>
 <file>qml/images/+material/back@3x.png</file>
@@ -39,6 +41,8 @@
 <file>qml/loader-production.qml</file>
 <file>qml/loader.qml</file>
 <file>qml/loader.qmlc</file>
+<file>qml/pages/_asynchronousPage.qml</file>
+<file>qml/pages/_asynchronousPage.qmlc</file>
 <file>qml/pages/_calculator.qmlc</file>
 <file>qml/pages/_calculatorPage.qml</file>
 <file>qml/pages/_calculatorPage.qmlc</file>
@@ -54,6 +58,8 @@
 <file>qml/pages/_loginPage.qmlc</file>
 <file>qml/pages/_searchPage.qml</file>
 <file>qml/pages/_searchPage.qmlc</file>
+<file>qml/pages/_toastPage.qml</file>
+<file>qml/pages/_toastPage.qmlc</file>
 <file>qml/pages/BusyIndicatorPage.qml</file>
 <file>qml/pages/BusyIndicatorPage.qmlc</file>
 <file>qml/pages/ButtonPage.qml</file>

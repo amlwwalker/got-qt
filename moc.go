@@ -3308,6 +3308,45 @@ func (ptr *QmlBridge) SendTime(data string) {
 	}
 }
 
+//export callbackQmlBridge_UpdateProcessStatus
+func callbackQmlBridge_UpdateProcessStatus(ptr unsafe.Pointer, c C.double) {
+	if signal := qt.GetSignal(ptr, "updateProcessStatus"); signal != nil {
+		signal.(func(float64))(float64(c))
+	}
+
+}
+
+func (ptr *QmlBridge) ConnectUpdateProcessStatus(f func(c float64)) {
+	if ptr.Pointer() != nil {
+
+		if !qt.ExistsSignal(ptr.Pointer(), "updateProcessStatus") {
+			C.QmlBridge_ConnectUpdateProcessStatus(ptr.Pointer())
+		}
+
+		if signal := qt.LendSignal(ptr.Pointer(), "updateProcessStatus"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "updateProcessStatus", func(c float64) {
+				signal.(func(float64))(c)
+				f(c)
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "updateProcessStatus", f)
+		}
+	}
+}
+
+func (ptr *QmlBridge) DisconnectUpdateProcessStatus() {
+	if ptr.Pointer() != nil {
+		C.QmlBridge_DisconnectUpdateProcessStatus(ptr.Pointer())
+		qt.DisconnectSignal(ptr.Pointer(), "updateProcessStatus")
+	}
+}
+
+func (ptr *QmlBridge) UpdateProcessStatus(c float64) {
+	if ptr.Pointer() != nil {
+		C.QmlBridge_UpdateProcessStatus(ptr.Pointer(), C.double(c))
+	}
+}
+
 //export callbackQmlBridge_Calculator
 func callbackQmlBridge_Calculator(ptr unsafe.Pointer, number1 C.struct_Moc_PackedString, number2 C.struct_Moc_PackedString) C.struct_Moc_PackedString {
 	if signal := qt.GetSignal(ptr, "calculator"); signal != nil {
@@ -3354,6 +3393,41 @@ func (ptr *QmlBridge) Calculator(number1 string, number2 string) string {
 		return cGoUnpackString(C.QmlBridge_Calculator(ptr.Pointer(), C.struct_Moc_PackedString{data: number1C, len: C.longlong(len(number1))}, C.struct_Moc_PackedString{data: number2C, len: C.longlong(len(number2))}))
 	}
 	return ""
+}
+
+//export callbackQmlBridge_StartAsynchronousProcess
+func callbackQmlBridge_StartAsynchronousProcess(ptr unsafe.Pointer) {
+	if signal := qt.GetSignal(ptr, "startAsynchronousProcess"); signal != nil {
+		signal.(func())()
+	}
+
+}
+
+func (ptr *QmlBridge) ConnectStartAsynchronousProcess(f func()) {
+	if ptr.Pointer() != nil {
+
+		if signal := qt.LendSignal(ptr.Pointer(), "startAsynchronousProcess"); signal != nil {
+			qt.ConnectSignal(ptr.Pointer(), "startAsynchronousProcess", func() {
+				signal.(func())()
+				f()
+			})
+		} else {
+			qt.ConnectSignal(ptr.Pointer(), "startAsynchronousProcess", f)
+		}
+	}
+}
+
+func (ptr *QmlBridge) DisconnectStartAsynchronousProcess() {
+	if ptr.Pointer() != nil {
+
+		qt.DisconnectSignal(ptr.Pointer(), "startAsynchronousProcess")
+	}
+}
+
+func (ptr *QmlBridge) StartAsynchronousProcess() {
+	if ptr.Pointer() != nil {
+		C.QmlBridge_StartAsynchronousProcess(ptr.Pointer())
+	}
 }
 
 func QmlBridge_QRegisterMetaType() int {

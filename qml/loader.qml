@@ -95,14 +95,6 @@ Item {
             anchors.bottom: footer.top
             Material.accent: Material.BlueGrey
         }
-        //ProgressBar {
-        //    id: progressIndicator
-        //    value: 0.75
-        //    z: 100
-        //    width: parent.width
-        //    anchors.horizontalCenter: parent.horizontalCenter
-        //    Material.accent: Material.BlueGrey
-        //}
 
         ToolBar {
             id: footer
@@ -125,6 +117,15 @@ Item {
                     horizontalAlignment: Qt.AlignHCenter
                     verticalAlignment: Qt.AlignVCenter
                     Layout.fillWidth: true
+                }
+                ProgressBar {
+                    id: progressIndicator
+                    value: 0.0
+                    visible: false
+                    z: 100
+                    width: parent.width
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Material.accent: Material.Grey
                 }
             }
         }
@@ -218,6 +219,8 @@ Item {
                 ListElement { title: "Login"; source: "pages/_loginPage.qml" }
                 ListElement { title: "Calulator"; source: "pages/_calculatorPage.qml" }
                 ListElement { title: "Clock"; source: "pages/_clockPage.qml" }
+                ListElement { title: "Toast"; source: "pages/_toastPage.qml" }
+                ListElement { title: "Asynchronous Loading"; source: "pages/_asynchronousPage.qml" }
             //demos
                 ListElement { title: "BusyIndicator"; source: "pages/BusyIndicatorPage.qml" }
                 ListElement { title: "Button"; source: "pages/ButtonPage.qml" }

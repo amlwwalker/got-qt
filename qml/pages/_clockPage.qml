@@ -18,7 +18,7 @@ Pane {
         }
 
         GroupBox {
-            title: "Title"
+            title: "Clock"
             anchors.horizontalCenter: parent.horizontalCenter
 
             Column {
