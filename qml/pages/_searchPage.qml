@@ -63,7 +63,7 @@ Pane {
             onClicked: function() {
                 footerLabel.text = "searching for " + searchContactField.text
                 searchContactField.text = ""
-                console.log('searching....')
+                QmlBridge.searchFor(searchContactField.text)
             }
         }
         ListView {
@@ -72,20 +72,13 @@ Pane {
             Layout.fillHeight: true
             clip: true
             spacing: 2
-            model: ListModel {
-                ListElement { type: "ItemDelegate"; text: "human@gmail.com" }
-                ListElement { type: "ItemDelegate"; text: "person@hotmail.com" }
-                ListElement { type: "ItemDelegate"; text: "android@protonmail.com" }
-            }
-
-            section.property: "type"
-
+            model: SearchModel
             delegate: Loader {
                 id: delegateLoader
                 width: listView.width
-                sourceComponent: delegateComponentMap[type]
+                sourceComponent: delegateComponentMap["ItemDelegate"]
 
-                property string labelText: text
+                property string labelText: email
                 property ListView view: listView
                 property int ourIndex: index
             }

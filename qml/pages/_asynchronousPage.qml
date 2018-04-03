@@ -22,23 +22,9 @@ ScrollablePage {
             width: Math.max(implicitWidth, Math.min(implicitWidth * 2, page.availableWidth / 3))
 
             onClicked: function() {
-                footerLabel.visible = false
-                progressIndicator.value = 0
-                progressIndicator.visible = true
+                globalToast.open()
+                globalToast.start("beginning process")
                 QmlBridge.startAsynchronousProcess()
-            }
-            Connections {
-                target: QmlBridge
-//Progress bar update
-                onUpdateProcessStatus: {
-                    progressIndicator.value = c
-                    if (c.toFixed(2) ==  1.0) {
-                        //process complete
-                        progressIndicator.visible = false
-                        footerLabel.text = "process complete"
-                        footerLabel.visible = true
-                    }
-                }
             }
         }
     }

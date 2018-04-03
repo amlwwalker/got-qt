@@ -4,10 +4,11 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Universal 2.0
 import Qt.labs.settings 1.0
+import "elements"
 Item {
     id: window
-    width: 360
-    height: 520
+    width: 480
+    height: 620
     visible: true
     Settings {
         id: settings
@@ -84,6 +85,13 @@ Item {
 	            }
 	        }
 	    }
+        Toast {
+            //a toast that everyone can use
+            id: globalToast
+            x: parent.width / 10
+            y: (parent.height * 4) / 5
+            width: (parent.width * 4) / 5
+        }
         BusyIndicator {
             id: loadingIndicator
             visible: true
@@ -121,11 +129,30 @@ Item {
                 ProgressBar {
                     id: progressIndicator
                     value: 0.0
+                    indeterminate: false
                     visible: false
                     z: 100
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
                     Material.accent: Material.Grey
+                }
+                Connections {
+                    target: QmlBridge
+    //Progress bar update
+                    onUpdateProcessStatus: {
+                        //initialise the viewing
+                        footerLabel.visible = false
+                        progressIndicator.visible = true
+                        progressIndicator.indeterminate = indeterminate
+                        //set the progress value (only useful when determinate)
+                        progressIndicator.value = c
+                        if (c.toFixed(2) ==  1.0) {
+                            //process complete
+                            progressIndicator.visible = false
+                            footerLabel.text = "process complete"
+                            footerLabel.visible = true
+                        }
+                    }
                 }
             }
         }

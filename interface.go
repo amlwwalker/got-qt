@@ -14,11 +14,13 @@ type QmlBridge struct {
     _ func(p string)        `signal:"updateLoader"`
     _ func(author, mode, date, host, version, port string, hotload bool)        `signal:"updateSettings"`
     _ func(data string) 	`signal:"sendTime"`
-    _ func(c float64) 	`signal:"updateProcessStatus"`
+    _ func(c float64, indeterminate bool) 	`signal:"updateProcessStatus"`
 
     //requests from qml
     _ func(number1, number2 string) string `slot:"calculator"`
     _ func() `slot:"startAsynchronousProcess"`
+    _ func(regex string) `slot:"searchFor"`
+
 }
 //setup functions to communicate between front end and back end
 
@@ -27,7 +29,7 @@ func (q *QmlBridge) ConfigureBridge(config Config) {
 	//1. configure the hotloader
 	q.business = BusinessInterface{}
 	q.business.configureInterface()
-	q.hotLoader = HotLoader{} //may not need it, defined in main.go
+	q.hotLoader = HotLoader{} //may not need it, specified in main.go
 
 	//2. Configure signals
 	//configure calculator
@@ -35,7 +37,18 @@ func (q *QmlBridge) ConfigureBridge(config Config) {
 	    return addingNumbers(number1, number2)
 	})
 	q.ConnectStartAsynchronousProcess(func() {
-	    q.startAsynchronousProcess()
+		//inform process has started
+		//so this needs to be signaled to start a long process.
+		//the frontend will assume a value of 1.0 is process complete
+		q.UpdateProcessStatus(0.0, false)
+		q.business.startAsynchronousRoutine(q.UpdateProcessStatus)
+	})
+	q.ConnectSearchFor(func(regex string) {
+		//in here we are going to add matches to the search model
+		//that way the front end will be updated live
+		//inform front end work has begun
+		q.UpdateProcessStatus(0.0, true)
+	    q.business.searchForMatches(regex, q.UpdateProcessStatus)
 	})
 		//example signalling the frontend with settings
 	go func() {
@@ -57,13 +70,6 @@ func (q *QmlBridge) sendCurrentTime() {
 		}
 	}()
 }
-func (q *QmlBridge) startAsynchronousProcess() {
-	//inform process has started
-	//so this needs to be signaled to start a long process.
-	//the frontend will assume a value of 1.0 is process complete
-	q.UpdateProcessStatus(0.0)
-	q.business.startAsynchronousRoutine(q.UpdateProcessStatus)
-}
 //example of handling a receive from frontend via slot
 func addingNumbers(number1, number2 string) string {
 	fmt.Println("addingNumbers")
@@ -84,9 +90,29 @@ func (b *BusinessInterface) configureInterface() {
 	b.fModel = NewPersonModel(nil)
 }
 
+func (b *BusinessInterface) searchForMatches(regex string, informant func(float64, bool)) {
+	//if search takes a while then the informant can alert the front end
+	var p = NewPerson(nil)
+	p.SetFirstName(regex)
+	p.SetLastName("Search")
+	p.SetEmail(regex + "@hotmail.com")
+	//just demoing using async if things are slow
+	go func() {
+		time.Sleep(1 * time.Second)
+		informant(0.3, true) //we don't know how long this will take
+		time.Sleep(1 * time.Second)
+		informant(0.5, true) //we don't know how long this will take
+		time.Sleep(1 * time.Second)
+		informant(7.0, true) //we don't know how long this will take
+		time.Sleep(1 * time.Second)
+		informant(1.0, true) //we don't know how long this will take
+		fmt.Println("found match...")
+		b.sModel.AddPerson(p)
+	}()
+}
 //the interface needs to know how to inform the front end on progress
 //so takes a function that takes a value that the front end will use
-func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64)) {
+func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64, bool)) {
 	//on a go routine, count up to 10
 	//each tick, inform the front end of your percentage progress
 	//when it reaches ten, inform the front end it is complete
@@ -96,7 +122,7 @@ func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64)) {
 		c = 0.0
 		for (c < 1.0) {
 			fmt.Printf("sending %.2f\r\n", c)
-			informant(c)
+			informant(c, false) //we know how long this process will take
 			time.Sleep(1 * time.Second)
 			c = c + 0.1
 		}

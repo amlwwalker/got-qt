@@ -4,86 +4,94 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Controls.Universal 2.0
 import Qt.labs.settings 1.0
-
+import "elements"
 Item {
     id: window
     width: 360
     height: 520
     visible: true
-
     Settings {
         id: settings
         property string style: "Default"
     }
 
     ColumnLayout {
-    	width: parent.width
-    	anchors.fill: parent
-	    ToolBar {
-	    	id: toolbar
-	        Material.foreground: "white"
+        width: parent.width
+        anchors.fill: parent
+        ToolBar {
+            id: toolbar
+            Material.foreground: "white"
             Material.background: Material.BlueGrey
-	         z: 100
+             z: 100
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-	        RowLayout {
-	            spacing: 20
-	            anchors.fill: parent
+            RowLayout {
+                spacing: 20
+                anchors.fill: parent
 
-	            ToolButton {
-	                contentItem: Image {
-	                    fillMode: Image.Pad
-	                    horizontalAlignment: Image.AlignHCenter
-	                    verticalAlignment: Image.AlignVCenter
-	                    source: stackView.depth > 1 ? "images/back.png" : "images/drawer.png"
-	                }
-	                onClicked: {
-	                    if (stackView.depth > 1) {
-	                        stackView.pop()
-	                        listView.currentIndex = -1
-	                    } else {
-	                        drawer.open()
-	                    }
-	                }
-	            }
+                ToolButton {
+                    contentItem: Image {
+                        fillMode: Image.Pad
+                        horizontalAlignment: Image.AlignHCenter
+                        verticalAlignment: Image.AlignVCenter
+                        source: "images/drawer.png" //stackView.depth > 1 ? "images/back.png" : "images/drawer.png"
+                    }
+                    onClicked: {
+                        //if (stackView.depth > 1) {
+                        //    stackView.pop()
+                        //    listView.currentIndex = -1
+                        //} else {
+                        //    drawer.open()
+                        //}
+                        drawer.open()
+                    }
+                }
 
-	            Label {
-	                id: titleLabel
-	                text: listView.currentItem ? listView.currentItem.text : "My App"
-	                font.pixelSize: 20
-	                elide: Label.ElideRight
-	                horizontalAlignment: Qt.AlignHCenter
-	                verticalAlignment: Qt.AlignVCenter
-	                Layout.fillWidth: true
-	            }
+                Label {
+                    id: titleLabel
+                    text: listView.currentItem ? listView.currentItem.text : "My App"
+                    font.pixelSize: 20
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignHCenter
+                    verticalAlignment: Qt.AlignVCenter
+                    Layout.fillWidth: true
+                }
+                ToolButton {
+                    id: settingsViewer
+                    contentItem: Image {
+                        fillMode: Image.Pad
+                        horizontalAlignment: Image.AlignHCenter
+                        verticalAlignment: Image.AlignVCenter
+                        source: "qrc:/qml/images/menu.png"
+                    }
+                    onClicked: optionsMenu.open()
 
-	            ToolButton {
-	                contentItem: Image {
-	                    fillMode: Image.Pad
-	                    horizontalAlignment: Image.AlignHCenter
-	                    verticalAlignment: Image.AlignVCenter
-	                    source: "qrc:/qml/images/menu.png"
-	                }
-	                onClicked: optionsMenu.open()
-
-	                Menu {
-	                    id: optionsMenu
-	                    x: parent.width - width
-	                    transformOrigin: Menu.TopRight
-
-	                    MenuItem {
-	                        text: "Settings"
-	                        onTriggered: settingsPopup.open()
-	                    }
-	                    MenuItem {
-	                        text: "About"
-	                        onTriggered: aboutDialog.open()
-	                    }
-	                }
-	            }
-	        }
-	    }
+                    Menu {
+                        id: optionsMenu
+                        MenuItem {
+                            text: "Settings"
+                            onTriggered: settingsPopup.open()
+                        }
+                        MenuItem {
+                            text: "About"
+                            onTriggered: aboutDialog.open()
+                        }
+                        MenuItem {
+                            text: "Log Out"
+                            onTriggered: logoutDialog.open()
+                        }
+                    }
+                }
+            }
+        }
+        Toast {
+            //a toast that everyone can use
+            id: globalToast
+            x: parent.width / 10
+            y: (parent.height * 4) / 5
+            width: (parent.width * 4) / 5
+        }
         BusyIndicator {
             id: loadingIndicator
             visible: true
@@ -95,6 +103,7 @@ Item {
             anchors.bottom: footer.top
             Material.accent: Material.BlueGrey
         }
+
         ToolBar {
             id: footer
             Material.foreground: "white"
@@ -117,15 +126,43 @@ Item {
                     verticalAlignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                 }
+                ProgressBar {
+                    id: progressIndicator
+                    value: 0.0
+                    indeterminate: false
+                    visible: false
+                    z: 100
+                    width: parent.width
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Material.accent: Material.Grey
+                }
+                Connections {
+                    target: QmlBridge
+    //Progress bar update
+                    onUpdateProcessStatus: {
+                        //initialise the viewing
+                        footerLabel.visible = false
+                        progressIndicator.visible = true
+                        progressIndicator.indeterminate = indeterminate
+                        //set the progress value (only useful when determinate)
+                        progressIndicator.value = c
+                        if (c.toFixed(2) ==  1.0) {
+                            //process complete
+                            progressIndicator.visible = false
+                            footerLabel.text = "process complete"
+                            footerLabel.visible = true
+                        }
+                    }
+                }
             }
         }
         //content holder
-	    StackView {
-	        id: stackView
-	        anchors.top: toolbar.bottom
-	        anchors.left: parent.left
-	        anchors.right: parent.right
-	        anchors.bottom: footer.top
+        StackView {
+            id: stackView
+            anchors.top: toolbar.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: footer.top
             anchors.margins: 10
               Connections {
                 target: QmlBridge
@@ -137,6 +174,7 @@ Item {
                     loadingIndicator.visible = true
                 }
               }
+
 //animates the loader for 1 second when respawning a page for effect
                 PropertyAnimation {
                     running: true
@@ -145,40 +183,34 @@ Item {
                     to: false
                     duration: 2000
                 }
-	        initialItem: Pane {
-	            id: pane
 
-	            Image {
-	                id: logo
-	                width: pane.availableWidth / 2
-	                height: pane.availableHeight / 2
-	                anchors.centerIn: parent
-	                anchors.verticalCenterOffset: -50
-	                fillMode: Image.PreserveAspectFit
-	                source: "qrc:/qml/images/qt-logo.png"
-	            }
+            initialItem: Pane {
+                id: pane
 
-	            Label {
-	                text: "Qt is a set of controls that can be used to build complete interfaces in Qt Quick."
-	                anchors.margins: 20
-	                anchors.top: logo.bottom
-	                anchors.left: parent.left
-	                anchors.right: parent.right
-	                anchors.bottom: arrow.top
-	                horizontalAlignment: Label.AlignHCenter
-	                verticalAlignment: Label.AlignVCenter
-	                wrapMode: Label.Wrap
-	            }
+                Image {
+                    id: logo
+                    width: pane.availableWidth / 2
+                    height: pane.availableHeight / 2
+                    anchors.centerIn: parent
+                    anchors.verticalCenterOffset: -50
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/qml/images/qt-logo.png"
+                }
 
-	            Image {
-	                id: arrow
-	                source: "qrc:/qml/images/arrow.png"
-	                anchors.left: parent.left
-	                anchors.bottom: parent.bottom
-	            }
-	        }
-	    }
-	}
+                Label {
+                    text: "Qt is a set of controls that can be used to build complete interfaces in Qt Quick."
+                    anchors.margins: 20
+                    anchors.top: logo.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    horizontalAlignment: Label.AlignHCenter
+                    verticalAlignment: Label.AlignVCenter
+                    wrapMode: Label.Wrap
+                }
+
+            }
+        }
+    }
     //menu
     Drawer {
         id: drawer
@@ -209,7 +241,13 @@ Item {
             //application
                 ListElement { title: "Contacts"; source: "qrc:/qml/pages/_contactsPage.qml" }
                 ListElement { title: "Files"; source: "qrc:/qml/pages/_filelistPage.qml" }
+                ListElement { title: "Downloads"; source: "qrc:/qml/pages/_downloadsPage.qml" }
+                ListElement { title: "Search"; source: "qrc:/qml/pages/_searchPage.qml" }
                 ListElement { title: "Login"; source: "qrc:/qml/pages/_loginPage.qml" }
+                ListElement { title: "Calulator"; source: "qrc:/qml/pages/_calculatorPage.qml" }
+                ListElement { title: "Clock"; source: "qrc:/qml/pages/_clockPage.qml" }
+                ListElement { title: "Toast"; source: "qrc:/qml/pages/_toastPage.qml" }
+                ListElement { title: "Asynchronous Loading"; source: "qrc:/qml/pages/_asynchronousPage.qml" }
             //demos
                 ListElement { title: "BusyIndicator"; source: "qrc:/qml/pages/BusyIndicatorPage.qml" }
                 ListElement { title: "Button"; source: "qrc:/qml/pages/ButtonPage.qml" }
@@ -270,39 +308,52 @@ Item {
             spacing: 20
 
             Label {
-                text: "Settings"
+                text: "Configuration"
                 font.bold: true
             }
 
             RowLayout {
                 spacing: 10
 
-                Label {
-                    text: "Style:"
+                GridLayout {
+                    id: grid
+                    columns: 2
+
+                    Text { text: "Hotloading"; font.bold: true; }
+                    Text { id: hotloading; text: "waiting"; color: "red" }
+                    Text { text: "Version"; font.bold: true; }
+                    Text { id: host; text: "waiting"; color: "red" }
                 }
 
-                ComboBox {
-                    id: styleBox
-                    property int styleIndex: -1
-                    model: ["Default", "Material", "Universal"]
-                    Component.onCompleted: {
-                        styleIndex = find(settings.style, Qt.MatchFixedString)
-                        if (styleIndex !== -1)
-                            currentIndex = styleIndex
-                    }
-                    Layout.fillWidth: true
+              Connections {
+                target: QmlBridge
+                onUpdateSettings: {
+                    footerLabel.text = version
+                    hotloading.text = hotload
                 }
+              }
+                //ComboBox {
+                //    id: styleBox
+                //    property int styleIndex: -1
+                //    model: ["Default", "Material", "Universal"]
+                //    Component.onCompleted: {
+                //        styleIndex = find(settings.style, Qt.MatchFixedString)
+                //        if (styleIndex !== -1)
+                //            currentIndex = styleIndex
+                //    }
+                //    Layout.fillWidth: true
+                //}
             }
 
-            Label {
-                text: "Restart required"
-                color: "#e41e25"
-                opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
+            //Label {
+            //    text: "Restart required"
+            //    color: "#e41e25"
+            //    opacity: styleBox.currentIndex !== styleBox.styleIndex ? 1.0 : 0.0
+            //    horizontalAlignment: Label.AlignHCenter
+            //    verticalAlignment: Label.AlignVCenter
+            //    Layout.fillWidth: true
+            //    Layout.fillHeight: true
+            //}
 
             RowLayout {
                 spacing: 10
@@ -311,7 +362,7 @@ Item {
                     id: okButton
                     text: "Ok"
                     onClicked: {
-                        settings.style = styleBox.displayText
+                        //settings.style = styleBox.displayText
                         settingsPopup.close()
                     }
 
@@ -327,7 +378,7 @@ Item {
                     id: cancelButton
                     text: "Cancel"
                     onClicked: {
-                        styleBox.currentIndex = styleBox.styleIndex
+                        //styleBox.currentIndex = styleBox.styleIndex
                         settingsPopup.close()
                     }
 
@@ -340,7 +391,40 @@ Item {
             }
         }
     }
+    Popup {
+        id: logoutDialog
+        modal: true
+        focus: true
+        x: (window.width - width) / 2
+        y: window.height / 6
+        width: Math.min(window.width, window.height) / 3 * 2
+        contentHeight: logoutColumn.height
 
+        Column {
+            id: logoutColumn
+            spacing: 20
+
+            Label {
+                text: "Logout"
+                font.bold: true
+            }
+
+            Label {
+                width: logoutDialog.availableWidth
+                text: "Logging out is really only necessary if you share a computer with others. If you want to continue, click logout below otherwise click elsewhere on the window"
+                wrapMode: Label.Wrap
+                font.pixelSize: 12
+            }
+            Button {
+                id: searchButton
+                text: "Logout"
+                width: logoutDialog.availableWidth
+                onClicked: function() {
+                    console.log('logging out')
+                }
+            }
+        }
+    }
     Popup {
         id: aboutDialog
         modal: true

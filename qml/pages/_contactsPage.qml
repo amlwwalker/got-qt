@@ -94,9 +94,6 @@ Pane {
             Layout.fillHeight: true
             clip: true
             model: ContactsModel
-
-            section.property: "type"
-
             delegate: Loader {
                 id: delegateLoader
                 width: listView.width
