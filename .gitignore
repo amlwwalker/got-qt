@@ -9,4 +9,8 @@ deploy/
 *.qrc
 
 #file prefixes
-moc_*.*
+moc*.*
+rcc*.*
+
+#binary files
+./got-qt
