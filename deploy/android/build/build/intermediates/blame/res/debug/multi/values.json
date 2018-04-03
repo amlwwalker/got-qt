@@ -7,51 +7,51 @@
                     "startLine": 2,
                     "startColumn": 4,
                     "startOffset": 55,
-                    "endLine": 472,
+                    "endLine": 729,
                     "endColumn": 12,
-                    "endOffset": 65109
+                    "endOffset": 100499
                 },
                 "from": {
                     "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
                     "position": {
-                        "startLine": 79,
+                        "startLine": 91,
                         "startColumn": 4,
-                        "startOffset": 5003,
-                        "endLine": 549,
+                        "startOffset": 6343,
+                        "endLine": 818,
                         "endColumn": 12,
-                        "endOffset": 70057
+                        "endOffset": 106787
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 473,
+                    "startLine": 730,
                     "startColumn": 4,
-                    "startOffset": 65114,
-                    "endLine": 514,
+                    "startOffset": 100504,
+                    "endLine": 782,
                     "endColumn": 12,
-                    "endOffset": 69217
+                    "endOffset": 105917
                 },
                 "from": {
                     "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
                     "position": {
-                        "startLine": 37,
+                        "startLine": 38,
                         "startColumn": 4,
-                        "startOffset": 895,
-                        "endLine": 78,
+                        "startOffset": 925,
+                        "endLine": 90,
                         "endColumn": 12,
-                        "endOffset": 4998
+                        "endOffset": 6338
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 515,
+                    "startLine": 783,
                     "startColumn": 4,
-                    "startOffset": 69222,
-                    "endLine": 520,
+                    "startOffset": 105922,
+                    "endLine": 788,
                     "endColumn": 12,
-                    "endOffset": 69329
+                    "endOffset": 106029
                 },
                 "from": {
                     "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
@@ -67,12 +67,12 @@
             },
             {
                 "to": {
-                    "startLine": 521,
+                    "startLine": 789,
                     "startColumn": 4,
-                    "startOffset": 69334,
-                    "endLine": 540,
+                    "startOffset": 106034,
+                    "endLine": 809,
                     "endColumn": 13,
-                    "endOffset": 69818
+                    "endOffset": 106548
                 },
                 "from": {
                     "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
@@ -80,20 +80,20 @@
                         "startLine": 16,
                         "startColumn": 5,
                         "startOffset": 405,
-                        "endLine": 35,
+                        "endLine": 36,
                         "endColumn": 13,
-                        "endOffset": 889
+                        "endOffset": 919
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 541,
+                    "startLine": 810,
                     "startColumn": 4,
-                    "startOffset": 69823,
-                    "endLine": 543,
+                    "startOffset": 106553,
+                    "endLine": 812,
                     "endColumn": 12,
-                    "endOffset": 69933
+                    "endOffset": 106663
                 },
                 "from": {
                     "file": "/media/sf_GOPATH0/src/github.com/amlwwalker/qt-hotreloader/deploy/android/build/res/values/libs.xml",
@@ -109,11 +109,11 @@
             },
             {
                 "to": {
-                    "startLine": 544,
+                    "startLine": 813,
                     "startColumn": 4,
-                    "startOffset": 69938,
+                    "startOffset": 106668,
                     "endColumn": 107,
-                    "endOffset": 70041
+                    "endOffset": 106771
                 },
                 "from": {
                     "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
@@ -128,11 +128,11 @@
             },
             {
                 "to": {
-                    "startLine": 545,
+                    "startLine": 814,
                     "startColumn": 4,
-                    "startOffset": 70046,
+                    "startOffset": 106776,
                     "endColumn": 121,
-                    "endOffset": 70163
+                    "endOffset": 106893
                 },
                 "from": {
                     "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
@@ -147,11 +147,11 @@
             },
             {
                 "to": {
-                    "startLine": 546,
+                    "startLine": 815,
                     "startColumn": 4,
-                    "startOffset": 70168,
+                    "startOffset": 106898,
                     "endColumn": 111,
-                    "endOffset": 70275
+                    "endOffset": 107005
                 },
                 "from": {
                     "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",
@@ -166,11 +166,11 @@
             },
             {
                 "to": {
-                    "startLine": 547,
+                    "startLine": 816,
                     "startColumn": 4,
-                    "startOffset": 70280,
+                    "startOffset": 107010,
                     "endColumn": 84,
-                    "endOffset": 70360
+                    "endOffset": 107090
                 },
                 "from": {
                     "file": "/opt/Qt/5.10.0/android_armv7/src/android/java/res/values/strings.xml",

@@ -19,19 +19,20 @@ func (h *HotLoader) initBlacklist(extensions... string) {
         h.blackList[v] = true
     }
 }
-func (h *HotLoader) checkBlacklist(fileName string) bool {
+func (h *HotLoader) checkBlacklist(fileName string, dir bool) bool {
 	if h.blackList[filepath.Ext(fileName)] == true {
 		//ignore this file
+		return true
+	}
+	if dir { //consider changes to a dir itself as ignore
+		//ignore raw directory changes
 		return true
 	}
 	return false
 }
 func (h *HotLoader) handleEvent(event watcher.Event) bool {
-	if h.checkBlacklist(event.Name()) {
-		return true
-	}
-	if event.IsDir() {
-		//ignore raw directory changes
+	if h.checkBlacklist(event.Name(), event.IsDir()) {
+		//its blacklisted
 		return true
 	}
 	fmt.Println("event occured " + event.Name() + ", type: " + event.Op.String() + ", path: " + event.Path)

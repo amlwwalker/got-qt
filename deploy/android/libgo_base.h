@@ -63,13 +63,203 @@ extern "C" {
 
 extern void go_main_wrapper();
 
+extern void callbackPerson_Constructor(void* p0);
+
+extern struct Moc_PackedString callbackPerson_FirstName(void* p0);
+
+extern void callbackPerson_SetFirstName(void* p0, struct Moc_PackedString p1);
+
+extern void callbackPerson_FirstNameChanged(void* p0, struct Moc_PackedString p1);
+
+extern struct Moc_PackedString callbackPerson_LastName(void* p0);
+
+extern void callbackPerson_SetLastName(void* p0, struct Moc_PackedString p1);
+
+extern void callbackPerson_LastNameChanged(void* p0, struct Moc_PackedString p1);
+
+extern struct Moc_PackedString callbackPerson_Email(void* p0);
+
+extern void callbackPerson_SetEmail(void* p0, struct Moc_PackedString p1);
+
+extern void callbackPerson_EmailChanged(void* p0, struct Moc_PackedString p1);
+
+extern void callbackPerson_DestroyPerson(void* p0);
+
+extern char callbackPerson_Event(void* p0, void* p1);
+
+extern char callbackPerson_EventFilter(void* p0, void* p1, void* p2);
+
+extern void callbackPerson_ChildEvent(void* p0, void* p1);
+
+extern void callbackPerson_ConnectNotify(void* p0, void* p1);
+
+extern void callbackPerson_CustomEvent(void* p0, void* p1);
+
+extern void callbackPerson_DeleteLater(void* p0);
+
+extern void callbackPerson_Destroyed(void* p0, void* p1);
+
+extern void callbackPerson_DisconnectNotify(void* p0, void* p1);
+
+extern void callbackPerson_ObjectNameChanged(void* p0, struct Moc_PackedString p1);
+
+extern void callbackPerson_TimerEvent(void* p0, void* p1);
+
+extern void callbackPersonModel_Constructor(void* p0);
+
+extern void callbackPersonModel_AddPerson(void* p0, void* p1);
+
+extern void callbackPersonModel_EditPerson(void* p0, int p1, struct Moc_PackedString p2, struct Moc_PackedString p3, struct Moc_PackedString p4);
+
+extern void callbackPersonModel_RemovePerson(void* p0, int p1);
+
+extern void* callbackPersonModel_Roles(void* p0);
+
+extern void callbackPersonModel_SetRoles(void* p0, struct Moc_PackedList p1);
+
+extern void callbackPersonModel_RolesChanged(void* p0, struct Moc_PackedList p1);
+
+extern void* callbackPersonModel_People(void* p0);
+
+extern void callbackPersonModel_SetPeople(void* p0, struct Moc_PackedList p1);
+
+extern void callbackPersonModel_PeopleChanged(void* p0, struct Moc_PackedList p1);
+
+extern char callbackPersonModel_DropMimeData(void* p0, void* p1, long long int p2, int p3, int p4, void* p5);
+
+extern void* callbackPersonModel_Index(void* p0, int p1, int p2, void* p3);
+
+extern void* callbackPersonModel_Sibling(void* p0, int p1, int p2, void* p3);
+
+extern long long int callbackPersonModel_Flags(void* p0, void* p1);
+
+extern char callbackPersonModel_InsertColumns(void* p0, int p1, int p2, void* p3);
+
+extern char callbackPersonModel_InsertRows(void* p0, int p1, int p2, void* p3);
+
+extern char callbackPersonModel_MoveColumns(void* p0, void* p1, int p2, int p3, void* p4, int p5);
+
+extern char callbackPersonModel_MoveRows(void* p0, void* p1, int p2, int p3, void* p4, int p5);
+
+extern char callbackPersonModel_RemoveColumns(void* p0, int p1, int p2, void* p3);
+
+extern char callbackPersonModel_RemoveRows(void* p0, int p1, int p2, void* p3);
+
+extern char callbackPersonModel_SetData(void* p0, void* p1, void* p2, int p3);
+
+extern char callbackPersonModel_SetHeaderData(void* p0, int p1, long long int p2, void* p3, int p4);
+
+extern char callbackPersonModel_SetItemData(void* p0, void* p1, struct Moc_PackedList p2);
+
+extern char callbackPersonModel_Submit(void* p0);
+
+extern void callbackPersonModel_ColumnsAboutToBeInserted(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_ColumnsAboutToBeMoved(void* p0, void* p1, int p2, int p3, void* p4, int p5);
+
+extern void callbackPersonModel_ColumnsAboutToBeRemoved(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_ColumnsInserted(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_ColumnsMoved(void* p0, void* p1, int p2, int p3, void* p4, int p5);
+
+extern void callbackPersonModel_ColumnsRemoved(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_DataChanged(void* p0, void* p1, void* p2, struct Moc_PackedList p3);
+
+extern void callbackPersonModel_FetchMore(void* p0, void* p1);
+
+extern void callbackPersonModel_HeaderDataChanged(void* p0, long long int p1, int p2, int p3);
+
+extern void callbackPersonModel_LayoutAboutToBeChanged(void* p0, struct Moc_PackedList p1, long long int p2);
+
+extern void callbackPersonModel_LayoutChanged(void* p0, struct Moc_PackedList p1, long long int p2);
+
+extern void callbackPersonModel_ModelAboutToBeReset(void* p0);
+
+extern void callbackPersonModel_ModelReset(void* p0);
+
+extern void callbackPersonModel_ResetInternalData(void* p0);
+
+extern void callbackPersonModel_Revert(void* p0);
+
+extern void callbackPersonModel_RowsAboutToBeInserted(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_RowsAboutToBeMoved(void* p0, void* p1, int p2, int p3, void* p4, int p5);
+
+extern void callbackPersonModel_RowsAboutToBeRemoved(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_RowsInserted(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_RowsMoved(void* p0, void* p1, int p2, int p3, void* p4, int p5);
+
+extern void callbackPersonModel_RowsRemoved(void* p0, void* p1, int p2, int p3);
+
+extern void callbackPersonModel_Sort(void* p0, int p1, long long int p2);
+
+extern void* callbackPersonModel_RoleNames(void* p0);
+
+extern void* callbackPersonModel_ItemData(void* p0, void* p1);
+
+extern void* callbackPersonModel_MimeData(void* p0, struct Moc_PackedList p1);
+
+extern void* callbackPersonModel_Buddy(void* p0, void* p1);
+
+extern void* callbackPersonModel_Parent(void* p0, void* p1);
+
+extern void* callbackPersonModel_Match(void* p0, void* p1, int p2, void* p3, int p4, long long int p5);
+
+extern void* callbackPersonModel_Span(void* p0, void* p1);
+
+extern struct Moc_PackedString callbackPersonModel_MimeTypes(void* p0);
+
+extern void* callbackPersonModel_Data(void* p0, void* p1, int p2);
+
+extern void* callbackPersonModel_HeaderData(void* p0, int p1, long long int p2, int p3);
+
+extern long long int callbackPersonModel_SupportedDragActions(void* p0);
+
+extern long long int callbackPersonModel_SupportedDropActions(void* p0);
+
+extern char callbackPersonModel_CanDropMimeData(void* p0, void* p1, long long int p2, int p3, int p4, void* p5);
+
+extern char callbackPersonModel_CanFetchMore(void* p0, void* p1);
+
+extern char callbackPersonModel_HasChildren(void* p0, void* p1);
+
+extern int callbackPersonModel_ColumnCount(void* p0, void* p1);
+
+extern int callbackPersonModel_RowCount(void* p0, void* p1);
+
+extern char callbackPersonModel_Event(void* p0, void* p1);
+
+extern char callbackPersonModel_EventFilter(void* p0, void* p1, void* p2);
+
+extern void callbackPersonModel_ChildEvent(void* p0, void* p1);
+
+extern void callbackPersonModel_ConnectNotify(void* p0, void* p1);
+
+extern void callbackPersonModel_CustomEvent(void* p0, void* p1);
+
+extern void callbackPersonModel_DeleteLater(void* p0);
+
+extern void callbackPersonModel_Destroyed(void* p0, void* p1);
+
+extern void callbackPersonModel_DisconnectNotify(void* p0, void* p1);
+
+extern void callbackPersonModel_ObjectNameChanged(void* p0, struct Moc_PackedString p1);
+
+extern void callbackPersonModel_TimerEvent(void* p0, void* p1);
+
 extern void callbackQmlBridge_Constructor(void* p0);
 
 extern void callbackQmlBridge_UpdateLoader(void* p0, struct Moc_PackedString p1);
 
 extern void callbackQmlBridge_UpdateSettings(void* p0, struct Moc_PackedString p1, struct Moc_PackedString p2, struct Moc_PackedString p3, struct Moc_PackedString p4, struct Moc_PackedString p5, struct Moc_PackedString p6, char p7);
 
-extern struct Moc_PackedString callbackQmlBridge_SendToGo(void* p0, struct Moc_PackedString p1);
+extern void callbackQmlBridge_SendTime(void* p0, struct Moc_PackedString p1);
+
+extern struct Moc_PackedString callbackQmlBridge_Calculator(void* p0, struct Moc_PackedString p1, struct Moc_PackedString p2);
 
 extern void callbackQmlBridge_DestroyQmlBridge(void* p0);
 

@@ -9,7 +9,6 @@ Item {
     width: 360
     height: 520
     visible: true
-
     Settings {
         id: settings
         property string style: "Default"

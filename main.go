@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"strings"
 	"fmt"
-	"time"
 	"encoding/json"
 	"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/quick"
@@ -21,18 +20,6 @@ type Config struct {
     Hotload bool `"json":"hotload"`
 }
 
-type QmlBridge struct {
-    core.QObject
-    Config Config
-    //messages to qml
-    _ func(p string)        `signal:"updateLoader"`
-    _ func(author, mode, date, host, version, port string, hotload bool)        `signal:"updateSettings"`
-    _ func(data string) 	`signal:"sendTime"`
-
-    //requests from qml
-    _ func(number1, number2 string) string `slot:"calculator"`
-}
-
 func LoadConfiguration(file string) (error, Config) {
     var config Config
     configFile, err := os.Open(file)
@@ -45,68 +32,57 @@ func LoadConfiguration(file string) (error, Config) {
     jsonParser.Decode(&config)
     return nil, config
 }
-func addingNumbers(number1, number2 string) string {
-	fmt.Println("addingNumbers")
-	return number1 + number1 + number2 + number2
-}
 func main() {
-	_, config := LoadConfiguration("config.json")
-	fmt.Printf("config: %#v\r\n\r\n", config)
-	var qmlBridge = NewQmlBridge(nil)
-    qmlBridge.ConnectCalculator(func(number1, number2 string) string {
-        return addingNumbers(number1, number2)
-    })
-	go func() {
-		for t := range time.NewTicker(time.Second * 1).C {
-			qmlBridge.SendTime(t.Format(time.ANSIC))
-		}
-	}()
-	//configure whether to be in hotloading mode for qml:
-	//setting the env var for the compiled qt?
-	os.Setenv("QT_QUICK_CONTROLS_STYLE", "material")
+	//0. set any required env vars for qt
+	os.Setenv("QT_QUICK_CONTROLS_STYLE", "material") //set style to material
 
-	//you could in essence, pass this to the hotloader,
-	//and then actually have the live code anywhere you wanted
-	//then have a flag that decides whether to use built on unbuilt qml files.
+	//1. the hotloader needs a path to the qml files highest directory
+		// change this if you are working elsewhere
 	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "qt-hotreloader", "qml")
 
-	widgets.NewQApplication(len(os.Args), os.Args)
-	// widgets.SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
+	//2. load the configuration file
+	_, config := LoadConfiguration("config.json")
 
+	//3. Create a bridge to the frontend
+	var qmlBridge = NewQmlBridge(nil)
+	qmlBridge.ConfigureBridge(config)
+
+	//4. Configure the qml binding and create an application
+	app := widgets.NewQApplication(len(os.Args), os.Args)
+		// turn on high definition scaling
+	app.SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
+		//create a view
 	var view = quick.NewQQuickView(nil)
-	//if we are hotloading, gonna need to inform the front end
-	hotLoader := HotLoader{}
+		//configure the view to know about the bridge
+		//this needs to happen before anything happens on another thread
+		//else the thread might beat the context property to setup
+	view.RootContext().SetContextProperty("QmlBridge", qmlBridge)
+
+	//5. Configure hotloading
+		//configure the loader to handle updating qml live
 	loader := func(p string) {
 		fmt.Println("changed:", p)
 		view.SetSource(core.NewQUrl())
 		view.Engine().ClearComponentCache()
 		view.SetSource(core.NewQUrl3(topLevel + "/loader.qml", 0))
-		//this is cool. If its not the loader page,
-		//we can just push that file onto the stack
-		//so the dev sees it immediately.
 		if !strings.Contains(p, "/loader.qml") {
 			relativePath := strings.Replace(p, topLevel + "/", "", -1)
 			qmlBridge.UpdateLoader(relativePath)
 		}
 	}
-	view.RootContext().SetContextProperty("QmlBridge", qmlBridge)
+		//decide whether to enable hotloading (must be disabled for deployment)
 	if !config.Hotload {
 		fmt.Println("compiling qml into binary...")
 		view.SetSource(core.NewQUrl3("qrc:/qml/loader-production.qml", 0))
 	} else {
 		view.SetSource(core.NewQUrl3(topLevel + "/loader.qml", 0))
-		go hotLoader.startWatcher(loader)
+		go qmlBridge.hotLoader.startWatcher(loader)
 	}
 
-
+	//6. Complete setup, and start the UI
 	view.SetResizeMode(quick.QQuickView__SizeRootObjectToView)
 	view.Show()
-	//this is messy, should be able to pass to frontend immediately
-	go func() {
-        time.Sleep(5 * time.Second)
-        fmt.Println("updating settings with ", config)
-        qmlBridge.UpdateSettings(config.Author, config.Mode, config.Date, config.Host, config.Version, config.Port, config.Hotload)
-    }()
+
 	widgets.QApplication_Exec()
 
 

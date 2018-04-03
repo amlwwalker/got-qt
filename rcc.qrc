@@ -1,9 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-<file>qml/elements/Browser.qml</file>
-<file>qml/elements/Browser.qmlc</file>
-<file>qml/elements/Toast.qml</file>
-<file>qml/elements/Toast.qmlc</file>
 <file>qml/images/+material/back.png</file>
 <file>qml/images/+material/back@2x.png</file>
 <file>qml/images/+material/back@3x.png</file>
@@ -56,6 +52,8 @@
 <file>qml/pages/_filelistPage.qmlc</file>
 <file>qml/pages/_loginPage.qml</file>
 <file>qml/pages/_loginPage.qmlc</file>
+<file>qml/pages/_searchPage.qml</file>
+<file>qml/pages/_searchPage.qmlc</file>
 <file>qml/pages/BusyIndicatorPage.qml</file>
 <file>qml/pages/BusyIndicatorPage.qmlc</file>
 <file>qml/pages/ButtonPage.qml</file>
@@ -100,6 +98,7 @@
 <file>qml/pages/TabBarPage.qml</file>
 <file>qml/pages/TabBarPage.qmlc</file>
 <file>qml/pages/TextAreaPage.qml</file>
+<file>qml/pages/TextAreaPage.qmlc</file>
 <file>qml/pages/TextFieldPage.qml</file>
 <file>qml/pages/TextFieldPage.qmlc</file>
 <file>qml/pages/ToolTipPage.qml</file>
