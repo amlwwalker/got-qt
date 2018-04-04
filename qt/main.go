@@ -54,7 +54,6 @@ func main() {
 	app.SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
 		//create a view
 	var view = quick.NewQQuickView(nil)
-	view.SetWindowTitle("Got-qt")
 		//configure the view to know about the bridge
 		//this needs to happen before anything happens on another thread
 		//else the thread might beat the context property to setup
