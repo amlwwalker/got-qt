@@ -38,7 +38,7 @@ func main() {
 
 	//1. the hotloader needs a path to the qml files highest directory
 		// change this if you are working elsewhere
-	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "got-qt", "qml")
+	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "got-qt", "qt", "qml")
 
 	//2. load the configuration file
 	_, config := LoadConfiguration("config.json")
