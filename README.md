@@ -118,6 +118,7 @@ prerequisite. So that the instructions are general for all platforms:
 * `cd $PROJECTNAME`
 
 * Update the path in qt/main.go stored as the variable `topLevel` to the new path of your project. This is an absolute build path currently set to this project, as opposed to yours.
+* Remember to update any paths to backend business logic in your own projects, otherwise will only know about logic in this project
 
 * `qtdeploy test desktop`
 

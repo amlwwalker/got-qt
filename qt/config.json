@@ -1,6 +1,6 @@
 {
     "hotload": true,
-    "host": "http://trustlight.co.uk",
+    "host": "http://",
     "port": "8090",
     "mode": "deploy",
     "version": "0.1",

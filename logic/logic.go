@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -20,15 +19,14 @@ func (l *LogicInterface) SearchForMatches(regex string, informant func(float64, 
 	//just demoing using async if things are slow
 	go func() {
 		time.Sleep(1 * time.Second)
-		informant(0.0, true) //we don't know how long this will take
+		informant(0.1, true) //we don't know how long this will take
 		time.Sleep(1 * time.Second)
-		informant(0.0, true) //we don't know how long this will take
+		informant(0.4, true) //we don't know how long this will take
 		time.Sleep(1 * time.Second)
-		informant(0.0, true) //we don't know how long this will take
+		informant(0.7, true) //we don't know how long this will take
 		time.Sleep(1 * time.Second)
 		//the informant knows whatever it was doing is ready whenit is sent a 1.0 value
 		l.People[p.Email] = &p
-		fmt.Println(l.People[p.Email])
 		informant(1.0, true) //we don't know how long this will take
 	}()
 }

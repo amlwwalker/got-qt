@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"github.com/jroimartin/gocui"
-	"github.com/amlwwalker/got-qt/business"
 )
 type fn func(g *gocui.Gui, v *gocui.View) error
 
@@ -72,11 +72,24 @@ func (c *UIControl) searchContact(g *gocui.Gui, v *gocui.View) error{
 			return nil
 		}
 		updateView(g, "logs", "searching for " + l + "...")
-		//here you do the search for the contact
-		//before upating the contacts on the front end
-		// c.updateContacts(g, v)
-	//now populate the search results/add them to contacts
-	//this should call the back end, passing in the search of the user
+		c.logic.SearchForMatches(l, func(p float64, indeterminate bool) {
+			//if indeterminate is true, it means the logic
+			//has no idea how long it is going to take
+			//so cant have progressive update the UI
+			if indeterminate {
+				updateView(c.gui, "logs", "process takes time....")
+			} else {
+				updateView(c.gui, "logs", "processing: " + strconv.FormatFloat(p, 'f', 6, 64))
+			}
+			if p == 1.0 {
+				//we have knowledge the process was complete, we can do anything with it
+				for _, v := range c.logic.People {
+					//the people in the list will be as a result of this function
+					updateView(c.gui, "logs", "found: " + v.Email)
+					updateView(c.gui, "contacts", v.Email)
+				}
+			}
+		})
 	return nil
 }
 
