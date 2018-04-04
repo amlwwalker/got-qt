@@ -2,6 +2,8 @@
 
 This is a framework to make desktop/mobile applications in Go with a GUI written in QT Qml. Both of these languages are cross platform. Go is an open source programming language, however QT is not open source.  The license for my work here however, is under [MIT license](LICENSE.txt).
 
+![home](home.png =25%)![search](search.png =25%)![menu](menu.png =25%)
+
 It uses the Material framework from Google for the UI in Qml, and uses Go as a backend. It demonstrates making pages in Qml, interfacing with the backend Go code, and receving messages from the backend. I.e everything you need to build a desktop app, all ready to go.
 
 I built this because I was building desktop apps in Go, with Guis. For every change I made, i had to recompile the go code even if I was just changing the UI code. This takes a long time. It _can_ be sped up, however I wanted to develop my UI faster. I could have used qt-creator, however it was another IDE, I just wanted an easy way to build desktop apps with Go.
@@ -138,9 +140,10 @@ Reasons to use this
 * Good code management. This projects demonstrates decoupling of backend logic from frontend allowing headless, web-based, console, or gui applications to all share the same logic, yet not know about each other.
 
 There is a configuration file that tells the application whether to run in hotloading mode. If it is run in hotloading mode, then it will continually monitor changes to its own qml files and update the user interface immediately. Makes for real time development.
-	* In the case of hotloading, the app must be run directly from the terminal. This is so that it can detect local configuration. Double clicking the app in Finder runs it under the Finder's environment which is not the same as the developers and will therefore not have hotloading enabled.
-		* Run with `GOPATH/src/$USER/$PROJECTNAME/deploy/darwin/got-qt/Contents/MacOS/got-qt`
-		* This will allow it to detect the config for hotloading and QML will update in realtime.
+
+* In the case of hotloading, the app must be run directly from the terminal. This is so that it can detect local configuration. Double clicking the app in Finder runs it under the Finder's environment which is not the same as the developers and will therefore not have hotloading enabled.
+* Run with `GOPATH/src/$USER/$PROJECTNAME/deploy/darwin/got-qt/Contents/MacOS/got-qt`
+* This will allow it to detect the config for hotloading and QML will update in realtime.
 
 My recommended approach is to build your UI using this in QML, then decide how it needs to interface with the Go code (backend). Once you know those requirements, you can add in the listeners in the Go code and have basic interaction with the front end, proving to your self you have two way comms. Use this two way comms to set the needed bridge connections up, but forget about functionality for now. Just confirm you have the commnunication working.
 
