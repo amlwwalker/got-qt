@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"github.com/jroimartin/gocui"
 	"log"
 	"strconv"
-	"github.com/jroimartin/gocui"
 )
+
 type fn func(g *gocui.Gui, v *gocui.View) error
 
-var controls = map[string]fn{}//holder for the functions that the UI controls fire
+var controls = map[string]fn{} //holder for the functions that the UI controls fire
 
 func searchField(g *gocui.Gui, v *gocui.View) error {
 	maxX, maxY := g.Size()
@@ -38,7 +39,7 @@ func clearView(g *gocui.Gui, view string) {
 	})
 }
 
-func updateView(g *gocui.Gui, view, message string) error{
+func updateView(g *gocui.Gui, view, message string) error {
 	g.Update(func(g *gocui.Gui) error {
 		v, err := g.View(view)
 		if err != nil {
@@ -54,42 +55,42 @@ func updateView(g *gocui.Gui, view, message string) error{
 func (c *UIControl) ExternalLogUpdate(message string) {
 	updateView(c.gui, "logs", message)
 }
-func (c *UIControl) login(g *gocui.Gui, v *gocui.View) error{
+func (c *UIControl) login(g *gocui.Gui, v *gocui.View) error {
 	updateView(g, "logs", "logging in")
 	return nil
 }
 
-func (c *UIControl) searchContact(g *gocui.Gui, v *gocui.View) error{
-		//we don't need to set the msg view
-		//because its going to take input
-		var l string
-		var err error
-		defer delView("search", g, v)
-		_, cy := v.Cursor()
-		if l, err = v.Line(cy); err != nil {
-			l = ""
-			//no value searched for...
-			return nil
+func (c *UIControl) searchContact(g *gocui.Gui, v *gocui.View) error {
+	//we don't need to set the msg view
+	//because its going to take input
+	var l string
+	var err error
+	defer delView("search", g, v)
+	_, cy := v.Cursor()
+	if l, err = v.Line(cy); err != nil {
+		l = ""
+		//no value searched for...
+		return nil
+	}
+	updateView(g, "logs", "searching for "+l+"...")
+	c.logic.SearchForMatches(l, func(p float64, indeterminate bool) {
+		//if indeterminate is true, it means the logic
+		//has no idea how long it is going to take
+		//so cant have progressive update the UI
+		if indeterminate {
+			updateView(c.gui, "logs", "process takes time....")
+		} else {
+			updateView(c.gui, "logs", "processing: "+strconv.FormatFloat(p, 'f', 6, 64))
 		}
-		updateView(g, "logs", "searching for " + l + "...")
-		c.logic.SearchForMatches(l, func(p float64, indeterminate bool) {
-			//if indeterminate is true, it means the logic
-			//has no idea how long it is going to take
-			//so cant have progressive update the UI
-			if indeterminate {
-				updateView(c.gui, "logs", "process takes time....")
-			} else {
-				updateView(c.gui, "logs", "processing: " + strconv.FormatFloat(p, 'f', 6, 64))
+		if p == 1.0 {
+			//we have knowledge the process was complete, we can do anything with it
+			for _, v := range c.logic.People {
+				//the people in the list will be as a result of this function
+				updateView(c.gui, "logs", "found: "+v.Email)
+				updateView(c.gui, "contacts", v.Email)
 			}
-			if p == 1.0 {
-				//we have knowledge the process was complete, we can do anything with it
-				for _, v := range c.logic.People {
-					//the people in the list will be as a result of this function
-					updateView(c.gui, "logs", "found: " + v.Email)
-					updateView(c.gui, "contacts", v.Email)
-				}
-			}
-		})
+		}
+	})
 	return nil
 }
 
@@ -106,15 +107,13 @@ func (c *UIControl) Init() {
 	g.SetManagerFunc(c.layout)
 
 	if err := c.keybindings(g); err != nil {
-		updateView(c.gui, "logs", "cannot bind keys " + err.Error())
+		updateView(c.gui, "logs", "cannot bind keys "+err.Error())
 	}
 
 	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit {
-		updateView(c.gui, "logs", "main loop errord " + err.Error())
+		updateView(c.gui, "logs", "main loop errord "+err.Error())
 	}
 }
-
-
 
 func (c *UIControl) layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
@@ -163,7 +162,7 @@ func (c *UIControl) layout(g *gocui.Gui) error {
 		}
 	}
 
-	if v, err := g.SetView("logs", 0, 15, maxX, maxY - 1); err != nil {
+	if v, err := g.SetView("logs", 0, 15, maxX, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -173,7 +172,7 @@ func (c *UIControl) layout(g *gocui.Gui) error {
 		fmt.Fprintln(v, "loading...")
 		fmt.Fprintln(v, "loading complete")
 		if _, err := g.SetCurrentView("controls"); err != nil {
-				return err
+			return err
 		}
 	}
 
@@ -232,7 +231,7 @@ func getControl(g *gocui.Gui, v *gocui.View) error {
 	for i, _ := range controls {
 		if l == i {
 			//need a helper functon to know what to do with the view
-				controls[i](g, v)
+			controls[i](g, v)
 			break
 		}
 	}

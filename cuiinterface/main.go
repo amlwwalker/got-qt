@@ -5,10 +5,10 @@ import (
 )
 
 func main() {
-    cui := &UIControl{}
+	cui := &UIControl{}
 	//pointer to logic, so needs starting update
 	cui.logic = &logic.LogicInterface{}
 	cui.logic.ConfigureLogic()
-    cui.Init() //init the UI
+	cui.Init() //init the UI
 
 } // end of main

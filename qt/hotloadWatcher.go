@@ -2,22 +2,22 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"time"
-	"path/filepath"
 	"github.com/radovskyb/watcher"
+	"log"
+	"path/filepath"
+	"time"
 )
 
 type HotLoader struct {
-	Loader *func(p string)
+	Loader    *func(p string)
 	blackList map[string]bool
 }
 
-func (h *HotLoader) initBlacklist(extensions... string) {
+func (h *HotLoader) initBlacklist(extensions ...string) {
 	h.blackList = make(map[string]bool)
-    for _, v := range extensions {
-        h.blackList[v] = true
-    }
+	for _, v := range extensions {
+		h.blackList[v] = true
+	}
 }
 func (h *HotLoader) checkBlacklist(fileName string, dir bool) bool {
 	if h.blackList[filepath.Ext(fileName)] == true {

@@ -2,27 +2,27 @@ package main
 
 import (
 	"fmt"
-	"time"
-	"github.com/therecipe/qt/core"
 	"github.com/amlwwalker/got-qt/logic"
+	"github.com/therecipe/qt/core"
+	"time"
 )
 
 type QmlBridge struct {
-    core.QObject
-    hotLoader HotLoader
-    business BusinessInterface
-    //messages to qml
-    _ func(p string)        `signal:"updateLoader"`
-    _ func(author, mode, date, host, version, port string, hotload bool)        `signal:"updateSettings"`
-    _ func(data string) 	`signal:"sendTime"`
-    _ func(c float64, indeterminate bool) 	`signal:"updateProcessStatus"`
+	core.QObject
+	hotLoader HotLoader
+	business  BusinessInterface
+	//messages to qml
+	_ func(p string)                                                     `signal:"updateLoader"`
+	_ func(author, mode, date, host, version, port string, hotload bool) `signal:"updateSettings"`
+	_ func(data string)                                                  `signal:"sendTime"`
+	_ func(c float64, indeterminate bool)                                `signal:"updateProcessStatus"`
 
-    //requests from qml
-    _ func(number1, number2 string) string `slot:"calculator"`
-    _ func() `slot:"startAsynchronousProcess"`
-    _ func(regex string) `slot:"searchFor"`
-
+	//requests from qml
+	_ func(number1, number2 string) string `slot:"calculator"`
+	_ func()                               `slot:"startAsynchronousProcess"`
+	_ func(regex string)                   `slot:"searchFor"`
 }
+
 //setup functions to communicate between front end and back end
 
 //example of receiving data from frontend and returning a result
@@ -35,7 +35,7 @@ func (q *QmlBridge) ConfigureBridge(config Config) {
 	//2. Configure signals
 	//configure calculator
 	q.ConnectCalculator(func(number1, number2 string) string {
-	    return addingNumbers(number1, number2)
+		return addingNumbers(number1, number2)
 	})
 	q.ConnectStartAsynchronousProcess(func() {
 		//inform process has started
@@ -49,17 +49,17 @@ func (q *QmlBridge) ConfigureBridge(config Config) {
 		//that way the front end will be updated live
 		//inform front end work has begun
 		q.UpdateProcessStatus(0.0, true)
-	    q.business.searchForMatches(regex, q.UpdateProcessStatus)
+		q.business.searchForMatches(regex, q.UpdateProcessStatus)
 	})
-		//example signalling the frontend with settings
+	//example signalling the frontend with settings
 	go func() {
 		//send the settings to the front end after a period of time
-        time.Sleep(5 * time.Second)
-        fmt.Println("updating settings with ", config)
-        q.UpdateSettings(config.Author, config.Mode, config.Date, config.Host, config.Version, config.Port, config.Hotload)
-    }()
-    	//example of external function signalling the front end
-    q.sendCurrentTime()
+		time.Sleep(5 * time.Second)
+		fmt.Println("updating settings with ", config)
+		q.UpdateSettings(config.Author, config.Mode, config.Date, config.Host, config.Version, config.Port, config.Hotload)
+	}()
+	//example of external function signalling the front end
+	q.sendCurrentTime()
 	q.business.demo()
 }
 
@@ -71,6 +71,7 @@ func (q *QmlBridge) sendCurrentTime() {
 		}
 	}()
 }
+
 //example of handling a receive from frontend via slot
 func addingNumbers(number1, number2 string) string {
 	fmt.Println("addingNumbers")
@@ -82,8 +83,9 @@ type BusinessInterface struct {
 	pModel *PersonModel
 	sModel *PersonModel
 	fModel *PersonModel
-	logic *logic.LogicInterface
+	logic  *logic.LogicInterface
 }
+
 //handles the interface between the backend architecture
 //and the bridge
 func (b *BusinessInterface) configureInterface() {
@@ -102,7 +104,7 @@ func (b *BusinessInterface) searchForMatches(regex string, informant func(float6
 		//if the logic is complete, then we need to update our model
 		//with the search results
 		//otherwise just inform the front end
-		if (1.0 == c) { //complete
+		if 1.0 == c { //complete
 			//but also needs to know when its complete
 			// because if it is, then need to update the model
 			for _, v := range b.logic.People {
@@ -118,6 +120,7 @@ func (b *BusinessInterface) searchForMatches(regex string, informant func(float6
 	}
 	b.logic.SearchForMatches(regex, modelUpdater)
 }
+
 //the interface needs to know how to inform the front end on progress
 //so takes a function that takes a value that the front end will use
 func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64, bool)) {
@@ -128,7 +131,7 @@ func (b *BusinessInterface) startAsynchronousRoutine(informant func(float64, boo
 	go func() {
 		var c float64
 		c = 0.0
-		for (c < 1.0) {
+		for c < 1.0 {
 			informant(c, false) //we know how long this process will take
 			time.Sleep(1 * time.Second)
 			c = c + 0.1
@@ -169,4 +172,3 @@ func (b *BusinessInterface) demo() {
 		b.pModel.RemovePerson(2)
 	}()
 }
-

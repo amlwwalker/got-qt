@@ -16,9 +16,9 @@ type PersonModel struct {
 	_ map[int]*core.QByteArray `property:"roles"`
 	_ []*Person                `property:"people"`
 
-	_ func(*Person)                             `slot:"addPerson"`
+	_ func(*Person)                                    `slot:"addPerson"`
 	_ func(row int, firstName, lastName, email string) `slot:"editPerson"`
-	_ func(row int)                             `slot:"removePerson"`
+	_ func(row int)                                    `slot:"removePerson"`
 }
 
 type Person struct {
@@ -36,8 +36,8 @@ func init() {
 func (m *PersonModel) init() {
 	m.SetRoles(map[int]*core.QByteArray{
 		FirstName: core.NewQByteArray2("firstName", len("firstName")),
-		LastName: core.NewQByteArray2("lastName", len("lastName")),
-		Email: core.NewQByteArray2("email", len("email")),
+		LastName:  core.NewQByteArray2("lastName", len("lastName")),
+		Email:     core.NewQByteArray2("email", len("email")),
 	})
 
 	m.ConnectData(m.data)

@@ -1,7 +1,6 @@
 package logic
 
-import (
-)
+import ()
 
 //this handles interfacing with any business logic occuring elsewhere
 type LogicInterface struct {
@@ -10,6 +9,6 @@ type LogicInterface struct {
 
 type Person struct {
 	FirstName string
-	LastName string
-	Email string
+	LastName  string
+	Email     string
 }

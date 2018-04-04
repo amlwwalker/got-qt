@@ -30,4 +30,3 @@ func (l *LogicInterface) SearchForMatches(regex string, informant func(float64, 
 		informant(1.0, true) //we don't know how long this will take
 	}()
 }
-
