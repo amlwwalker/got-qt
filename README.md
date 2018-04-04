@@ -48,6 +48,8 @@ Luckily QT comes with the theme installed! No need to do anything here!
 
 ### Test everything,
 
+* Because we will later want to cross compile for other OS except OSX, we cannot set a global path to QT as it will affect the build later for other OS. So before compiling, make sure you have run `export QT_DIR=/usr/local/opt/qt` in the current terminal session. You will need to re run this for each new terminal session otherwise the **build will fail**.
+
 You can run the example code found [here](https://github.com/therecipe/qt/wiki/Getting-Started#starting-application), but in essence, put the following in your `$GOPATH/src` somewhere and run `qtdeploy desktop`
 
 ```
@@ -193,6 +195,22 @@ ListElement { title: "Downloads"; source: "qrc:/qml/pages/_downloadsPage.qml" }
 * set hotloading to false in config.json and recompile. You can recompile now with `qtdeploy build desktop`
 * Navigate in Finder to your `deploy/$(OSTYPE)` directory and double click the application. It should start up with your changes with your changes compiled in.
 
+### Cross Compilation
+
+Using (therecipe/qt)[https://github.com/therecipe/qt/wiki/Deploying-macOS-to-Windows-32-bit] tools and using docker, its very easy to cross compile for different platforms, but in essence:
+
+* Install docker for your (platform i.e OSX)[https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac]
+* Pull the docker container for the platform you want to cross compile for
+
+`docker pull therecipe/qt:windows_32_shared`
+
+* Build for the platform
+
+`qtdeploy -docker build windows_32_shared`
+
+* You will have the application build in `deploy/platform` directory in `qt/`
+
+##### NOTICE: When cross compiling, to be in a terminal session where you did not run `export QT_DIR=/usr/local/opt/qt` first
 
 ## To do
 
