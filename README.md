@@ -16,6 +16,10 @@ So I added hotloading to the qml files. You can download the [demo OSX app here.
 * [Follow me on twitter](https://twitter.com/amlwwalker)
 * [Read the medium post](https://medium.com/@_whitesilence/building-compiled-fast-cross-platform-desktop-apps-in-go-with-qml-a5bb347f4ce9)
 
+##### Watch the [youtube video](https://youtu.be/38gvNBT6VlM)
+
+##### Please note this is in early stages
+
 ### What I wanted:
 
 * Wanted to make desktop applications that were as easy to use for anyone who could use a computer. (No web app, no console app etc etc)
