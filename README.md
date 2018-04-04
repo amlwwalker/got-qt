@@ -11,7 +11,7 @@ It uses the Material framework from Google for the UI in Qml, and uses Go as a b
 
 I built this because I was building desktop apps in Go, with Guis. For every change I made, i had to recompile the go code even if I was just changing the UI code. This takes a long time. It _can_ be sped up, however I wanted to develop my UI faster. I could have used qt-creator, however it was another IDE, I just wanted an easy way to build desktop apps with Go.
 
-So I added hotloading to the qml files.
+So I added hotloading to the qml files. You can download the [demo OSX app here.](qtapp.zip)
 
 
 ### What I wanted:
