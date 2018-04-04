@@ -3,7 +3,7 @@
 This is a framework to make desktop/mobile applications in Go with a GUI written in QT Qml. Both of these languages are cross platform. Go is an open source programming language, however QT is not open source.  The license for my work here however, is under [MIT license](LICENSE.txt).
 
 Home             |  Search |  Menu |  Console UI
-:-------------------------:|:-------------------------:|:-------------------------:
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 <img src="home.png" width="75%">  |  <img src="search.png" width="75%"> | <img src="menu.png" width="75%"> | <img src="consoleUI.png" width="75%">
 
 
