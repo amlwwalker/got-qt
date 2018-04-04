@@ -26,7 +26,7 @@ So I added hotloading to the qml files. You can download the [demo OSX app here.
 * Wanted to write it in a cross platform language so that I would only need to write it once
 * Use a language I was already familiar with
 * From research, there were a few options for the UI, for instance HTML/CSS/JS. However this required use of the installed default web browser and I didn't want to rely on that, but also it meant that the UI files had to be shipped around with the application. Felt a little messy and like using the wrong tool for the job. Besides, its slow :)
-* Qml seemed very well documented and when I discovered the work of [therecipe](https://githhub.com/therecipe/qt) I felt like I was solving alot of problems related to cross platform app development in one go.
+* Qml seemed very well documented and when I discovered the work of [therecipe](https://github.com/therecipe/qt) I felt like I was solving alot of problems related to cross platform app development in one go.
 * With go compiling the qml into the application as binary, the UI is very fast.
 * The Go Material UI theme is included in QT which sped up UI development.
 
