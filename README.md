@@ -13,6 +13,8 @@ I built this because I was building desktop apps in Go, with Guis. For every cha
 
 So I added hotloading to the qml files. You can download the [demo OSX app here.](qtapp.zip)
 
+* [Follow me on twitter](https://twitter.com/amlwwalker)
+* [Read the medium post](https://medium.com/@_whitesilence/building-compiled-fast-cross-platform-desktop-apps-in-go-with-qml-a5bb347f4ce9)
 
 ### What I wanted:
 
@@ -223,5 +225,7 @@ Using (therecipe/qt)[https://github.com/therecipe/qt/wiki/Deploying-macOS-to-Win
 * Android works, however scaling is out. App is very tiny
 * iOS untested
 * Create a Windows Installer because otherwise the end user has to see a whole load of messy qml files as part of the application.
+
+
 
 
