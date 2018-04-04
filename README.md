@@ -4,7 +4,7 @@ This is a framework to make desktop/mobile applications in Go with a GUI written
 
 Home             |  Search |  Menu
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="home.png" width="30%">  |  <img src="search.png" width="30%"> | <img src="menu.png" width="30%">
+<img src="home.png" width="40%">  |  <img src="search.png" width="40%"> | <img src="menu.png" width="40%">
 
 
 It uses the Material framework from Google for the UI in Qml, and uses Go as a backend. It demonstrates making pages in Qml, interfacing with the backend Go code, and receving messages from the backend. I.e everything you need to build a desktop app, all ready to go.
