@@ -44,8 +44,8 @@ This will install the packaged version of QT. Its a sort of minimal version to g
 
 You can install QT binding by following [these instructions](https://github.com/therecipe/qt/wiki/Installation-on-macOS#installing-binding), however in essence:
 
-`go get -u -v github.com/therecipe/qt/cmd/...`
-`$GOPATH/bin/qtsetup`
+* `go get -u -v github.com/therecipe/qt/cmd/...`
+* `$GOPATH/bin/qtsetup`
 
 ### Installing Material theme
 
