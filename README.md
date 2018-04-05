@@ -1,6 +1,6 @@
 ## Got-qt GUI Framework
 
-This is a framework to make desktop/mobile applications in Go with a GUI written in Qt Qml. Both of these languages are cross platform. Go is an open source programming language, Qt is licensed under (LGPL license)[https://www1.qt.io/qt-licensing-terms/]. In some instances you will need to buy a commercial Qt license - for instance a statically compiled, commercial app, would need a commerical Qt license.
+This is a framework to make desktop/mobile applications in Go with a GUI written in Qt Qml. Both of these languages are cross platform. Go is an open source programming language, Qt is licensed under [LGPL license](https://www1.qt.io/qt-licensing-terms/). In some instances you will need to buy a commercial Qt license - for instance a statically compiled, commercial app, would need a commerical Qt license.
 The license for my work here however, is under [MIT license](LICENSE.txt).
 
 Home             |  Search |  Menu |  Console UI
