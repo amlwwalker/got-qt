@@ -134,10 +134,14 @@ prerequisite. So that the instructions are general for all platforms:
 * Update the path in qt/main.go stored as the variable `topLevel` to the new path of your project. This is an absolute build path currently set to this project, as opposed to yours.
 * Remember to update any paths to backend business logic in your own projects, otherwise will only know about logic in this project
 
+* `cd qt` `#Need to compile from within here`
 * `qtdeploy test desktop`
 
 At this stage, the application will build and run. It will take a bit of time. If you get the sample app appearing then great, compilation has been successful.
 
+### Help/Demo
+
+[To see the above process in action, I have added a youtube video here to give you an idea](https://youtu.be/T96KOy4sTJ8)
 
 **Read on for how to develop apps efficiently and easily**
 
