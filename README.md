@@ -141,6 +141,8 @@ At this stage, the application will build and run. It will take a bit of time. I
 
 ### Help/Demo
 
+* (Tip: Turn on english subtitles)
+
 [To see the above process in action, I have added a youtube video here to give you an idea](https://youtu.be/T96KOy4sTJ8)
 
 **Read on for how to develop apps efficiently and easily**
