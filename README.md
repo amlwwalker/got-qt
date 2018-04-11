@@ -1,6 +1,7 @@
 ## Got-qt GUI Framework
 
-This is a framework to make desktop/mobile applications in Go with a GUI written in QT Qml. Both of these languages are cross platform. Go is an open source programming language, however QT is not open source.  The license for my work here however, is under [MIT license](LICENSE.txt).
+This is a framework to make desktop/mobile applications in Go with a GUI written in Qt Qml. Both of these languages are cross platform. Go is an open source programming language, Qt is licensed under [LGPL license](https://www1.qt.io/qt-licensing-terms/). In some instances you will need to buy a commercial Qt license - for instance a statically compiled, commercial app, would need a commerical Qt license.
+The license for my work here however, is under [MIT license](LICENSE.txt).
 
 Home             |  Search |  Menu |  Console UI |  Android
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------: |:-------------------------:
@@ -26,7 +27,7 @@ So I added hotloading to the qml files. You can download the [demo OSX app here.
 * Wanted to write it in a cross platform language so that I would only need to write it once
 * Use a language I was already familiar with
 * From research, there were a few options for the UI, for instance HTML/CSS/JS. However this required use of the installed default web browser and I didn't want to rely on that, but also it meant that the UI files had to be shipped around with the application. Felt a little messy and like using the wrong tool for the job. Besides, its slow :)
-* Qml seemed very well documented and when I discovered the work of [therecipe](https://githhub.com/therecipe/qt) I felt like I was solving alot of problems related to cross platform app development in one go.
+* Qml seemed very well documented and when I discovered the work of [therecipe](https://github.com/therecipe/qt) I felt like I was solving alot of problems related to cross platform app development in one go.
 * With go compiling the qml into the application as binary, the UI is very fast.
 * The Go Material UI theme is included in QT which sped up UI development.
 
@@ -44,22 +45,22 @@ You can install QT by following the instructions [for regular installation](http
 
 `brew install qt5`
 
-This will install the packaged version of QT. Its a sort of minimal version to get QT working easily for OSX. However it is not the official version and does not have support for iOS or Android. That's fine as I am using the docker containers to build for other platforms, but it will lead to a minor step you have to take when building for other platforms
+This will install the packaged version of Qt. Its a sort of minimal version to get Qt working easily for OSX. However it is not the official version and does not have support for iOS or Android. That's fine as I am using the docker containers to build for other platforms, but it will lead to a minor step you have to take when building for other platforms
 
-### Installing QT Go-Binding
+### Installing Qt Go-Binding
 
-You can install QT binding by following [these instructions](https://github.com/therecipe/qt/wiki/Installation-on-macOS#installing-binding), however in essence:
+You can install Qt binding by following [these instructions](https://github.com/therecipe/qt/wiki/Installation-on-macOS#installing-binding), however in essence:
 
 * `go get -u -v github.com/therecipe/qt/cmd/...`
 * `$GOPATH/bin/qtsetup`
 
 ### Installing Material theme
 
-Luckily QT comes with the theme installed! No need to do anything here!
+Luckily Qt comes with the theme installed! No need to do anything here!
 
 ### Test everything,
 
-* Because we will later want to cross compile for other OS except OSX, we cannot set a global path to QT as it will affect the build later for other OS. So before compiling, make sure you have run `export QT_DIR=/usr/local/opt/qt` in the current terminal session. You will need to re run this for each new terminal session otherwise the **build will fail**.
+* Because we will later want to cross compile for other OS except OSX, we cannot set a global path to Qt as it will affect the build later for other OS. So before compiling, make sure you have run `export QT_DIR=/usr/local/opt/qt` in the current terminal session. You will need to re run this for each new terminal session otherwise the **build will fail**.
 
 You can run the example code found [here](https://github.com/therecipe/qt/wiki/Getting-Started#starting-application), but in essence, put the following in your `$GOPATH/src` somewhere and run `qtdeploy desktop`
 
@@ -133,10 +134,16 @@ prerequisite. So that the instructions are general for all platforms:
 * Update the path in qt/main.go stored as the variable `topLevel` to the new path of your project. This is an absolute build path currently set to this project, as opposed to yours.
 * Remember to update any paths to backend business logic in your own projects, otherwise will only know about logic in this project
 
+* `cd qt` `#Need to compile from within here`
 * `qtdeploy test desktop`
 
 At this stage, the application will build and run. It will take a bit of time. If you get the sample app appearing then great, compilation has been successful.
 
+### Help/Demo
+
+* (Tip: Turn on english subtitles)
+
+[To see the above process in action, I have added a youtube video here to give you an idea](https://youtu.be/T96KOy4sTJ8)
 
 **Read on for how to develop apps efficiently and easily**
 
@@ -209,9 +216,9 @@ ListElement { title: "Downloads"; source: "qrc:/qml/pages/_downloadsPage.qml" }
 
 ### Cross Compilation
 
-Using (therecipe/qt)[https://github.com/therecipe/qt/wiki/Deploying-macOS-to-Windows-32-bit] tools and using docker, its very easy to cross compile for different platforms, but in essence:
+Using [therecipe/qt](https://github.com/therecipe/qt/wiki/Deploying-macOS-to-Windows-32-bit) tools and using docker, its very easy to cross compile for different platforms, but in essence:
 
-* Install docker for your (platform i.e OSX)[https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac]
+* Install docker for your [platform i.e OSX](https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac)
 * Pull the docker container for the platform you want to cross compile for
 
 `docker pull therecipe/qt:windows_32_shared`
