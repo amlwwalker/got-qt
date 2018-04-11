@@ -3,9 +3,9 @@
 This is a framework to make desktop/mobile applications in Go with a GUI written in Qt Qml. Both of these languages are cross platform. Go is an open source programming language, Qt is licensed under [LGPL license](https://www1.qt.io/qt-licensing-terms/). In some instances you will need to buy a commercial Qt license - for instance a statically compiled, commercial app, would need a commerical Qt license.
 The license for my work here however, is under [MIT license](LICENSE.txt).
 
-Home             |  Search |  Menu |  Console UI |  Android
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------: |:-------------------------:
-<img src="home.png" width="75%">  |  <img src="search.png" width="75%"> | <img src="menu.png" width="75%"> | <img src="consoleUI.png" width="75%"> | <img src="android.jpg" width="75%">
+Home              |  Menu |  Console UI |  Android
+:-------------------------:|:-------------------------:|:-------------------------: |:-------------------------:
+<img src="home.png" width="75%"> | <img src="menu.png" width="75%"> | <img src="consoleUI.png" width="75%"> | <img src="android.jpg" width="75%">
 
 
 It uses the Material framework from Google for the UI in Qml, and uses Go as a backend. It demonstrates making pages in Qml, interfacing with the backend Go code, and receving messages from the backend. I.e everything you need to build a desktop app, all ready to go.
