@@ -36,6 +36,7 @@ func LoadConfiguration(file string) (error, Config) {
 func main() {
 	//0. set any required env vars for qt
 	os.Setenv("QT_QUICK_CONTROLS_STYLE", "material") //set style to material
+	os.Setenv("QML_DISABLE_DISK_CACHE", "true") //disable caching files
 
 	//1. the hotloader needs a path to the qml files highest directory
 	// change this if you are working elsewhere
@@ -47,14 +48,15 @@ func main() {
 	//3. Create a bridge to the frontend
 	var qmlBridge = NewQmlBridge(nil)
 	qmlBridge.ConfigureBridge(config)
+	// turn on high definition scaling
+	core.QCoreApplication_SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
 
 	//4. Configure the qml binding and create an application
-	app := widgets.NewQApplication(len(os.Args), os.Args)
+	widgets.NewQApplication(len(os.Args), os.Args)
 
-	// turn on high definition scaling
-	app.SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
 	//create a view
 	var view = quick.NewQQuickView(nil)
+	view.SetTitle("Got-Qt")
 	//configure the view to know about the bridge
 	//this needs to happen before anything happens on another thread
 	//else the thread might beat the context property to setup

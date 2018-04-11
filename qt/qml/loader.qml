@@ -159,10 +159,8 @@ Item {
         //content holder
 	    StackView {
 	        id: stackView
-	        anchors.top: toolbar.bottom
-	        anchors.left: parent.left
-	        anchors.right: parent.right
-	        anchors.bottom: footer.top
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             anchors.margins: 10
               Connections {
                 target: QmlBridge
@@ -209,6 +207,7 @@ Item {
 	            }
 
 	        }
+            onCurrentItemChanged: currentItem.anchors.fill = this
 	    }
 	}
     //menu
