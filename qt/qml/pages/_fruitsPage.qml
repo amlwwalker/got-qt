@@ -58,10 +58,10 @@ Rectangle {
 
                 Column {
                     Image {
-                        source: "../images/FA-PNG/white/png/22/arrow-up.png"
+                        source: "../images/FA/white/png/22/arrow-up.png"
                         MouseArea { anchors.fill: parent; onClicked: fruitModel.move(index, index-1, 1) }
                     }
-                    Image { source: "../images/FA-PNG/white/png/22/arrow-down.png"
+                    Image { source: "../images/FA/white/png/22/arrow-down.png"
                         MouseArea { anchors.fill: parent; onClicked: fruitModel.move(index, index+1, 1) }
                     }
                 }
@@ -91,7 +91,7 @@ Rectangle {
 
                 PressAndHoldButton {
                     anchors.verticalCenter: parent.verticalCenter
-                    source: "../images/FA-PNG/white/png/22/minus.png"
+                    source: "../images/FA/white/png/22/minus.png"
                     onClicked: fruitModel.setProperty(index, "cost", cost + 0.25)
                 }
 
@@ -106,12 +106,12 @@ Rectangle {
 
                 PressAndHoldButton {
                     anchors.verticalCenter: parent.verticalCenter
-                    source: "../images/FA-PNG/white/png/22/plus.png"
+                    source: "../images/FA/white/png/22/plus.png"
                     onClicked: fruitModel.setProperty(index, "cost", Math.max(0,cost-0.25))
                 }
 
                 Image {
-                    source: "../images/FA-PNG/white/png/22/remove.png"
+                    source: "../images/FA/white/png/22/remove.png"
                     MouseArea { anchors.fill:parent; onClicked: fruitModel.remove(index) }
                 }
             }

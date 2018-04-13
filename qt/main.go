@@ -40,7 +40,7 @@ func main() {
 
 	//1. the hotloader needs a path to the qml files highest directory
 	// change this if you are working elsewhere
-	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "", "got-qt", "qt", "qml")
+	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "got-qt", "qt", "qml")
 
 	//2. load the configuration file
 	_, config := LoadConfiguration("config.json")
@@ -56,7 +56,7 @@ func main() {
 
 	//create a view
 	var view = quick.NewQQuickView(nil)
-	view.SetTitle("Got-Qt")
+	view.SetTitle("got-qt")
 	//configure the view to know about the bridge
 	//this needs to happen before anything happens on another thread
 	//else the thread might beat the context property to setup

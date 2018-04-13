@@ -238,7 +238,7 @@ Item {
 
             model: ListModel {
             //application
-                ListElement { title: "Contacts"; source: "qrc:/qml/pages/_contactsPage.qml" }
+               ListElement { title: "Contacts"; source: "qrc:/qml/pages/_contactsPage.qml" }
                 ListElement { title: "Files"; source: "qrc:/qml/pages/_filelistPage.qml" }
                 ListElement { title: "Downloads"; source: "qrc:/qml/pages/_downloadsPage.qml" }
                 ListElement { title: "Search"; source: "qrc:/qml/pages/_searchPage.qml" }
@@ -246,6 +246,8 @@ Item {
                 ListElement { title: "Calulator"; source: "qrc:/qml/pages/_calculatorPage.qml" }
                 ListElement { title: "Clock"; source: "qrc:/qml/pages/_clockPage.qml" }
                 ListElement { title: "Toast"; source: "qrc:/qml/pages/_toastPage.qml" }
+                ListElement { title: "Dark Fruit"; source: "qrc:/qml/pages/_fruitsPage.qml" }
+                ListElement { title: "Light Fruit"; source: "qrc:/qml/pages/_fruitsPage2.qml" }
                 ListElement { title: "Asynchronous Loading"; source: "qrc:/qml/pages/_asynchronousPage.qml" }
             //demos
                 ListElement { title: "BusyIndicator"; source: "qrc:/qml/pages/BusyIndicatorPage.qml" }

@@ -8,9 +8,9 @@ BINARY = got-qt
 GITHUB_USERNAME=amlwwalker
 GOT_QT_PROJECTS=got-qt-projects
 CONSOLE_DIR=cuiinterface
-DEV_SOURCE=${GOPATH}/src/github.com
 GUI_DIR=qt
-BUILD_DIR=${DEV_SOURCE}/${GITHUB_USERNAME}/${BINARY}
+DEV_SOURCE=${GOPATH}/src/github.com
+# BUILD_DIR=${DEV_SOURCE}/${GOT_QT_PROJECTS}/${BINARY}
 CURRENT_DIR=$(shell pwd)
 
 #install parameters
@@ -37,22 +37,19 @@ install:
 	$GOPATH/bin/qtsetup;
 
 #var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "got-qt", "qt", "qml")
-createproject:
+createproject: #pass this PROJECTNAME, e.g: make createproject PROJECTNAME=testproject
 	#create the directory in github.com
 	cd ${DEV_SOURCE}; \
 	mkdir -p ${GOT_QT_PROJECTS}/${PROJECTNAME}; \
 	cd ${GOT_QT_PROJECTS}/${PROJECTNAME}; \
-	rsync -av --progress --exclude=".git" ${DEV_SOURCE}/${GITHUB_USERNAME}/got-qt/* .
-	# cp -r ${DEV_SOURCE}/${GITHUB_USERNAME}/got-qt `ls -A | grep -v ".git"` . \
+	rsync -av --exclude=".git" ${DEV_SOURCE}/${GITHUB_USERNAME}/got-qt/* . ; \
+	sed -i.bak s/"got-qt"/"${PROJECTNAME}"/g qt/main.go; \
+	sed -i.bak s/"amlwwalker"/"${GOT_QT_PROJECTS}"/g qt/main.go;
 
-	# cd ${PROJECTNAME}; \ #we are going to update the toplevel domain for hotloading
-	sed -i.bak s/"amlwwalker"/"${got-qt-projects}"/g qt/main.go \
-	sed -i.bak s/"got-qt"/"${PROJECTNAME}"/g qt/main.go
 
 console:
-	cd ${BUILD_DIR}; \
 	cd ${CONSOLE_DIR}; \
-	go build -o ${BINARY}-console . ; \
+	go build -o consoleApp; \
 	cd - >/dev/null
 
 linux:
@@ -62,10 +59,8 @@ linux:
 	cd - >/dev/null
 
 darwin:
-	cd ${BUILD_DIR}; \
 	cd ${GUI_DIR}; \
-	# GOOS=darwin go build ${LDFLAGS} -o ${BINARY}-darwin-${GOARCH} . ; \
-
+	qtdeploy test desktop; \
 	cd - >/dev/null
 
 windows:
