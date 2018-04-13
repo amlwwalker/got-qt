@@ -52,30 +52,34 @@ console:
 	go build -o consoleApp; \
 	cd - >/dev/null
 
-linux:
-	cd ${BUILD_DIR}; \
-	#GOOS=linux GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-linux-${GOARCH} . ; \
+# linux:
+# 	cd ${BUILD_DIR}; \
+# 	#GOOS=linux GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-linux-${GOARCH} . ; \
 
-	cd - >/dev/null
+# 	cd - >/dev/null
 
 darwin:
 	cd ${GUI_DIR}; \
-	qtdeploy test desktop; \
+	qtdeploy build desktop; \
 	cd - >/dev/null
 
-windows:
-	cd ${BUILD_DIR}; \
+#only setup for OSX!
+hotload:
 	cd ${GUI_DIR}; \
-	#GOOS=windows GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-windows-${GOARCH}.exe . ; \
+	/deploy/darwin/${GUI_DIR}.app/Contents/MacOS/${GUI_DIR}
+# windows:
+# 	cd ${BUILD_DIR}; \
+# 	cd ${GUI_DIR}; \
+# 	#GOOS=windows GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-windows-${GOARCH}.exe . ; \
 
-	cd - >/dev/null
+# 	cd - >/dev/null
 
-fmt:
-	cd ${BUILD_DIR}; \
-	go fmt $$(go list ./... | grep -v /vendor/) ; \
-	cd - >/dev/null
+# fmt:
+# 	cd ${BUILD_DIR}; \
+# 	go fmt $$(go list ./... | grep -v /vendor/) ; \
+# 	cd - >/dev/null
 
-clean:
-	cd ${BUILD_DIR}; \
-	rm -rf ${CONSOLE_DIR}/${BINARY}-* \
-	rm -rf ${GUI_DIR}/deploy
+# clean:
+# 	cd ${BUILD_DIR}; \
+# 	rm -rf ${CONSOLE_DIR}/${BINARY}-* \
+# 	rm -rf ${GUI_DIR}/deploy
