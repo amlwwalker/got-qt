@@ -207,7 +207,7 @@ Item {
 	            }
 
 	        }
-            onCurrentItemChanged: currentItem.anchors.fill = this
+            //onCurrentItemChanged: currentItem.anchors.fill = this
 	    }
 	}
     //menu
@@ -246,6 +246,8 @@ Item {
                 ListElement { title: "Calulator"; source: "pages/_calculatorPage.qml" }
                 ListElement { title: "Clock"; source: "pages/_clockPage.qml" }
                 ListElement { title: "Toast"; source: "pages/_toastPage.qml" }
+                ListElement { title: "Dark Fruit"; source: "pages/_fruitsPage.qml" }
+                ListElement { title: "Light Fruit"; source: "pages/_fruitsPage2.qml" }
                 ListElement { title: "Asynchronous Loading"; source: "pages/_asynchronousPage.qml" }
             //demos
                 ListElement { title: "BusyIndicator"; source: "pages/BusyIndicatorPage.qml" }
