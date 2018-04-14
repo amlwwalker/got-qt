@@ -68,7 +68,7 @@ Luckily Qt comes with the theme installed! No need to do anything here!
 
 * Because we will later want to cross compile for other OS except OSX, we cannot set a global path to Qt as it will affect the build later for other OS. So before compiling, make sure you have run `export QT_DIR=/usr/local/opt/qt` in the current terminal session. You will need to re run this for each new terminal session otherwise the **build will fail**.
 
-You can run the example code found [here](https://github.com/therecipe/qt/wiki/Getting-Started#starting-application), but in essence, put the following in your `$GOPATH/src` somewhere and run `qtdeploy desktop`
+You can run the example code found [here](https://github.com/therecipe/qt/wiki/Getting-Started#starting-application), but in essence, put the following in your `$GOPATH/src` somewhere and run `qtdeploy test desktop`
 
 ```
 package main
