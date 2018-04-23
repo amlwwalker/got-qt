@@ -27,20 +27,14 @@ setup:
 #configure the setup for this
 install:
 	#first go to build dir
-	cd ${DEV_SOURCE}; \
-	#now make a directory to store the got-qt
-	mkdir ${GITHUB_USERNAME}; \
-	#now clone got-qt into there
+	cd ${DEV_SOURCE}; \ #now make a directory to store the got-qt
+	mkdir ${GITHUB_USERNAME}; \ #now clone got-qt into there
 	git clone ${GOT_QT_REPO} ${GITHUB_USERNAME}/ \
-	#you will need packr for configuration files
-	go get -u github.com/gobuffalo/packr/...; \
-	#you will need watcher by radovskyb for hotloading
-	go get github.com/radovskyb/watcher; \
-	#you will need notifier for notifications
-	mkdir 0xAX; \
+	mkdir 0xAX; \ #you will need notifier for notifications
 	git clone git@github.com:0xAX/notificator.git 0xAX; \
-	#now make sure the user has therecipe/qt installed
-	go get -u -v github.com/therecipe/qt/cmd/...; \
+	go get -u github.com/gobuffalo/packr/...; \ #you will need packr for configuration files
+	go get github.com/radovskyb/watcher; \ #you will need watcher by radovskyb for hotloading
+	go get -u -v github.com/therecipe/qt/cmd/...; \ #now make sure the user has therecipe/qt installed
 	$GOPATH/bin/qtsetup;
 
 #var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "got-qt", "qt", "qml")
