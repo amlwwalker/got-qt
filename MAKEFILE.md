@@ -21,6 +21,8 @@ I have added a makefile to this project to ease configuration.
 * Run make to create a new project, setting the project name as an argument: `make createproject PROJECTNAME=testproject`
 * Go to your project directory, `cd $(GOPATH)/src/github.com/got-qt-projects/testproject`
 * Build the console app: `make console`. The binary will appear inside cuiinterface
-* Build the gui app (only configured for OSX so far): `make darwin`
-* Run the binary in development (hotloading) mode: `make hotload`
+* Build the gui app (only configured for OSX so far): `make build`
+* Run the binary in development (hotloading) mode: `make darwinhotload` for OSX, or `make lxhotload` for linux. (Not tested on Windows).
 * You can now edit qml and it will hot load in your new project.
+
+#### Device building

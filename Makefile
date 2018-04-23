@@ -60,7 +60,7 @@ build:
 
 darwinhotload:
 	cd ${GUI_DIR}; \
-	/deploy/darwin/${GUI_DIR}.app/Contents/MacOS/${GUI_DIR}
+	deploy/darwin/${GUI_DIR}.app/Contents/MacOS/${GUI_DIR}
 lxhotload:
 	cd ${GUI_DIR}; \
-	/deploy/linux/${GUI_DIR}.sh
+	deploy/linux/${GUI_DIR}.sh
