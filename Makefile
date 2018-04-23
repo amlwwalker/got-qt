@@ -36,6 +36,9 @@ install:
 	go get -u github.com/gobuffalo/packr/...; \
 	#you will need watcher by radovskyb for hotloading
 	go get github.com/radovskyb/watcher; \
+	#you will need notifier for notifications
+	mkdir 0xAX; \
+	git clone git@github.com:0xAX/notificator.git 0xAX; \
 	#now make sure the user has therecipe/qt installed
 	go get -u -v github.com/therecipe/qt/cmd/...; \
 	$GOPATH/bin/qtsetup;
