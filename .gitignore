@@ -12,6 +12,9 @@ deploy/
 moc*.*
 rcc*.*
 
+#packr files
+*-packr.go
+
 #binary files
 ./got-qt
 ./cuiinterface/cuiinterface
