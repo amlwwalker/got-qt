@@ -26,3 +26,9 @@ I have added a makefile to this project to ease configuration.
 * You can now edit qml and it will hot load in your new project.
 
 #### Device building
+
+When building for devices such as Android or iOS(untested), hotloading must be disabled.
+
+### Updating the production loader qml file
+
+At this point this is quite crude. So that you can be certain you will get the latest qml changes when hotloading is disabled, that you have copied loader.qml to loader-production.qml and updated the paths to the compiled paths. More information [in the Readme under the production section](https://github.com/amlwwalker/got-qt/#production)
