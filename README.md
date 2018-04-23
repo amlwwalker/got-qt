@@ -2,8 +2,9 @@
 
 ## Quick Start!
 
-* To use the hotloading feature a configuration file is compiled into the binary using [packr](https://github.com/gobuffalo/packr). You can install it with go get -u github.com/gobuffalo/packr/...
-* Once packr is installed, and you have pulled the repository, to build the config.json into the binary, just run `packr` from within the qt directory of this repository. Any time you change the config.json file, found in configfiles/ you will need to re run packr.
+* To use the hotloading feature a configuration file is compiled into the binary using [packr](https://github.com/gobuffalo/packr).
+* If you are using the [makefile for automation](MAKEFILE.md), running `make install` should setup everything up for you, including packr.
+* Once installation is successful, to build the config.json into the binary, just run `packr` from within the qt directory of this repository. Any time you change the config.json file, found in configfiles/ you will need to re run packr.
 	* I have intentionally excluded packr files from the git repository as they can get large and are easily generated.
 
 ## General Overview
