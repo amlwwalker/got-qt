@@ -1,3 +1,6 @@
+#osx file
+.DS_Store
+
 #directories
 deploy/
 
@@ -14,6 +17,7 @@ rcc*.*
 
 #packr files
 *-packr.go
+*cgo*
 
 #binary files
 ./got-qt
