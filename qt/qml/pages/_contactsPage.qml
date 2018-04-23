@@ -3,7 +3,9 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Material 2.0
 import QtQuick.Dialogs 1.0
+import "../elements"
 Pane {
+    id: pane
     padding: 0
     property var delegateComponentMap: {
         "ItemDelegate": itemDelegateComponent
@@ -28,6 +30,7 @@ Pane {
                     if (mouse.button == Qt.LeftButton)
                     {
                         console.log("Left")
+                        fPicker.visible = true
                     }
                     else if (mouse.button == Qt.RightButton)
                     {
@@ -36,7 +39,22 @@ Pane {
                     }
                 }
             }
-
+            Popup {
+                id: fPicker
+                visible: false
+                modal: true
+                focus: true
+                width: window.height / 3 * 2
+                x: (window.width - width) / 2
+                y: -200
+                contentHeight: 400
+                FilePicker {
+                    anchors.fill: parent
+                    showDotAndDotDot: true
+                    onFileSelected: {
+                    }
+                }
+            }
             DropArea {
                 id: drg
                 anchors.fill: parent
@@ -62,19 +80,7 @@ Pane {
             }
         }
     }
-    FileDialog {
-        id: fileDialog
-        title: "Please choose a file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
-            fileDialog.close()
-        }
-        onRejected: {
-            console.log("Canceled")
-            fileDialog.close()
-        }
-    }
+
     ColumnLayout {
         spacing: 10
         anchors.fill: parent

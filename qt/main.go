@@ -58,6 +58,7 @@ func main() {
 	//create a view
 	var view = quick.NewQQuickView(nil)
 	view.SetTitle("got-qt")
+	qmlBridge.OpenWithDefaultApplication() //try and open a default directory
 	//configure the view to know about the bridge
 	//this needs to happen before anything happens on another thread
 	//else the thread might beat the context property to setup
@@ -94,7 +95,6 @@ func main() {
 	//6. Complete setup, and start the UI
 	view.SetResizeMode(quick.QQuickView__SizeRootObjectToView)
 	view.Show()
-
 	widgets.QApplication_Exec()
 
 }

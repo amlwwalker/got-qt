@@ -39,7 +39,7 @@ func (h *HotLoader) handleEvent(event watcher.Event) bool {
 	return false
 }
 func (h *HotLoader) startWatcher(loader func(string)) {
-	h.initBlacklist(".qmlc", ".cpp", ".h", ".qrc", ".go")
+	h.initBlacklist(".qmlc", ".cpp", ".h", ".qrc", ".go", ".java")
 	w := watcher.New()
 	w.IgnoreHiddenFiles(true)
 	// SetMaxEvents to 1 to allow at most 1 event's to be received

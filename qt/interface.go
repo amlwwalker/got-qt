@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/amlwwalker/got-qt/logic"
 	"github.com/therecipe/qt/core"
+	"github.com/therecipe/qt/gui"
 	"time"
 )
 
@@ -25,6 +26,12 @@ type QmlBridge struct {
 
 //setup functions to communicate between front end and back end
 
+func (q *QmlBridge) OpenWithDefaultApplication() {
+	fmt.Println("starting desktop services")
+	url := core.QUrl_FromLocalFile("/")
+	gui.QDesktopServices_OpenUrl(url)
+	fmt.Println("opened url ", url)
+}
 //example of receiving data from frontend and returning a result
 func (q *QmlBridge) ConfigureBridge(config Config) {
 	//1. configure the hotloader
