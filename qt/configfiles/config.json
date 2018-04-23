@@ -1,11 +1,12 @@
 {
     "hotload": true,
-    "host": "http://",
-    "port": "8090",
+    "host": "",
+    "port": "",
     "mode": "deploy",
     "version": "0.1",
     "author": "Alex Walker",
-    "saveTo": "~/.downloads",
+    "path": "/Users/alex/",
+    "verbose": true,
     "loadFrom": "~/",
     "date": "02-04-2018"
 }

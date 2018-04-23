@@ -6,6 +6,7 @@ import (
 	"github.com/therecipe/qt/core"
 	"github.com/therecipe/qt/quick"
 	"github.com/therecipe/qt/widgets"
+	"github.com/gobuffalo/packr" //for compiled files
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,17 +22,17 @@ type Config struct {
 	Hotload bool   `"json":"hotload"`
 }
 
-func LoadConfiguration(file string) (error, Config) {
+func LoadConfiguration() (error, Config) {
 	var config Config
-	configFile, err := os.Open(file)
-	defer configFile.Close()
-	if err != nil {
-		fmt.Println(err.Error())
+
+	//lets compile the config.json file into the binary so its easily accessible
+	box := packr.NewBox("./configfiles")
+	if configFile, err := box.MustBytes("config.json"); err != nil {
 		return err, config
+	} else {
+		json.Unmarshal(configFile, &config)
+		return nil, config
 	}
-	jsonParser := json.NewDecoder(configFile)
-	jsonParser.Decode(&config)
-	return nil, config
 }
 func main() {
 	//0. set any required env vars for qt
@@ -43,7 +44,7 @@ func main() {
 	var topLevel = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "amlwwalker", "got-qt", "qt", "qml")
 
 	//2. load the configuration file
-	_, config := LoadConfiguration("config.json")
+	_, config := LoadConfiguration()
 
 	//3. Create a bridge to the frontend
 	var qmlBridge = NewQmlBridge(nil)
@@ -77,13 +78,17 @@ func main() {
 			qmlBridge.UpdateLoader(relativePath)
 		}
 	}
+	var notifier NotificationHandler
+	notifier.Initialise()
 	//decide whether to enable hotloading (must be disabled for deployment)
 	if !config.Hotload {
 		fmt.Println("compiling qml into binary...")
 		view.SetSource(core.NewQUrl3("qrc:/qml/loader-production.qml", 0))
+		notifier.Push("Hotloading", "Disabled")
 	} else {
 		view.SetSource(core.NewQUrl3(topLevel+"/loader.qml", 0))
 		go qmlBridge.hotLoader.startWatcher(loader)
+		notifier.Push("Hotloading", "Enabled")
 	}
 
 	//6. Complete setup, and start the UI
