@@ -1,9 +1,15 @@
 ## Got-qt GUI Framework
 
-## Automated Building
+## Quick Start!
 
-If you are not interested in manual building and general information, you can proceed to [automated building](MAKEFILE.md)
+* To use the hotloading feature a configuration file is compiled into the binary using [packr](https://github.com/gobuffalo/packr). You can install it with go get -u github.com/gobuffalo/packr/...
+* Once packr is installed, and you have pulled the repository, to build the config.json into the binary, just run `packr` from within the qt directory of this repository. Any time you change the config.json file, found in configfiles/ you will need to re run packr.
+	* I have intentionally excluded packr files from the git repository as they can get large and are easily generated.
 
+
+If you are not interested in manual building and general information (everything below here), you can proceed to [automated building](MAKEFILE.md)
+
+## More background
 
 This is a framework to make desktop/mobile applications in Go with a GUI written in Qt Qml. Both of these languages are cross platform. Go is an open source programming language, Qt is licensed under [LGPL license](https://www1.qt.io/qt-licensing-terms/). In some instances you will need to buy a commercial Qt license - for instance a statically compiled, commercial app, would need a commerical Qt license.
 The license for my work here however, is under [MIT license](LICENSE.txt).
@@ -184,6 +190,8 @@ Once the console UI you have built demonstrates the functionality required by th
 ### Development
 
 1. In config.json, make sure that hotloading is set to true
+	* **Please Note** hotloading must be disabled when in production mode and on mobile devices
+2. Make sure you have run `packr` in the `qt/` directory Whenever a change to config.json is made
 2. Run the application with `GOPATH/src/$USER/$PROJECTNAME/deploy/darwin/got-qt/Contents/MacOS/got-qt`
 3. Navigate with your editor of choice to `qml/` - this is where all the UI files are kept.
 4. For now you will be editing loader.qml. This file is configured for hotloading. loader-production.qml is for when the code is to be compiled into the application for deployment. This is necessary because the finder app runs under a different user space to you.
@@ -199,8 +207,9 @@ Once the console UI you have built demonstrates the functionality required by th
 
 * copy loader.qml to `loader-production.qml`
 * Update any relative path in `loader-production.qml` to a qrc path so that the app knows how to find the compiled qml, e.g:
+* Update any relative path to a qml file to a qrc path.
 
-Relative:
+##### Relative:
 
 ```
 ListElement { title: "Contacts"; source: "pages/_contactsPage.qml" }
@@ -208,7 +217,7 @@ ListElement { title: "Files"; source: "pages/_filelistPage.qml" }
 ListElement { title: "Downloads"; source: "pages/_downloadsPage.qml" }
 ```
 
-QRC:
+##### Qrc:
 
 ```
 ListElement { title: "Contacts"; source: "qrc:/qml/pages/_contactsPage.qml" }
@@ -233,13 +242,28 @@ Using [therecipe/qt](https://github.com/therecipe/qt/wiki/Deploying-macOS-to-Win
 
 `qtdeploy -docker build windows_32_shared`
 
+* You can follow the instructions for different devices such as linux, [here](https://github.com/therecipe/qt/wiki/Deploying-macOS-to-Linux). Other devices are documented there aswell.
+
+##### NOTICE: I have only cross compiled for windows and android, but the steps should be the same for other platforms if you have docker installed.
+
 * You will have the application build in `deploy/platform` directory in `qt/`
 
 ##### NOTICE: When cross compiling, to be in a terminal session where you did not run `export QT_DIR=/usr/local/opt/qt` first
 
+### Device Specific Setup
+
+#### Android
+
+In the android/ directory there is the configuration to setup the android app. There is an AndroidManifest.xml where things like the App Name, and the device permissions live. Inside android/res/drawable there is an icon.png file that will set the app icon.
+
+#### OSX
+
+Inside the darwin directory, there is Contents/Resources. Inside here you can create the app icon. To do so, you need to put the icon files inside icons.iconset directory (keeping the names for the files the same), where you can put the icon. Then from inside darwin/Contents/Resources, run `iconutil -c icns icons.iconset` to generate the icons.icns file which will be used for the app icon. The info.plist file contains the configuration for OSX.
+
+
 ## To do
 
-* Android working, building out approach
+* Tidy up hotloading.
 * iOS untested
 * Create a Windows Installer because otherwise the end user has to see a whole load of messy qml files as part of the application.
 

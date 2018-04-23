@@ -32,6 +32,10 @@ install:
 	mkdir ${GITHUB_USERNAME}; \
 	#now clone got-qt into there
 	git clone ${GOT_QT_REPO} ${GITHUB_USERNAME}/ \
+	#you will need packr for configuration files
+	go get -u github.com/gobuffalo/packr/...; \
+	#you will need watcher by radovskyb for hotloading
+	go get github.com/radovskyb/watcher; \
 	#now make sure the user has therecipe/qt installed
 	go get -u -v github.com/therecipe/qt/cmd/...; \
 	$GOPATH/bin/qtsetup;
@@ -52,34 +56,14 @@ console:
 	go build -o consoleApp; \
 	cd - >/dev/null
 
-# linux:
-# 	cd ${BUILD_DIR}; \
-# 	#GOOS=linux GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-linux-${GOARCH} . ; \
-
-# 	cd - >/dev/null
-
-darwin:
+build:
 	cd ${GUI_DIR}; \
 	qtdeploy build desktop; \
 	cd - >/dev/null
 
-#only setup for OSX!
-hotload:
+darwinhotload:
 	cd ${GUI_DIR}; \
 	/deploy/darwin/${GUI_DIR}.app/Contents/MacOS/${GUI_DIR}
-# windows:
-# 	cd ${BUILD_DIR}; \
-# 	cd ${GUI_DIR}; \
-# 	#GOOS=windows GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-windows-${GOARCH}.exe . ; \
-
-# 	cd - >/dev/null
-
-# fmt:
-# 	cd ${BUILD_DIR}; \
-# 	go fmt $$(go list ./... | grep -v /vendor/) ; \
-# 	cd - >/dev/null
-
-# clean:
-# 	cd ${BUILD_DIR}; \
-# 	rm -rf ${CONSOLE_DIR}/${BINARY}-* \
-# 	rm -rf ${GUI_DIR}/deploy
+lxhotload:
+	cd ${GUI_DIR}; \
+	/deploy/linux/${GUI_DIR}.sh

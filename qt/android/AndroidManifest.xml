@@ -4,7 +4,7 @@
         <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation"
                   android:name="org.qtproject.example.notification.NotificationClient"
                   android:label="Got-Qt"
-                  android:configChanges="orientation" android:screenOrientation="portrait">
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
